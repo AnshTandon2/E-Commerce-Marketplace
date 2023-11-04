@@ -1,3 +1,3 @@
 # CS180
 
-Project 4 using Complex GUIs
+Project 4 using Inheritance, File IO, Exception Handling, and Interfaces.
