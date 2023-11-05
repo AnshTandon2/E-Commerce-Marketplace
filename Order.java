@@ -1,47 +1,54 @@
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
 
 /**
- * Program Name
+ * Order class
  * <p>
- * Brief description of program
+ * creates an order object
  *
- * @author Ansh Tandon, CS 180 Black
- * @version Date of Completion
+ * @author Nirmal Senthilkumar, Ansh Tandon, CS 180 Black
+ * @version updated the timestamp methodology used
  */
 public class Order {
-    User user;
-    Item[] items;
+    private final User user;
+    private final Item[] items;
+    private final Timestamp timestamp;
+    private double cost;
 
-    LocalDateTime startTime;
-    LocalDateTime endTime;
-
-    double cost;
-
-    public Order(User user, Item[] items, LocalDateTime startTime, LocalDateTime endTime) {
+    public Order(User user, Item[] items) {
         this.user = user;
         this.items = items;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        timestamp = new Timestamp(java.lang.System.currentTimeMillis());
     }
 
-    public User getUser() { return this.user; }
-    public Item[] getItems() { return this.items; }
-    public LocalDateTime getStartTime() { return this.startTime; }
-    public LocalDateTime getEndTime() { return this.endTime; }
-    public double getCost() { return this.cost; }
+    public User getUser() {
+        return this.user;
+    }
+
+    public Item[] getItems() {
+        return this.items;
+    }
+
+    public long getTimestampInMilli() {
+        return timestamp.getTime();
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public double getCost() {
+        return this.cost;
+    }
 
     public void confirmOrder() {
         this.cost = this.calculateTotal();
 
     }
+
     public double calculateTotal() {
-        double sum=0.0;
-        for(Item item : this.items){
-            sum+=item.price;
+        double sum = 0.0;
+        for (Item item : this.items) {
+            sum += item.price;
         }
         return sum;
     }
