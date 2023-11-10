@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Product {
 
-    public static int quantityAvail;
+    public int quantityAvail;
     // how many of the product are available across all stores
 
     public static int productIdCounter = 1;
@@ -50,6 +50,8 @@ public class Product {
         return this.productDescription;
     }
 
+    public int getQuantityAvail() { return this.quantityAvail; }
+
     public boolean inStock() {
         return this.inStock;
     }
@@ -69,6 +71,8 @@ public class Product {
     public void setPrice (double price) {
         this.price = price;
     }
+
+    public void setQuantityAvail(int quantity) { this.quantityAvail = quantity;}
 
     public void setProductDescription(String desc) {
         this.productDescription = desc;
