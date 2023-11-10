@@ -1,5 +1,13 @@
 import java.util.*;
 
+/** Product Class
+* Instantiates a product with fields including its name, price, product id,
+* and description. 
+*
+* @author Lalitha Chandolu, L02
+* @version November 9, 2023
+*/
+
 public class Product {
 
     public int quantityAvail;
