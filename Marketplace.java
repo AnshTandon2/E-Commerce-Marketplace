@@ -1,10 +1,49 @@
 import java.util.*;
 
 public class Marketplace {
-    private ArrayList<Store> stores;
+    private final ArrayList<Store> stores;
 
     public Marketplace(ArrayList<Store> stores) {
         this.stores = stores;
+    }
+
+    public ArrayList<Product> findProductsByName(String name) {
+        ArrayList<Product> productList = totalProductList();
+        ArrayList<Product> returnList = new ArrayList<>();
+        for (Product p : productList) {
+            if (p.getProductName().contains(name)) {
+                returnList.add(p);
+            }
+        }
+        return returnList;
+    }
+
+    public ArrayList<Product> findProductsByStore(String storeName) {
+        for (Store store : stores) {
+            if (store.getName().equals(storeName)) {
+                return store.getProducts();
+            }
+        }
+        return new ArrayList<Product>();
+    }
+
+    public ArrayList<Product> findProductsByDescription(String descriptionKey) {
+        ArrayList<Product> productList = totalProductList();
+        ArrayList<Product> returnList = new ArrayList<>();
+        for (Product p : productList) {
+            if (p.getProductDescription().contains(descriptionKey)) {
+                returnList.add(p);
+            }
+        }
+        return returnList;
+    }
+
+    public ArrayList<Product> totalProductList() {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (Store store : stores) {
+            productList.addAll(store.getProducts());
+        }
+        return productList;
     }
 
     public String listProducts() {
@@ -25,20 +64,19 @@ public class Marketplace {
         products.sort(new Comparator<Product>() {
             @Override
             public int compare(Product p1, Product p2) {
-                return p1.getPrice().compareTo(p2.getPrice());
+                return Double.compare(p1.getPrice(), p2.getPrice());
             }
         });
         if (ASCENDING) {
             StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
-            for (Product product: products) {
+            for (Product product : products) {
                 outputString.append(product.getProductName()).append(" : ").append(product.getPrice()).append("\n");
             }
             return outputString.toString();
-        }
-        else {
+        } else {
             Collections.reverse(products);
             StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
-            for (Product product: products) {
+            for (Product product : products) {
                 outputString.append(product.getProductName()).append(" : ").append(product.getPrice()).append("\n");
             }
             return outputString.toString();
@@ -53,20 +91,19 @@ public class Marketplace {
         products.sort(new Comparator<Product>() {
             @Override
             public int compare(Product p1, Product p2) {
-                return Integer(p1.getQuantity()).compareTo(Integer(p2.getQuantity()));
+                return Integer.compare(p1.getQuantityAvail(), p2.getQuantityAvail());
             }
         });
         if (ASCENDING) {
             StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
-            for (Product product: products) {
-                outputString.append(product.getProductName()).append(" : ").append(product.getQuantity()).append("\n");
+            for (Product product : products) {
+                outputString.append(product.getProductName()).append(" : ").append(product.getQuantityAvail()).append("\n");
             }
             return outputString.toString();
-        }
-        else {
+        } else {
             Collections.reverse(products);
             StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
-            for (Product product: products) {
+            for (Product product : products) {
                 outputString.append(product.getProductName()).append(" : ").append(product.getPrice()).append("\n");
             }
             return outputString.toString();
