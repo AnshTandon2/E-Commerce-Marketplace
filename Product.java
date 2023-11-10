@@ -50,7 +50,9 @@ public class Product {
         return this.productDescription;
     }
 
-    public int getQuantityAvail() { return this.quantityAvail; }
+    public int getQuantityAvail() { 
+        return this.quantityAvail; 
+    }
 
     public boolean inStock() {
         return this.inStock;
@@ -72,7 +74,9 @@ public class Product {
         this.price = price;
     }
 
-    public void setQuantityAvail(int quantity) { this.quantityAvail = quantity;}
+    public void setQuantityAvail(int quantity) { 
+        this.quantityAvail = quantity;
+    }
 
     public void setProductDescription(String desc) {
         this.productDescription = desc;
