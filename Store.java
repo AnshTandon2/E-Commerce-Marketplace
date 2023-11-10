@@ -32,7 +32,7 @@ public class Store {
         return this.storeId;
     }
 
-    private ArrayList<Product> getProducts() {
+    public ArrayList<Product> getProducts() {
 
         return this.productsList;
     }
