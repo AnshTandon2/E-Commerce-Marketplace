@@ -8,18 +8,15 @@
  * @author Ankita Majumdar; CS 180 Black
  * @version November 11, 2023
  */
-public class Customer extends User{
+public class Customer extends User {
     private String name;
     private User loginInfo;
     private String email;
     private PurchaseHistory purchaseHistory;
     private ShoppingCart shoppingCart;
-    
-    @Override
+
     public Customer(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.loginInfo = new User(email, password);
+        super(name, email, password);
         this.purchaseHistory = new PurchaseHistory();
         this.shoppingCart = new ShoppingCart();
     }

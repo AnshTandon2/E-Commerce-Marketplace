@@ -1,6 +1,3 @@
-import java.util.*;
-import java.time.*;
-
 /**
  * User Class
  * <p>
@@ -13,13 +10,17 @@ import java.time.*;
  */
 
 
+<<<<<<< HEAD
 public class User {
+
+=======
+public abstract class User {
+>>>>>>> 157e4498a2163c0e5599a3e555aa70d6c6c6e66c
     private String name;
     private String email;
     private int userId;
 
     private String password;
-
     public static int userCounter = 1;
 
 
@@ -29,6 +30,7 @@ public class User {
         this.password = password;
         this.userId = userCounter;
         userCounter++;
+        map.put(email, password);
     }
 
     public String getName() {
@@ -40,23 +42,23 @@ public class User {
     }
 
 
-    public String getPassword() { 
-        return this.password; 
+    public String getPassword() {
+        return this.password;
     }
 
-    public int getUserId() { 
-        return this.userId; 
+    public int getUserId() {
+        return this.userId;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }    
+    }
 
     public void setPassword(String password) {
         this.password = password;
-    }    
+    }
 
     public boolean accountExists(String email, String password) {
         return (this.email.equals(email) && this.password.equals(password));
-    }    
+    }
 }
