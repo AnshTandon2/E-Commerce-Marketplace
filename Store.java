@@ -1,11 +1,22 @@
 import java.util.*;
+
+/**
+ * Store Class
+ * <p>
+ * Initiates a new store for the marketplace
+ * Store has an id, name, products list, and a count of total sales
+ *
+ * @author Lalitha Chandolu; CS 180 Black
+ * @version November 11, 2023
+ */
+
 public class Store {
 
     private static int storeIdCounter = 1;
 
-    private int storeId;
-
     private double totalSales;
+
+    private int storeId;
 
     private String name;
 

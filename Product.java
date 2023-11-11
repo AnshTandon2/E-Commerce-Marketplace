@@ -1,5 +1,14 @@
 import java.util.*;
 
+
+/**
+ * Product class:
+ * creates a new product object
+ *
+ * @author Lalitha Chandolu, CS 180 Black
+ * @version November 11, 2023
+ */
+
 public class Product {
 
     public int quantityAvail;
