@@ -1,5 +1,13 @@
 import java.util.*;
 
+/** Main Class
+ * The class that interacts with the user and
+ * redirects them to the appropriate pages and fields
+ *
+ * @author Lalitha Chandolu, CS 180 Black, Lab 02
+ * @version November 12, 2023
+ */
+
 public Class Main {
 
         public static AccountManager am = new AccountManager()
