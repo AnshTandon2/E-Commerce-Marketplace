@@ -1,4 +1,4 @@
-# [Application Name] 
+# Purdue Boilermaker Bazaar 
 (CS 180 - Project 4 Option 3)
 
 ###
