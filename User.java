@@ -24,6 +24,7 @@ public class User {
     public static int userCounter = 1;
 
     public User(String name, String email, String password, int userId) {
+
         this.name = name;
         this.email = email;
         this.password = password;

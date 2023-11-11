@@ -68,6 +68,14 @@ public class Store {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void removeProduct(Product product) {
         productsList.remove(product);
     }

@@ -1,12 +1,12 @@
 import java.util.*;
 
-/**
- * Product class:
- * creates a new product object
- *
- * @author Lalitha Chandolu, CS 180 Black
- * @version November 11, 2023
- */
+/** Product Class
+* Instantiates a product with fields including its name, price, product id,
+* and description. 
+*
+* @author Lalitha Chandolu, L02
+* @version November 9, 2023
+*/
 
 public class Product {
 
