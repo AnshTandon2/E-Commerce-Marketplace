@@ -8,7 +8,7 @@ import java.time.*;
  * Parent class of Buyer and Seller
  * Includes private fields including user email and password
  *
- * @author Ansh Tandon, Lalitha Chandolu; CS 180 Black
+ * @author Ansh Tandon, Lalitha Chandolu, Ankita Majumdar; CS 180 Black
  * @version November 11, 2023
  */
 
