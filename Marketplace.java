@@ -7,6 +7,20 @@ public class Marketplace {
         this.stores = stores;
     }
 
+    public void navigateMarketPlace() {
+
+    }
+
+    public void displayDashboard(User a) {
+        //Seller implementation for parameter
+        if (a instanceof Seller) {
+
+        } else if (a instanceof Customer) {
+
+        }
+
+    }
+
     public ArrayList<Product> findProductsByName(String name) {
         ArrayList<Product> productList = totalProductList();
         ArrayList<Product> returnList = new ArrayList<>();
