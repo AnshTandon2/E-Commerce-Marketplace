@@ -1,3 +1,13 @@
+/**
+ * Customer Class
+ * <p>
+ * Initializes a customer object and
+ * manages their buying and identification 
+ * information.
+ *
+ * @author Ankita Majumdar; CS 180 Black
+ * @version November 11, 2023
+ */
 public class Customer extends User{
     private String name;
     private User loginInfo;
