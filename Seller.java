@@ -1,15 +1,18 @@
 public class Seller {
 
-    private String name;
-    private User loginInfo;
-    private String email;
-    private PurchaseHistory purchaseHistory;
-    private ShoppingCart shoppingCart;
+    private ArrayList<Store> stores; //stores they own
 
-
-    public Seller(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
+//    private PurchaseHistory purchaseHistory;
+//    private ShoppingCart shoppingCart;
+    
+    public Seller(String info, boolean hasStores) {
+        String[] arr = info.split(","); //Ansh,tandon39@purdue.du,hello
+        super(arr[0], arr[1], arr[2]);
+        if (hasStores) {
+            stores = new ArrayList<>();
+        } else {
+            stores = new ArrayList<>();
+        }
         this.loginInfo = new User(email, password);
         this.purchaseHistory = new PurchaseHistory();
         this.shoppingCart = new ShoppingCart();

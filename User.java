@@ -14,12 +14,12 @@ import java.time.*;
 
 
 public class User {
+
     private String name;
     private String email;
     private int userId;
 
     private String password;
-
     public static int userCounter = 1;
 
 
@@ -29,6 +29,7 @@ public class User {
         this.password = password;
         this.userId = userCounter;
         userCounter++;
+        map.put(email, password);
     }
 
     public String getName() {
