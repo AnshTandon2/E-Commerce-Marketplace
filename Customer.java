@@ -1,10 +1,11 @@
-public class Customer {
+public class Customer extends User{
     private String name;
     private User loginInfo;
     private String email;
     private PurchaseHistory purchaseHistory;
     private ShoppingCart shoppingCart;
-
+    
+    @Override
     public Customer(String name, String email, String password) {
         this.name = name;
         this.email = email;
