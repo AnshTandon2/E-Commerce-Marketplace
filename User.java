@@ -16,22 +16,14 @@ import java.time.*;
 public class User {
     private String name;
     private String email;
-<<<<<<< HEAD
-
     private int userId;
 
-=======
-    private int userId;
->>>>>>> d0b3a12e9426ad4c67f076538a6d4fed8ad403a1
     private String password;
 
     public static int userCounter = 1;
 
-<<<<<<< HEAD
-    public User(String name, String email, String password, int userId) {
-=======
+
     public User(String name, String email, String password) {
->>>>>>> d0b3a12e9426ad4c67f076538a6d4fed8ad403a1
         this.name = name;
         this.email = email;
         this.password = password;
@@ -47,12 +39,7 @@ public class User {
         return this.email;
     }
 
-<<<<<<< HEAD
-    public String getPassword() { return this.password; }
 
-    public int getUserId() { return this.userId; }
-}
-=======
     public String getPassword() { 
         return this.password; 
     }
@@ -73,4 +60,3 @@ public class User {
         return (this.email.equals(email) && this.password.equals(password));
     }    
 }
->>>>>>> d0b3a12e9426ad4c67f076538a6d4fed8ad403a1
