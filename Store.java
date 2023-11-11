@@ -14,9 +14,9 @@ public class Store {
 
     private static int storeIdCounter = 1;
 
-    private int storeId;
-
     private double totalSales;
+
+    private int storeId;
 
     private String name;
 
