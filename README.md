@@ -43,10 +43,10 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 
 # Functions of the Classes
 
-**The Classes Being Implemented:**
-1. User (parent class)
-2. Seller (Extension of User)
-3. Buyer (Extension of User)
+**Classes Being Implemented:**
+1. User
+2. Seller
+3. Customer
 4. Store
 5. Product
 6. Marketplace
