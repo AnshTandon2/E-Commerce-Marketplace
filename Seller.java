@@ -1,25 +1,20 @@
-public class Seller {
+public class Seller extends User{
 
-    private ArrayList<Store> stores; //stores they own
+    private ArrayList<Store> stores;
+    // fields from parent code
+    // email
+    // name
+    // password
 
-//    private PurchaseHistory purchaseHistory;
-    private ShoppingCart shoppingCart;
-    //store shopping cart and purchase history in separate clases and hten reference usernames in that file
-    //buyer info and seller info (one csv file) 
-    //
-    public Seler(String info, boolean hasStores) {
+    public Seller(String info, ArrayList<Stores> storeList) {
         String[] arr = info.split(","); //Ansh,tandon39@purdue.du,hello
+        // calls the parent constructor and sends the seller's name, email, and password
         super(arr[0], arr[1], arr[2]);
-        if (hasStores) {
-            stores = new ArrayList<>();
+        if (this.stores.isEmpty()) {
+            this.stores = new ArrayList<>();
         } else {
-            stores = new ArrayList<>();
+            this.stores = storeList;
         }
-        this.loginInfo = new User(email, password);
-        this.purchaseHistory = new PurchaseHistory();
-        this.shoppingCart = new ShoppingCart();
     }
-
-
 
 }
