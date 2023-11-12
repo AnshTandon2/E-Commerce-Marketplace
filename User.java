@@ -24,7 +24,6 @@ public abstract class User {
 =======
     private String name;
     private String email;
-    private int userId;
     private String password;
     
     public static int userCounter = 1;
@@ -34,7 +33,6 @@ public abstract class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.userId = userCounter;
         userCounter++;
         map.put(email, password);
     }
@@ -50,10 +48,6 @@ public abstract class User {
 
     public String getPassword() {
         return this.password;
-    }
-
-    public int getUserId() {
-        return this.userId;
     }
 
     public void setEmail(String email) {
