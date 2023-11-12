@@ -40,3 +40,6 @@ You will be met with the following options upon running the main method.
 enter format of the log in page
 ```
 Sign-in to retrieve details if you have already used the application, otherwise Sign-up to create either a Customer or Seller account.
+
+###Functions of the Classes
+

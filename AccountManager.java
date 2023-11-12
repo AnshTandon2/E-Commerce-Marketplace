@@ -4,6 +4,22 @@ import java.util.HashMap;
 public class AccountManager {
 
     private final String INFO_FILE;
+    //option within userdashboard asking to edit ur account information. If you are a buyer or seller, you will have
+    // a dashboard with all your account and one of them would be to access your account details.
+    // list of options that user picks (in the dashboard --> list of options of view store, add product, or change
+    // account details, or view account details, display statistics)
+    // big dashboard,
+    // statistics --> statistics menu 
+    // buy --> view store, choose store to buy from, and then choose product (
+    // editing the store, viewing current store, shopping, 
+    // main method
+    // marketplace file --> (runner) 
+    // testing file --> main (test market place)
+    // check the file
+    // error exceptions
+    // have testers for each of your classes 
+    // buyer --> ass
+
 
     public static ArrayList<User> seller = new ArrayList<User>();
     public static ArrayList<User> customers = new ArrayList<User>();
