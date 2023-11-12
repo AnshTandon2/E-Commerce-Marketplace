@@ -16,45 +16,44 @@ public class Store {
 
     private String name;
 
-    private HashMap<Product, int> productsList;
+    private HashMap<Product, Integer> productsList;
 
     private ArrayList<Product> list;
 
     public Store(){
         this.name = "";
         this.totalSales = 0;
-        this.productsList = new ArrayList<Product, int>();
+        this.productsList = new HashMap<Product, Integer>();
         this.list = new ArrayList<Product>();
     }
 
-    public Store(String name, HashMap<Product> productsList, double sales) {
+    public Store(String name, HashMap<Product, Integer> productsList, double sales) {
         this.name = name;
         this.totalSales = sales;
         this.productsList = productsList;
-        this.list = getStoreProducts();
+        getStoreProducts();
     }
 
     public void getStoreProducts() {
-        for (Product p: this.productList.keySet()) {
+        for (Product p: this.productsList.keySet()) {
             this.list.add(p);
         }
     }
 
-    public HashMap<Product, int> getProducts() {
+    public HashMap<Product, Integer> getProducts() {
         return this.productsList;
     }
 
-    public void setProducts(HashMap<Product, int> list) {
-
+    public void setProducts(HashMap<Product, Integer> list) {
         this.productsList = list;
     }
 
     public String addProduct(Product product, int quantity) {
         if (this.productsList.containsKey(product)) {
-            productQuantity = productsList.get(product);
+            int productQuantity = productsList.get(product);
             // sets the product back in hash map
             // incrementing quantity available in the store by the amount specified
-            this.productsInCart.put(product, productQuantity + quantity);
+            this.productsList.put(product, productQuantity + quantity);
             return ("Quanity (" + quantity + ") of the " + product.getName() + " has been added.");
         } else {
             this.productsList.put(product, 1);
@@ -73,9 +72,9 @@ public class Store {
         if (this.productsList.containsKey(product)) {
             // sets the product back in hash map
             // incrementing quantity available in the store by the amount specified
-            productQuantity = productsList.get(product);
-            if (productQuantity - quanity > 0)
-                this.productsInCart.put(product, productQuantity - quantity);
+            int productQuantity = productsList.get(product);
+            if (productQuantity - quantity > 0) {
+                this.productsList.put(product, productQuantity - quantity);
                 return ("Quanity (" + quantity + ") of the " + product.getName() + " has been removed.");
             } else {
                 return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your store. ");
@@ -99,9 +98,9 @@ public class Store {
         this.name = name;
     }
 
-    public boolean hasProductInStock(Product p) {
+    public boolean hasProductInStock(Product product) {
         if(this.productsList.containsKey(product)) {
-            quantityAvailable = productsList.get(product);
+            int quantityAvailable = productsList.get(product);
             if (quantityAvailable > 0) {
                 return true;
             }
