@@ -10,11 +10,9 @@
  */
 
 
-<<<<<<< HEAD
-public class User {
 
-=======
 public abstract class User {
+<<<<<<< HEAD
 >>>>>>> 157e4498a2163c0e5599a3e555aa70d6c6c6e66c
 //    private String name;
     private String username; //use as id
@@ -23,6 +21,15 @@ public abstract class User {
     private String password;
 
     //remove 
+=======
+    private String name;
+    private String email;
+    private int userId;
+    private String password;
+    
+    public static int userCounter = 1;
+
+>>>>>>> 0bfe2190a8640280e9373b0507615174f853b352
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

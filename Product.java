@@ -73,16 +73,28 @@ public class Product {
     }
 
     //public int getQuantityAvail() {
+<<<<<<< HEAD
     //return this.quantityAvailTotal;
     //}
 
     //public void setQuantityAvail(int quantity) {
     //this.quantityAvailTotal = quantity;
+=======
+        //return this.quantityAvailTotal;
+    //}
+
+    //public void setQuantityAvail(int quantity) {
+        //this.quantityAvailTotal = quantity;
+>>>>>>> 0bfe2190a8640280e9373b0507615174f853b352
     //}
 
     //public boolean inStock() {
         return this.inStock;
+<<<<<<< HEAD
 }
+=======
+    }
+>>>>>>> 0bfe2190a8640280e9373b0507615174f853b352
 
     public ArrayList<Store> getStores() {
         return this.storeList;
