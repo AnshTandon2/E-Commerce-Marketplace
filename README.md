@@ -41,5 +41,18 @@ enter format of the log in page
 ```
 Sign-in to retrieve details if you have already used the application, otherwise Sign-up to create either a Customer or Seller account.
 
-###Functions of the Classes
+## Functions of the Classes
+The Classes we will be using:
+1.User (parent class)
+2.Seller (Extension of User)
+3.Buyer (Extension of User)
+4.Store
+5.Product
+6.Marketplace
+7.Shopping Cart
+8.Account Manager
+9.Main
+10.Starting Application
+
+
 
