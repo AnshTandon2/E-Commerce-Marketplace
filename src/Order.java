@@ -10,13 +10,13 @@ import java.sql.Timestamp;
  */
 public class Order {
     private final User user;
-    private final Item[] items;
+    private final Product[] products;
     private final Timestamp timestamp;
     private double cost;
 
-    public Order(User user, Item[] items) {
+    public Order(User user, Product[] productList) {
         this.user = user;
-        this.items = items;
+        this.products = productList;
         timestamp = new Timestamp(java.lang.System.currentTimeMillis());
     }
 
@@ -24,8 +24,8 @@ public class Order {
         return this.user;
     }
 
-    public Item[] getItems() {
-        return this.items;
+    public Product[] getItems() {
+        return this.products;
     }
 
     public long getTimestampInMilli() {
@@ -47,8 +47,8 @@ public class Order {
 
     public double calculateTotal() {
         double sum = 0.0;
-        for (Item item : this.items) {
-            sum += item.price;
+        for (Product prod : this.products) {
+            sum += prod.getPrice();
         }
         return sum;
     }
