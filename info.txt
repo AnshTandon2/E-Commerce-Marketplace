@@ -1,2 +1,0 @@
-Ansh,tandon39@purdue.edu,myPassword
-Nirmal,nirmie@purdue.edu,iLoveCoding
