@@ -41,7 +41,7 @@ enter format of the log in page
 ```
 Sign-in to retrieve details if you have already used the application, otherwise Sign-up to create either a Customer or Seller account.
 
-## Functions of the Classes
+# Functions of the Classes
 
 **The Classes Being Implemented:**
 1.User (parent class)
@@ -55,12 +55,26 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 9.Main
 10.Starting Application
 
-### User
-##### Fields
+## User
+
+#### Fields
 | Name | Type | Modifier |
 | --- | --- | --- |
 | name | String | private |
 | email | String | private |
 | password | String| private |
 
+#### Constructors
+| Name | Parameters | Modifier |
+| --- | --- | --- |
+| User | String name, String email, String password | public |
 
+#### Methods
+| Name | Parameters | Return Type | Modifier | Description |
+| --- | --- | --- | --- | --- |
+| getName() | None | String | public | Returns the name of the user |
+| getEmail() | None | String | public | Returns the email of the user |
+| getPassword() | None | String | public | Returns the password of the user |
+| setName() | String name | String | public | Sets the name of the user to given name |
+| setPassword() | String password | String | public | Sets the password of the user to given password|
+| accountExists() | String email, String password | boolean | public | Verifies if the account exists already in comparison to one other account |
