@@ -3,10 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/CS180-Project-4.iml" filepath="$PROJECT_DIR$/CS180-Project-4.iml" />
 =======
       <module fileurl="file://$PROJECT_DIR$/.idea/CS180-Project-4.iml" filepath="$PROJECT_DIR$/.idea/CS180-Project-4.iml" />
 >>>>>>> d0b3a12e9426ad4c67f076538a6d4fed8ad403a1
+=======
+      <module fileurl="file://$PROJECT_DIR$/NewCS180Project4.iml" filepath="$PROJECT_DIR$/NewCS180Project4.iml" />
+>>>>>>> a7263a2 (changed everything)
     </modules>
   </component>
 </project>
