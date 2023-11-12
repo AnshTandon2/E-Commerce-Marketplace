@@ -110,26 +110,14 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | Name | Type | Modifier |
 | --- | --- | --- |
 | stores | ArrayList<Store> | private |
+| StoreHistory | File | private |
 
 
 #### Constructors
 | Name | Parameters | Modifier | Description |
 | --- | --- | --- | --- |
-| Seller | String info, ArrayList<Stores> storeList | public | Calls User constructor and sends the name, email, and password into it while creating a seller object |
-
-## Customer
-
-#### Fields
-| Name | Type | Modifier |
-| --- | --- | --- |
-| shoppingCart | ShoppingCart | private |
-| purchaseHistory | File | private |
-| customerHistoryFiles | ArrayList<File> | private static |
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| Customer | String name, String email, String password | public | Initiates a customer object with a name, email, and password and opens a file for its purchase history and shopping cart |
+| Seller | String info, ArrayList<Stores> storeList | public | Reads the info files with all the information about stores and searches for instances of seller and adds those stores into an array list for seller |
+| Seller | String name, String email, String password | public | Calls User constructor and sends the name, email, and password into it while creating a seller object |
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
@@ -158,6 +146,60 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
 | CustomerDashboard() | Customer c | String | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
+| sortHashMap() | HashMap<Product, Integer> hashMap, boolean ASCENDING | HashMap<Product, Integer>  | public static | Modifies the existing hashmap list for better organization in other classes |
+| sortStores() | ArrayList<Store> stores,boolean ASCENDING | ArrayList<Store> | public static | Modifies list of stores based on quantity sold, so customers who interact with list can better analyze stores list |
+| findProductsByName() | String name | ArrayList<Product> | public | Uses the product name string to identify products in product list that contains that name and return the list |
+| findProductsByStore() | String storeName | ArrayList<Product> | public | Uses the store name string to identify store in store list and retrieve list of products available at specified store |
+| findProductsByDescription() | String descriptionKey | ArrayList<Product> | public | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
+| totalProductList() | None | ArrayList<Product> | public | Takes all store objects from store list and retrieves their products lists and adds them into one product list |
+| listProductsByPrice() | boolean ASCENDING | String | public | This method gets the price of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different way. The output will be returned as a String list which has the name of products and price |
+| listProductsByQuantity() | boolean ASCENDING | String | public | This method gets the quantity of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different format in the String list. The output will be returned as a String list which has the name of products and quantity |
+
+## Product
+
+#### Fields
+| Name | Type | Modifier |
+| --- | --- | --- |
+| ProductIDCounter | int | private static |
+| name | String | private |
+| price | double | private |
+| description | String | private |
+| ProductID | int | private |
+
+#### Constructors
+| Name | Parameters | Modifier | Description |
+| --- | --- | --- | --- |
+| Product | String name, double price, String productDescription | public | Assigns values of parameters to a new Product object and increments the ProductID value to create unique ID for each product |
+
+#### Methods
+| Name | Parameters | Return Type | Modifier | Description |
+| --- | --- | --- | --- | --- |
+| getName() | None | String | public | Returns the name of the product |
+| getPrice() | None | double | public | Returns the price of the product |
+| getDescription() | None | String | public | Returns the description of the product |
+| setName() | String name | String | public | Sets the name of the product to given name |
+| setDescription() | String description | String | public | Sets the description of the product to given description|
+| setPrice() | double price | double | public | Sets the price of the product to given price|
+| toString() | None | String | public | Returns the information about a product in a "Product<name; price; description>" format |
+
+## Account Manager
+
+#### Fields
+| Name | Type | Modifier |
+| --- | --- | --- |
+| INFO_FILE | String | private final |
+| seller | ArrayList<User> | private static |
+| customers | ArrayList<User> | private static |
+
+#### Constructors
+| Name | Parameters | Modifier | Description |
+| --- | --- | --- | --- |
+| AccountManager | String infoFile | public | ? |
+
+#### Methods
+| Name | Parameters | Return Type | Modifier | Description |
+| --- | --- | --- | --- | --- |
+| signUp() | String email, String password | boolean | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
 | sortHashMap() | HashMap<Product, Integer> hashMap, boolean ASCENDING | HashMap<Product, Integer>  | public static | Modifies the existing hashmap list for better organization in other classes |
 | sortStores() | ArrayList<Store> stores,boolean ASCENDING | ArrayList<Store> | public static | Modifies list of stores based on quantity sold, so customers who interact with list can better analyze stores list |
 | findProductsByName() | String name | ArrayList<Product> | public | Uses the product name string to identify products in product list that contains that name and return the list |
