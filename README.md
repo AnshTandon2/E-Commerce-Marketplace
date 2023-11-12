@@ -7,7 +7,7 @@ By: Ansh, Nirmal, Lalitha, Ankita, and Justin
 ## Overview:
 Boilermaker Bazaar is an application where Purdue students can buy and sell their Purdue merchandise (apparel, textbooks, game tickets, etc) to one another through their individual stores. Customers can view products to buy by store, description, or name, and sellers can create stores and list their products they would like to sell. The target market for this application is specifically for Purdue students who enjoy buying and selling, want to make some money, or find vintage or unique pieces of Purdue merchandise.
 
-### 1. Runnning the Messenger
+### 1. Running the Messenger
 
 ##### To run the messenger, follow these steps: 
 
@@ -68,6 +68,30 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | Name | Parameters | Modifier |
 | --- | --- | --- |
 | User | String name, String email, String password | public |
+
+#### Methods
+| Name | Parameters | Return Type | Modifier | Description |
+| --- | --- | --- | --- | --- |
+| getName() | None | String | public | Returns the name of the user |
+| getEmail() | None | String | public | Returns the email of the user |
+| getPassword() | None | String | public | Returns the password of the user |
+| setName() | String name | String | public | Sets the name of the user to given name |
+| setPassword() | String password | String | public | Sets the password of the user to given password|
+| accountExists() | String email, String password | boolean | public | Verifies if the account exists already in comparison to one other account |
+
+## Customer
+
+#### Fields
+| Name | Type | Modifier |
+| --- | --- | --- |
+| shoppingCart | ShoppingCart | private |
+| purchaseHistory | File | private |
+| customerHistoryFiles | ArrayList<File> | private static |
+
+#### Constructors
+| Name | Parameters | Modifier |
+| --- | --- | --- |
+| Customer | String name, String email, String password | public |
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
