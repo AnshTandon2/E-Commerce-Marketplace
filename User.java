@@ -16,14 +16,13 @@ public class User {
 =======
 public abstract class User {
 >>>>>>> 157e4498a2163c0e5599a3e555aa70d6c6c6e66c
-    private String name;
+//    private String name;
+    private String username; //use as id
     private String email;
-    private int userId;
-
+//    private int userId;
     private String password;
-    public static int userCounter = 1;
 
-
+    //remove 
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
