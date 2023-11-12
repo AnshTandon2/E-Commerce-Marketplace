@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
 /**
  * User Class
  * <p>
@@ -9,7 +13,7 @@
  * @version November 11, 2023
  */
 
-public abstract class User {
+public class User {
     private String name;
     private String email;
     private String password;
@@ -38,6 +42,24 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean checkAccountExists() {
+        File f = new File("users.txt");
+        boolean returnOption = false;
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(",");
+                if (this.name.equals(data[1]) && this.password.equals(data[2])) {
+                    returnOption = true;
+                }
+            }
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return returnOption;
     }
 
 
