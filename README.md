@@ -42,7 +42,8 @@ enter format of the log in page
 Sign-in to retrieve details if you have already used the application, otherwise Sign-up to create either a Customer or Seller account.
 
 ## Functions of the Classes
-The Classes we will be using:
+
+**The Classes Being Implemented:**
 1.User (parent class)
 2.Seller (Extension of User)
 3.Buyer (Extension of User)
@@ -54,5 +55,12 @@ The Classes we will be using:
 9.Main
 10.Starting Application
 
+### User
+##### Fields
+| Name | Type | Modifier |
+| --- | --- |
+| name | String | private |
+| email | String | private |
+| password | String| private |
 
 
