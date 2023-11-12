@@ -158,7 +158,15 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
 | CustomerDashboard() | Customer c | String | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
-| modifyPurchaseHistoryFile() | ArrayList<Product> list | void | public | Modifies the existing purchase history file for the user by adding a new product purchase to the customer's purchase history |
-| exportPurchaseHistory() | None | void | public | Returns the custo
+| sortHashMap() | HashMap<Product, Integer> hashMap, boolean ASCENDING | HashMap<Product, Integer>  | public static | Modifies the existing hashmap list for better organization in other classes |
+| sortStores() | ArrayList<Store> stores,boolean ASCENDING | ArrayList<Store> | public static | Modifies list of stores based on quantity sold, so customers who interact with list can better analyze stores list |
+| findProductsByName() | String name | ArrayList<Product> | public | Uses the product name string to identify products in product list that contains that name and return the list |
+| findProductsByStore() | String storeName | ArrayList<Product> | public | Uses the store name string to identify store in store list and retrieve list of products available at specified store |
+| findProductsByDescription() | String descriptionKey | ArrayList<Product> | public | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
+| totalProductList() | None | ArrayList<Product> | public | Takes all store objects from store list and retrieves their products lists and adds them into one product list |
+| listProductsByPrice() | boolean ASCENDING | String | public | This method gets the price of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different way. The output will be returned as a String list which has the name of products and price |
+| listProductsByQuantity() | boolean ASCENDING | String | public | This method gets the quantity of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different format in the String list. The output will be returned as a String list which has the name of products and quantity |
+
+
 
 
