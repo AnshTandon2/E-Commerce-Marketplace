@@ -1,5 +1,12 @@
 import java.util.*;
-
+/**
+ * Marketplace Class
+ * <p>
+ * Creates a marketplace class with the main functionality of getting store information.
+ *
+ * @author Nirmal Senthilkumar CS 180 Black
+ * @version November 11, 2023
+ */
 public class Marketplace {
     private final ArrayList<Store> stores;
 
@@ -7,25 +14,24 @@ public class Marketplace {
         this.stores = stores;
     }
 
-    public void navigateMarketPlace() {
-
-    }
-
-    public void displayDashboard(User a) {
-        //Seller implementation for parameter
-        if (a instanceof Seller) {
-
-        } else if (a instanceof Customer) {
-
+    public String CustomerDashboard (Customer c) {
+        StringBuilder returnString = new StringBuilder("List of stores by number of products sold:\n");
+        for (Store store : stores) {
+            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
         }
-
+        returnString.append("List of stores by products purchased:\n");
+        HashMap<Product, Integer> customerHistory = c.getProductHistoryMap();
+        for (Store store : stores) {
+            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
+        }
+        return returnString.toString();
     }
 
     public ArrayList<Product> findProductsByName(String name) {
         ArrayList<Product> productList = totalProductList();
         ArrayList<Product> returnList = new ArrayList<>();
         for (Product p : productList) {
-            if (p.getProductName().contains(name)) {
+            if (p.getName().contains(name)) {
                 returnList.add(p);
             }
         }
@@ -35,7 +41,7 @@ public class Marketplace {
     public ArrayList<Product> findProductsByStore(String storeName) {
         for (Store store : stores) {
             if (store.getName().equals(storeName)) {
-                return store.getProducts();
+                return new ArrayList<Product>(store.getProducts().keySet());
             }
         }
         return new ArrayList<Product>();
@@ -55,7 +61,7 @@ public class Marketplace {
     public ArrayList<Product> totalProductList() {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (Store store : stores) {
-            productList.addAll(store.getProducts());
+            productList.addAll(store.getProducts().keySet());
         }
         return productList;
     }
@@ -63,8 +69,8 @@ public class Marketplace {
     public String listProducts() {
         StringBuilder outputString = new StringBuilder("List of Products and Prices:\n");
         for (Store store : stores) {
-            for (Product product : store.getProducts()) {
-                outputString.append(product.getProductName()).append(" : ").append(product.getPrice()).append("\n");
+            for (Product product : store.getProducts().keySet()) {
+                outputString.append(product.getName()).append(" : ").append(product.getPrice()).append("\n");
             }
         }
         return outputString.toString();
@@ -73,7 +79,7 @@ public class Marketplace {
     public String listProductsByPrice(boolean ASCENDING) {
         ArrayList<Product> products = new ArrayList<>();
         for (Store store : stores) {
-            products.addAll(store.getProducts());
+            products.addAll(store.getProducts().keySet());
         }
         products.sort(new Comparator<Product>() {
             @Override
@@ -84,46 +90,43 @@ public class Marketplace {
         if (ASCENDING) {
             StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
             for (Product product : products) {
-                outputString.append(product.getProductName()).append(" : ").append(product.getPrice()).append("\n");
+                outputString.append(product.getName()).append(" : ").append(product.getPrice()).append("\n");
             }
             return outputString.toString();
         } else {
             Collections.reverse(products);
-            StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
+            StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Descending:\n");
             for (Product product : products) {
-                outputString.append(product.getProductName()).append(" : ").append(product.getPrice()).append("\n");
+                outputString.append(product.getName()).append(" : ").append(product.getPrice()).append("\n");
             }
             return outputString.toString();
         }
     }
 
     public String listProductsByQuantity(boolean ASCENDING) {
-        ArrayList<Product> products = new ArrayList<>();
+        String returnString = "";
+        HashMap<Product, Integer> products = new HashMap<>();
         for (Store store : stores) {
-            products.addAll(store.getProducts());
+            products.putAll(store.getProducts());
         }
-        products.sort(new Comparator<Product>() {
-            @Override
-            public int compare(Product p1, Product p2) {
-                return Integer.compare(p1.getQuantityAvail(), p2.getQuantityAvail());
+
+        List<Map.Entry<Product, Integer> > list =
+                new LinkedList<Map.Entry<Product, Integer> >(products.entrySet());
+        list.sort(new Comparator<Map.Entry<Product, Integer>>() {
+            public int compare(Map.Entry<Product, Integer> o1,
+                               Map.Entry<Product, Integer> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
             }
         });
-        if (ASCENDING) {
-            StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
-            for (Product product : products) {
-                outputString.append(product.getProductName()).append(" : ").append(product.getQuantityAvail()).append("\n");
-            }
-            return outputString.toString();
-        } else {
-            Collections.reverse(products);
-            StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
-            for (Product product : products) {
-                outputString.append(product.getProductName()).append(" : ").append(product.getPrice()).append("\n");
-            }
-            return outputString.toString();
+        HashMap<Product, Integer> returnHashMap = new LinkedHashMap<Product, Integer>();
+        if (!ASCENDING) {
+            Collections.reverse(list);
         }
+        for (Map.Entry<Product, Integer> entry : list) {
+            returnString += entry.getValue();
+        }
+        return returnString;
     }
-
 
     public ArrayList<Store> getStores() {
         return stores;

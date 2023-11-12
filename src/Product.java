@@ -11,19 +11,36 @@ import java.util.*;
  */
 
 public class Product {
-
+    private static int ProductIDCounter;
     private String name;
-
     private double price;
-
     private String description;
+    private int ProductID;
 
     // store associated with the product
 
     public Product(String name, double price, String productDescription) {
         this.name = name;
         this.price = price;
-        this.productDescription = productDescription;
+        this.description = productDescription;
+        this.ProductID = ProductIDCounter;
+        ProductIDCounter++;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getProductID() {
+        return ProductID;
+    }
+
+    public void setProductID(int productID) {
+        ProductID = productID;
     }
 
     public String getName() {
@@ -38,43 +55,27 @@ public class Product {
         return this.price;
     }
 
-    public void setPrice (double price) {
-
+    public void setPrice(double price) {
         this.price = price;
     }
 
+    public static int getProductIDCounter() {
+        return ProductIDCounter;
+    }
+
+    public static void setProductIDCounter(int productIDCounter) {
+        ProductIDCounter = productIDCounter;
+    }
+
     public String getProductDescription() {
-        return this.productDescription;
+        return this.description;
     }
 
     public void setProductDescription(String desc) {
-        this.productDescription = desc;
+        this.description = desc;
     }
-    //public int getQuantity() {
-        //return this.quantity;
-    //}
 
-    //public void setQuantity(int quantity) {
-        //this.quantity = quantity;
-    //}
-
-    //public String getStore() {
-        //return this.storeName;
-    //}
-
-
-    //public void addStore(Store store) {
-        //if (!this.storeList.contains(store)) {
-            //this.storeList.add(store);
-        //}
-    //}
-
-
-    //public void removeStore(Store store) {
-
-        //if (this.storeList.contains(store) {
-            //storeList.remove(store);
-        //}
-    //}
-
+    public String toString() {
+        return "Product<" + getName() + ";" + getPrice() + ";" + getProductDescription() + ">"
+    }
 }
