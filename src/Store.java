@@ -111,9 +111,9 @@ public class Store {
 
     public String makeASale(Product product, int quantity) {
         if (this.productsList.containsKey(product)) {
-            productQuantity = productsList.get(product);
+            int productQuantity = productsList.get(product);
             // enough quanity available for sale
-            if (productQuantity - quanity > 0) {
+            if (productQuantity - quantity > 0) {
                 this.productsList.put(product, productQuantity - quantity);
                 this.totalSales += quantity * product.getPrice();
             } else {
@@ -122,6 +122,7 @@ public class Store {
         } else {
             return ("This product is currently unavailable in this store");
         }
+        return ("this product is not sold in this store. ");
     }
 
     // add the functionality that sellers have on their customers and their sales invoices tmr (11/12)
