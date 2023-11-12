@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class StartingApplication {
 
@@ -6,19 +6,19 @@ public class StartingApplication {
 
     public StartingApplication() {
         System.out.println("Welcome to the Purdue Bazaar! ");
-
-        runner();
+        Scanner s = new Scanner(System.in);
+        runner(s);
     }
 
-    public void runner() {
-        Scanner s = new Scanner(System.in);
-
+    public void runner(Scanner s) {
+        // welcomes the user to the application
+        // redirects them to sign up or sign in page
         try {
             int value = 0;
             while (!(value >= 1 && value <= 3)) {
                 System.out.println("Please select one of the three options: " +
                         "1. Login to Application" +
-                        "2. Sign Up to Application" +
+                        "2. Sign Up with a New Account" +
                         "3. Exit");
 
                 value = Integer.parseInt(s.nextLine());
@@ -33,24 +33,18 @@ public class StartingApplication {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error in way you entered number, please try again");
-            runner();
+            System.out.println("There was an error in your input, please try again");
+            runner(s);
         }
-
-        //ends the application completely
-
     }
 
 
     public void signIn(Scanner s) {
-        System.out.println("Please enter your name: ");
-        String name = s.nextLine();
-        System.out.printf("Hi, %s!", name;)
-        System.out.println("Email: ");
+        System.out.println("Pleas enter your Email: ");
         String email = s.nextLine();
-        System.out.println("Password: ");
+        System.out.println("Pleas enter your Password: ");
         String password = s.nextLine();
-//        boolean accountExists = Login.verifyLoginInformation(name, email, password); //fix this
+        boolean accountExists = User.accountExists(email, password)
         ArrayList<User> accounts = getAccounts();
         boolean flag = false;
         for (User a : accounts) {

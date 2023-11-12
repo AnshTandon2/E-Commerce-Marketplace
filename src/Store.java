@@ -117,6 +117,18 @@ public class Store {
         return false;
     }
 
+    public static boolean checkQuantityAvailable(Store store, Product product, int quantity) {
+        if(store.productsList.containsKey(product)) {
+            // checks whether the given quantity exceeds the quantity
+            // of the product that the store currently has
+            if (quantity < store.productsList.get(product)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 
     public String makeASale(Product product, int quantity) {
         if (this.productsList.containsKey(product)) {

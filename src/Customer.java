@@ -26,6 +26,7 @@ public class Customer extends User {
 
     public Customer(String name, String email, String password) {
         super(name, email, password);
+        super.addUser(this);
         // the purchase history file of every user will follow this notation
         String fileNotation = (email + "-CustomerHistory.txt");
         this.purchaseHistory = new File(fileNotation);
@@ -118,22 +119,37 @@ public class Customer extends User {
         return shoppingCart;
     }
 
-    public void addProduct(Product product, int quantity) {
+    public void addProduct(Store store, Product product, int quantity) {
+        boolean canAdd;
         if (this.shoppingCart.containsKey(product)) {
             // if the product is already in the customer's shopping cart
             // gets the current quantity of the product
             // specified in the hash map
             Integer productQuantity = shoppingCart.get(product);
-            this.shoppingCart.put(product, productQuantity + quantity);
+            canAdd = Store.checkQuantityAvailable(store, product, quantity);
+            if (canAdd) {
+                this.shoppingCart.put(product, productQuantity + quantity);
+            } else {
+                System.out.println("Can't add that quantity into the cart because it would exceed the quantity sold. ")
+            }
         } else {
-            this.shoppingCart.put(product, quantity);
+            canAdd = Store.checkQuantityAvailable(store, product, quantity);
+            if (canAdd) {
+                this.shoppingCart.put(product, quantity);
+            } else {
+                System.out.println("Can't remove that quantity. ");
+            }
         }
     }
 
     public void removeProduct(Product product, int quantity) {
         if (this.shoppingCart.containsKey(product)) {
             Integer productQuantity = shoppingCart.get(product);
-            this.shoppingCart.put(product, productQuantity - quantity);
+            if (!(quantity > productQuantity)) {
+                this.shoppingCart.put(product, productQuantity - quantity);
+            } else {
+                System.out.println("Could not remove that quantity; quantity exceeded.");
+;            }
         }
     }
 

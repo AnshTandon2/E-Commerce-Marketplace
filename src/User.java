@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * User Class
  * <p>
@@ -13,6 +15,8 @@ public abstract class User {
     private String name;
     private String email;
     private String password;
+
+    private static ArrayList<User> userList = new ArrayList<User>();
     
     public User(String name, String email, String password) {
         this.name = name;
@@ -40,8 +44,20 @@ public abstract class User {
         this.password = password;
     }
 
+    public ArrayList<User> getExistingUsers() { return this.userList;}
 
-    public boolean accountExists(String email, String password) {
-        return (this.email.equals(email) && this.password.equals(password));
+    public void addUser(User user) {
+        if (user instanceof Customer || user instanceof Seller) {
+            userList.add(user);
+        }
+    }
+
+    public static boolean accountExists(String email, String password) {
+        for (User u: userList) {
+            if (email.equals(u.getEmail()) && password.equals(u.getPassword())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
