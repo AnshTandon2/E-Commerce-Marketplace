@@ -4,6 +4,7 @@ import java.util.*;
 /**
  * Product class:
  * creates a new product object
+ * with a name, price, and description associated with it
  *
  * @author Lalitha Chandolu, CS 180 Black
  * @version November 11, 2023
