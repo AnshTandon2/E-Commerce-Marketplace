@@ -10,7 +10,7 @@ import java.util.*;
 
 public Class Main {
 
-        public static AccountManager am = new AccountManager()
+        public static AccountManager am = new AccountManager();
 
         public static void main (String[] args) {
             Scanner s = new Scanner(System.in);

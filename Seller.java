@@ -7,7 +7,7 @@ public class Seller {
     //store shopping cart and purchase history in separate clases and hten reference usernames in that file
     //buyer info and seller info (one csv file) 
     //
-    public Seler(String info, boolean hasStores) {
+    public Seller(String info, boolean hasStores) {
         String[] arr = info.split(","); //Ansh,tandon39@purdue.du,hello
         super(arr[0], arr[1], arr[2]);
         if (hasStores) {
