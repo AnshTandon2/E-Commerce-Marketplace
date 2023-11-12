@@ -89,16 +89,17 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | customerHistoryFiles | ArrayList<File> | private static |
 
 #### Constructors
-| Name | Parameters | Modifier |
-| --- | --- | --- |
-| Customer | String name, String email, String password | public |
+| Name | Parameters | Modifier | Description |
+| --- | --- | --- | --- |
+| Customer | String name, String email, String password | public | Initiates a customer object with a name, email, and password and opens a file for its purchase history and shopping cart |
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
-| getName() | None | String | public | Returns the name of the user |
-| getEmail() | None | String | public | Returns the email of the user |
-| getPassword() | None | String | public | Returns the password of the user |
-| setName() | String name | String | public | Sets the name of the user to given name |
-| setPassword() | String password | String | public | Sets the password of the user to given password|
-| accountExists() | String email, String password | boolean | public | Verifies if the account exists already in comparison to one other account |
+| initiatePurchaseHistoryFile() | None | void | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
+| modifyPurchaseHistoryFile() | ArrayList<Product> list | void | public | Modifies the existing purchase history file for the user by adding a new product purchase to the customer's purchase history |
+| exportPurchaseHistory() | None | void | public | Returns the customer Purchase History |
+| getCustomerPurchaseHistory() | String name, int userId | File | public static | Retrieves a purchase history file when given the customer's name and unique userId |
+| addToShoppingCart() | String product | void | public | Adds an item to the customer's shopping cart |
+| removeFromShoppingCart() | String product | void | public | Removes an item from the customer's shopping cart |
+| viewShoppingCart() | None | void | public | Allows customer view of what is in their shopping cart and data persistence permits user access even after logging out |
