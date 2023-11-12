@@ -12,10 +12,13 @@ public class Seller extends User{
         // call to super constructor has to be the first line
         super(info.split(",")[0], info.split(",")[1], info.split(",")[2]);
         // calls the parent constructor and sends the seller's name, email, and password
-        if (this.stores.isEmpty()) {
-            this.stores = new ArrayList<>();
-        } else {
-            this.stores = storeList;
+        try {
+            if (this.stores.isEmpty()) {
+                this.stores = new ArrayList<>();
+            } else {
+                this.stores = storeList;
+            }
+        } catch (NullPointerException e) {
         }
     }
 
