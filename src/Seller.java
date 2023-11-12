@@ -39,14 +39,15 @@ public class Seller extends User {
         // the purchase history file of every user will follow this notation
         String fileNotation = (email + "-storeHistory.txt");
         StoreHistory = new File(fileNotation);
-        if (!StoreHistory.exists()) {
+        if (!StoreHistory.exists()) { //if file doesnt exist (Seller is new)
             try {
                 FileWriter fw = new FileWriter(StoreHistory, false);
                 BufferedWriter bfw = new BufferedWriter(fw);
+                //First Line: [example@.email.com;John Doe]
                 bfw.write(String.format(this.getEmail() + ";" + this.getName() + "\n"));
             } catch (IOException ignored) {
             }
-        } else {
+        } else { //file exists, reading from it
             try {
                 FileReader fr = new FileReader(StoreHistory);
                 BufferedReader bfr = new BufferedReader(fr);
@@ -58,26 +59,27 @@ public class Seller extends User {
                 }
                 list.remove(0);
                 boolean productsNextLine = false;
+                String storeName = "";
+                HashMap<Product, Integer> productMap = new HashMap<>();
                 for (String s : list) {
-                    String storeName = "";
-                    HashMap<Product, Integer> productMap = new HashMap<>();
-                    if (s.startsWith("Store: ")) {
-                        storeName = s.substring(6);
-                        productsNextLine = true;
-                    }
-                    if (productsNextLine) {
-                        assert line != null;
-                        String[] split = line.split("Product");
+                    if (s.startsWith("Store: ")) { //if the line contains details on Store
+                        storeName = s.substring(7); //get storeName while omitting the "Store: " in the beginning of
+                        // the line
+                        productsNextLine = true; //following line will be list of products
+                    } else if (s.startsWith("Product<")) {//if the line contains details on the products
+                        String[] split = line.split("Product<"); //split the list of products using the word Product
                         for (String product : split) {
-                            String[] productAndQuantity = product.split("<");
+                            //ex. Product<productName;Price;Description>;Quantity
+                            //split the quantity at the end with the product details
+                            String[] productAndQuantity = product.split(">");
+                            //get product details and split them up into the Array: [productName, Price, Description]
                             String[] productDetail = productAndQuantity[1].split(";");
                             Product newProduct = new Product(productDetail[0], Double.parseDouble(productDetail[1]),
                                     productDetail[2]);
+                            //add quantity to the map using the product as the key
                             productMap.put(newProduct, Integer.parseInt(productAndQuantity[2]));
                         }
-                        productsNextLine = false;
-                    }
-                    if (s.startsWith("TotalSales: ")) {
+                    } else if (s.startsWith("TotalSales: ")) {//if the line contains data on TotalSales
                         stores.add(new Store(storeName, productMap, Double.parseDouble(s.substring(12))));
                     }
                 }
