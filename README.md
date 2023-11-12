@@ -58,7 +58,7 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 ### User
 ##### Fields
 | Name | Type | Modifier |
-| --- | --- |
+| --- | --- | --- |
 | name | String | private |
 | email | String | private |
 | password | String| private |
