@@ -1,6 +1,3 @@
-import java.util.*;
-
-
 /**
  * Product class:
  * creates a new product object
@@ -76,6 +73,6 @@ public class Product {
     }
 
     public String toString() {
-        return "Product<" + getName() + ";" + getPrice() + ";" + getProductDescription() + ">"
+        return "Product<" + getName() + ";" + getPrice() + ";" + getProductDescription() + ">";
     }
 }

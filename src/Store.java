@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Store Class
@@ -7,15 +7,28 @@ import java.util.HashMap;
  * Initiates a new store for the marketplace
  * Store has an id, name, products list, and a count of total sales
  *
- * @author Lalitha Chandolu; CS 180 Black
- * @version November 11, 2023
+ * @author Lalitha Chandolu, Nirmal Senthilkumar; CS 180 Black
+ * @version November 12, 2023
  */
 
 public class Store {
-
     private double totalSales;
-
     private int quantitySold;
+    private String name;
+
+    private HashMap<Product, Integer> productsList;
+
+    public Store() {
+        this.name = "";
+        this.totalSales = 0;
+        this.productsList = new HashMap<Product, Integer>();
+    }
+
+    public Store(String name, HashMap<Product, Integer> productsList, double sales) {
+        this.name = name;
+        this.totalSales = sales;
+        this.productsList = productsList;
+    }
 
     public int getQuantitySold() {
         return quantitySold;
@@ -39,32 +52,6 @@ public class Store {
 
     public void setProductsList(HashMap<Product, Integer> productsList) {
         this.productsList = productsList;
-    }
-
-    private String name;
-
-    private HashMap<Product, Integer> productsList;
-
-    private ArrayList<Product> list;
-
-    public Store(){
-        this.name = "";
-        this.totalSales = 0;
-        this.productsList = new HashMap<Product, Integer>();
-        this.list = new ArrayList<Product>();
-    }
-
-    public Store(String name, HashMap<Product, Integer> productsList, double sales) {
-        this.name = name;
-        this.totalSales = sales;
-        this.productsList = productsList;
-        getStoreProducts();
-    }
-
-    public void getStoreProducts() {
-        for (Product p: this.productsList.keySet()) {
-            this.list.add(p);
-        }
     }
 
     public HashMap<Product, Integer> getProducts() {
@@ -91,7 +78,6 @@ public class Store {
     public void addProduct(Product product) {
         if (!this.productsList.containsKey(product)) {
             this.productsList.put(product, 0);
-            this.list.add(product);
         }
     }
 
@@ -104,17 +90,15 @@ public class Store {
                 this.productsList.put(product, productQuantity - quantity);
                 return ("Quanity (" + quantity + ") of the " + product.getName() + " has been removed.");
             } else {
-                return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your store. ");
+                return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your " +
+                        "store. ");
             }
         }
         return ("This product is not in your store. ");
     }
 
     public void removeProduct(Product product) {
-        if (this.productsList.containsKey(product)) {
-            this.productsList.remove(product);
-            this.list.remove(product);
-        }
+        this.productsList.remove(product);
     }
 
     public String getName() {
@@ -126,7 +110,7 @@ public class Store {
     }
 
     public boolean hasProductInStock(Product product) {
-        if(this.productsList.containsKey(product)) {
+        if (this.productsList.containsKey(product)) {
             int quantityAvailable = productsList.get(product);
             return quantityAvailable > 0;
         }
@@ -141,12 +125,23 @@ public class Store {
             if (productQuantity - quantity > 0) {
                 this.productsList.put(product, productQuantity - quantity);
                 this.totalSales += quantity * product.getPrice();
+                return ("Sale Made:\nProduct:" + product.getName() + "\nQuantity: " + quantity);
             } else {
                 return ("Can't make this sale because quantity specified exceeds quantity available. ");
             }
         } else {
             return ("This product is currently unavailable in this store");
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder returnString = new StringBuilder("Store: " + getName() + "\n");
+        for (Map.Entry<Product, Integer> entry : getProductsList().entrySet()) {
+            returnString.append(entry.getKey().toString()).append(entry.getValue());
+        }
+        returnString.append("\nTotalSales: ").append(getTotalSales()).append("\n");
+        return returnString.toString();
     }
 
     // add the functionality that sellers have on their customers and their sales invoices tmr (11/12)
