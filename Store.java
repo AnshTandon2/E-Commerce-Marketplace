@@ -12,11 +12,7 @@ import java.util.*;
 
 public class Store {
 
-    private static int storeIdCounter = 1;
-
     private double totalSales;
-
-    private int storeId;
 
     private String name;
 
@@ -25,8 +21,6 @@ public class Store {
     private ArrayList<Product> list;
 
     public Store(){
-        this.storeId = storeIdCounter;
-        storeIdCounter++;
         this.name = "";
         this.totalSales = 0;
         this.productsList = new ArrayList<Product, int>();
@@ -34,17 +28,10 @@ public class Store {
     }
 
     public Store(String name, HashMap<Product> productsList, double sales) {
-        this.storeId = storeIdCounter;
-        storeIdCounter++;
         this.name = name;
         this.totalSales = sales;
         this.productsList = productsList;
         this.list = getStoreProducts();
-    }
-
-    public int getStoreId() {
-
-        return this.storeId;
     }
 
     public void getStoreProducts() {
