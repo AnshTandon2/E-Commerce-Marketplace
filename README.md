@@ -4,6 +4,9 @@
 ###
 By: Ansh, Nirmal, Lalitha, Ankita, and Justin
 
+## Overview:
+Boilermaker Bazaar is an application where Purdue students can buy and sell their merchandise to one another. Customers can view products to buy by store, description, or name, and sellers can create stores and list their products they would like to sell.
+
 ### 1. Runnning the Messenger
 
 ##### To run the messenger, follow these steps: 
