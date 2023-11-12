@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Store Class
@@ -13,6 +14,32 @@ import java.util.*;
 public class Store {
 
     private double totalSales;
+
+    private int quantitySold;
+
+    public int getQuantitySold() {
+        return quantitySold;
+    }
+
+    public void setQuantitySold(int quantitySold) {
+        this.quantitySold = quantitySold;
+    }
+
+    public double getTotalSales() {
+        return totalSales;
+    }
+
+    public void setTotalSales(double totalSales) {
+        this.totalSales = totalSales;
+    }
+
+    public HashMap<Product, Integer> getProductsList() {
+        return productsList;
+    }
+
+    public void setProductsList(HashMap<Product, Integer> productsList) {
+        this.productsList = productsList;
+    }
 
     private String name;
 
@@ -101,9 +128,7 @@ public class Store {
     public boolean hasProductInStock(Product product) {
         if(this.productsList.containsKey(product)) {
             int quantityAvailable = productsList.get(product);
-            if (quantityAvailable > 0) {
-                return true;
-            }
+            return quantityAvailable > 0;
         }
         return false;
     }
@@ -111,9 +136,9 @@ public class Store {
 
     public String makeASale(Product product, int quantity) {
         if (this.productsList.containsKey(product)) {
-            productQuantity = productsList.get(product);
-            // enough quanity available for sale
-            if (productQuantity - quanity > 0) {
+            Integer productQuantity = productsList.get(product);
+            // enough quantity available for sale
+            if (productQuantity - quantity > 0) {
                 this.productsList.put(product, productQuantity - quantity);
                 this.totalSales += quantity * product.getPrice();
             } else {

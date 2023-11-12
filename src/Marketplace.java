@@ -1,4 +1,5 @@
 import java.util.*;
+
 /**
  * Marketplace Class
  * <p>
@@ -14,17 +15,26 @@ public class Marketplace {
         this.stores = stores;
     }
 
-    public String CustomerDashboard (Customer c) {
-        StringBuilder returnString = new StringBuilder("List of stores by number of products sold:\n");
-        for (Store store : stores) {
-            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
+    public static HashMap<Product, Integer> sortHashMap(HashMap<Product, Integer> hashMap,
+                                                        boolean ASCENDING) {
+        List<Map.Entry<Product, Integer>> list = new LinkedList<>(hashMap.entrySet());
+        list.sort((o1, o2) -> (o1.getValue()).compareTo(o2.getValue()));
+        if (!ASCENDING)
+            Collections.reverse(list);
+        HashMap<Product, Integer> outputHashmap = new LinkedHashMap<>();
+        for (Map.Entry<Product, Integer> aa : list) {
+            outputHashmap.put(aa.getKey(), aa.getValue());
         }
-        returnString.append("List of stores by products purchased:\n");
-        HashMap<Product, Integer> customerHistory = c.getProductHistoryMap();
-        for (Store store : stores) {
-            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
-        }
-        return returnString.toString();
+        return outputHashmap;
+    }
+
+    public static ArrayList<Store> sortStores(ArrayList<Store> stores,
+                                              boolean ASCENDING) {
+        List<Store> list = new LinkedList<>(stores);
+        list.sort(Comparator.comparingInt(Store::getQuantitySold));
+        if (!ASCENDING)
+            Collections.reverse(list);
+        return new ArrayList<>(list);
     }
 
     public ArrayList<Product> findProductsByName(String name) {
@@ -103,29 +113,21 @@ public class Marketplace {
         }
     }
 
-    public String listProductsByQuantity(boolean ASCENDING) {
-        String returnString = "";
-        HashMap<Product, Integer> products = new HashMap<>();
+    public String CustomerDashboard(Customer c) {
+        StringBuilder returnString = new StringBuilder("List of stores by number of products sold:\n");
         for (Store store : stores) {
-            products.putAll(store.getProducts());
+            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
         }
-
-        List<Map.Entry<Product, Integer> > list =
-                new LinkedList<Map.Entry<Product, Integer> >(products.entrySet());
-        list.sort(new Comparator<Map.Entry<Product, Integer>>() {
-            public int compare(Map.Entry<Product, Integer> o1,
-                               Map.Entry<Product, Integer> o2) {
-                return (o1.getValue()).compareTo(o2.getValue());
+        returnString.append("List of stores by products purchased:\n");
+        HashMap<Product, Integer> customerHistory = c.getProductHistoryMap();
+        for (Product product : customerHistory.keySet()) {
+            for (Store store : stores) {
+                if (store.getProducts().containsKey(product)) {
+                    returnString.append(store.getName()).append(": ").append(product.toString());
+                }
             }
-        });
-        HashMap<Product, Integer> returnHashMap = new LinkedHashMap<Product, Integer>();
-        if (!ASCENDING) {
-            Collections.reverse(list);
         }
-        for (Map.Entry<Product, Integer> entry : list) {
-            returnString += entry.getValue();
-        }
-        return returnString;
+        return returnString.toString();
     }
 
     public ArrayList<Store> getStores() {
@@ -138,5 +140,47 @@ public class Marketplace {
 
     public void addStore(Store store) {
         this.stores.add(store);
+    }
+
+    public String CustomerDashboard(Customer c, boolean ASCENDING) {
+        StringBuilder returnString = new StringBuilder("List of stores by number of products sold:\n");
+        for (Store store : sortStores(stores, ASCENDING)) {
+            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
+        }
+        returnString.append("List of stores by products purchased:\n");
+        HashMap<Product, Integer> customerHistory = c.getProductHistoryMap();
+        customerHistory = sortHashMap(c.getProductHistoryMap(), ASCENDING);
+        for (Product product : customerHistory.keySet()) {
+            for (Store store : stores) {
+                if (store.getProducts().containsKey(product)) {
+                    returnString.append(store.getName()).append(": ").append(product.toString());
+                }
+            }
+        }
+
+        return returnString.toString();
+    }
+
+    public String listProductsByQuantity(boolean ASCENDING) {
+        String returnString = "";
+        HashMap<Product, Integer> products = new HashMap<>();
+        for (Store store : stores) {
+            products.putAll(store.getProducts());
+        }
+
+        List<Map.Entry<Product, Integer>> list = new LinkedList<Map.Entry<Product, Integer>>(products.entrySet());
+        list.sort(new Comparator<Map.Entry<Product, Integer>>() {
+            public int compare(Map.Entry<Product, Integer> o1, Map.Entry<Product, Integer> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+        HashMap<Product, Integer> returnHashMap = new LinkedHashMap<Product, Integer>();
+        if (!ASCENDING) {
+            Collections.reverse(list);
+        }
+        for (Map.Entry<Product, Integer> entry : list) {
+            returnString += entry.getValue();
+        }
+        return returnString;
     }
 }
