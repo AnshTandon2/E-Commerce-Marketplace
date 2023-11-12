@@ -11,12 +11,7 @@ import java.util.*;
 
 public class Product {
 
-    public int quantityAvail;
-    // how many of the product are available across all stores
-
     public static int productIdCounter = 1;
-
-    private boolean inStock;
 
     private String name;
 
@@ -29,22 +24,32 @@ public class Product {
     private ArrayList<Store> storeList;
     // list of stores that sell the product
 
-    public Product(String name, double price, String productDescription,
-                   int quantity, ArrayList<Store> stores) {
+    public Product(String name, double price, String productDescription, ArrayList<Store> stores) {
         this.name = name;
         this.productId = productIdCounter;
-        productIdCounter++;
         this.price = price;
         this.productDescription = productDescription;
-        quantityAvail = quantity;
-        if (quantity > 0) {
-            this.inStock = true;
-        }
+        productIdCounter++;
+
         this.storeList = stores;
     }
 
-    public String getProductName() {
+    public Product(String name, double price, String productDescription) {
+        this.name = name;
+        this.productId = productIdCounter;
+        this.price = price;
+        this.productDescription = productDescription;
+        productIdCounter++;
+
+        this.storeList = new ArrayList<>();
+    }
+
+    public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getProductId() {
@@ -55,40 +60,32 @@ public class Product {
         return this.price;
     }
 
+    public void setPrice (double price) {
+        this.price = price;
+    }
+
     public String getProductDescription() {
         return this.productDescription;
     }
 
-    public int getQuantityAvail() { 
-        return this.quantityAvail; 
+    public void setProductDescription(String desc) {
+        this.productDescription = desc;
     }
 
-    public boolean inStock() {
+    //public int getQuantityAvail() {
+        //return this.quantityAvailTotal;
+    //}
+
+    //public void setQuantityAvail(int quantity) {
+        //this.quantityAvailTotal = quantity;
+    //}
+
+    //public boolean inStock() {
         return this.inStock;
     }
 
     public ArrayList<Store> getStores() {
         return this.storeList;
-    }
-
-    public void changeName(String name) {
-        this.name = name;
-    }
-
-    public void setProductId(int id) {
-        this.productId = id;
-    }
-
-    public void setPrice (double price) {
-        this.price = price;
-    }
-
-    public void setQuantityAvail(int quantity) { 
-        this.quantityAvail = quantity;
-    }
-
-    public void setProductDescription(String desc) {
-        this.productDescription = desc;
     }
 
     public void addStore(Store store) {
@@ -98,7 +95,10 @@ public class Product {
     }
 
     public void removeStore(Store store) {
-        storeList.remove(store);
+
+        if (this.storeList.contains(store) {
+            storeList.remove(store);
+        }
     }
 
 }
