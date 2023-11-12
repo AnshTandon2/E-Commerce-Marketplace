@@ -56,7 +56,7 @@ public class Customer extends User {
         try {
             int counter = 1;
             for (Product p : list) {
-                productInfo = String.format("%d. Product: %s ; Product ID %d, Price %.2f",
+                productInfo = String.format("%d. Product: %s ; Product Description: %s ; Price %.2f",
                         counter, p.getName(), p.getProductId, p.getPrice());
                 bfw.append(productInfo);
                 counter++;

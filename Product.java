@@ -11,37 +11,18 @@ import java.util.*;
 
 public class Product {
 
-    public static int productIdCounter = 1;
-
     private String name;
 
     private double price;
 
-    private int productId;
+    private String description;
 
-    private String productDescription;
-
-    private ArrayList<Store> storeList;
-    // list of stores that sell the product
-
-    public Product(String name, double price, String productDescription, ArrayList<Store> stores) {
-        this.name = name;
-        this.productId = productIdCounter;
-        this.price = price;
-        this.productDescription = productDescription;
-        productIdCounter++;
-
-        this.storeList = stores;
-    }
+    // store associated with the product
 
     public Product(String name, double price, String productDescription) {
         this.name = name;
-        this.productId = productIdCounter;
         this.price = price;
         this.productDescription = productDescription;
-        productIdCounter++;
-
-        this.storeList = new ArrayList<>();
     }
 
     public String getName() {
@@ -52,15 +33,12 @@ public class Product {
         this.name = name;
     }
 
-    public int getProductId() {
-        return this.productId;
-    }
-
     public double getPrice() {
         return this.price;
     }
 
     public void setPrice (double price) {
+
         this.price = price;
     }
 
@@ -71,34 +49,31 @@ public class Product {
     public void setProductDescription(String desc) {
         this.productDescription = desc;
     }
-
-    //public int getQuantityAvail() {
-        //return this.quantityAvailTotal;
+    //public int getQuantity() {
+        //return this.quantity;
     //}
 
-    //public void setQuantityAvail(int quantity) {
-        //this.quantityAvailTotal = quantity;
+    //public void setQuantity(int quantity) {
+        //this.quantity = quantity;
     //}
 
-    //public boolean inStock() {
-        return this.inStock;
-    }
+    //public String getStore() {
+        //return this.storeName;
+    //}
 
-    public ArrayList<Store> getStores() {
-        return this.storeList;
-    }
 
-    public void addStore(Store store) {
-        if (!this.storeList.contains(store)) {
-            this.storeList.add(store);
-        }
-    }
+    //public void addStore(Store store) {
+        //if (!this.storeList.contains(store)) {
+            //this.storeList.add(store);
+        //}
+    //}
 
-    public void removeStore(Store store) {
 
-        if (this.storeList.contains(store) {
-            storeList.remove(store);
-        }
-    }
+    //public void removeStore(Store store) {
+
+        //if (this.storeList.contains(store) {
+            //storeList.remove(store);
+        //}
+    //}
 
 }
