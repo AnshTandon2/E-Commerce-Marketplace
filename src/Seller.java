@@ -91,24 +91,36 @@ public class Seller {
      * @author Lalitha Chandolu
      * @version November 13, 2023
      */
-    public void addProduct(String productName, double price, String storeName, int quantity, String description) {
+    public static String addProduct(String productName, double price, String storeName, int quantity, String description) {
         // Creates a new product and adds it to the market.txt file
 
         File f = new File("market.txt");
+        ArrayList<String[]> marketplaceList = new ArrayList<>();
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                marketplaceList.add(line.split(";"));
+                line = bfr.readLine();
+            }
+            bfr.close();
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, true));
-
-            //figure out how many lines the market.txt file already has
-            // example format:
-            //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
-            String newProduct = String.format("%s;%f;%s;%d;%s,%s\n", productName, price, storeName, quantity, description, username);
-            bfw.write(newProduct);
-
+            boolean exists = false;
+            for (String[] productInfo: marketplaceList) {
+                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
+                    exists = true;
+                    return ("Can't add this product to the store, as it already exists");
+                }
+            }
+            if (!exists) {
+                String newProduct = String.format("%s;%f;%s;%d;%s,%s\n", productName, price, storeName, quantity, description, username);
+                bfw.write(newProduct);
+                return String.format("Product was added successfully to %s", storeName);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return "";
     }
 
     /** Edit Product in Store

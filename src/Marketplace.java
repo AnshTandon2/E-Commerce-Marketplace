@@ -95,11 +95,13 @@ public class Marketplace {
         }
     }
 
-    /** Nirmal can do this as he did it with initial code
-     * *
-     * @param sortBy is "price" or "quantity"
+    /** Sort the Market by Price and Quantity
+     * User chooses whether they want sort in ascending and descending order
      * @param orderMethod is "asc" or "desc"
+     * @param sortBy is "price" or "quantity"
      *
+     * @author Nirmal, Justin
+     * @version November 12
      */
     public static ArrayList<String> sortMarket(String orderMethod, String sortBy) {
         ArrayList<String> sortedProductIds = new ArrayList<>();

@@ -104,14 +104,37 @@ public class StartingApplication {
         Marketplace.initializeMarketplace();
         while (!loggedOut) {
             if (userRole.equalsIgnoreCase("seller")) {
-                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a Product\n" +
-                        "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Log Out");
+                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. Add a Product\n" +
+                        "3. Edit a Product\n4. Delete a Product\n5. View Store Statistics\n6. Log Out");
                 String MMChoice = s.nextLine();
+
                 if (MMChoice.equals("1")) {
+                    // view the general marketplace (list if poducts)
                     Marketplace.printMarketplace();
+
                 } else if (MMChoice.equals("2")) {
-                    System.out.println();
+                    // add a product if viable
+                    System.out.println("Enter a Product Name: ");
+                    String productName = s.nextLine();
+                    System.out.println("Enter the Price: ");
+                    double price = s.nextDouble();
+                    s.nextLine();
+                    System.out.println("Enter a Store Name: ");
+                    String storeName = s.nextLine();
+                    System.out.println("Enter the Quantity: ");
+                    int quantity = s.nextInt();
+                    s.nextLine();
+                    System.out.println("Enter the Description for the Product: ");
+                    String description = s.nextLine();
+                    System.out.println(Seller.addProduct(productName, price, storeName,
+                                        quantity, description));
+
                 } else if (MMChoice.equals("3")) {
+                    System.out.println("Enter the Product Name: ");
+                    String productName = s.nextLine();
+                    System.out.println("Enter the Store Name: ");
+                    String storeName = s.nextLine();
+                    Seller.editProduct(productName, storeName);
 
                 } else if (MMChoice.equals("4")) {
 
