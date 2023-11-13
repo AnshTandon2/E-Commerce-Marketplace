@@ -102,6 +102,71 @@ public class Seller extends User {
         
     }
 
+    public void createProduct() {
+
+
+    }
+
+    public boolean verifyProductIsNew() {
+
+    }
+
+    public void updateStoreFile() {
+
+
+    }
+
+
+    public void editProduct() { // to be completed
+
+    }
+
+    public void deleteProduct() {
+
+    }
+
+    public File getFile() {
+
+    }
+
+    public void importProducts() {  //to be done
+
+    }
+
+
+    public void exportProducts() { //don't need to implement
+
+    }
+
+    public void viewDashboard() {
+        System.out.println("Enter your option: " +
+                "1. View customers sorted by number of items purchased" +
+                "2. View products sorted by sales per year" +
+                "3. Back");
+
+    }
+
+    public void viewDashbaord(String order) {
+
+    }
+
+    public void viewProductsInCart() {
+        System.out.println("Carts that have your products: ");
+
+    }
+
+    public ArrayList<Product> getCart() {
+        ArrayList<Product> arrayList = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(this.getEmail() + ".txt"));
+            //read through
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
     // be able to view total sales by their store
     // should have their own sales invoice per store
     // sellers should be able to sort sales per product
