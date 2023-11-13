@@ -33,8 +33,8 @@ public class User {
             Scanner scan = new Scanner(f);
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(",");
-                // adds a User to the existing User list from the file
                 // order: name, email, password,
+                // adds a User to the existing User list from the file
                 userList.add(new User(data[1], data[0], data[2]));
             }
             scan.close();
