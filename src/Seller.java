@@ -13,33 +13,16 @@ import java.util.HashMap;
  * @version November 12, 2023
  */
 public class Seller extends User {
-    private File StoreHistory;
+    // fields inherited from parent code: name, email, password
+    private final File StoreHistory;
     private ArrayList<Store> stores;
-    // fields from parent code
-    // email
-    // name
-    // password
-
-    public Seller(String info, ArrayList<Store> storeList) {
-        // call to super constructor has to be the first line
-        super(info.split(",")[0], info.split(",")[1], info.split(",")[2]);
-        // calls the parent constructor and sends the seller's name, email, and password
-        try {
-            if (this.stores.isEmpty()) {
-                this.stores = new ArrayList<>();
-            } else {
-                this.stores = storeList;
-            }
-        } catch (NullPointerException e) {
-        }
-    }
 
     public Seller(String name, String email, String password) {
         super(name, email, password);
         // the purchase history file of every user will follow this notation
         String fileNotation = (email + "-storeHistory.txt");
         StoreHistory = new File(fileNotation);
-        if (!StoreHistory.exists()) { //if file doesnt exist (Seller is new)
+        if (!StoreHistory.exists()) { //if file doesn't exist (Seller is new)
             try {
                 FileWriter fw = new FileWriter(StoreHistory, false);
                 BufferedWriter bfw = new BufferedWriter(fw);
@@ -58,14 +41,12 @@ public class Seller extends User {
                     line = bfr.readLine();
                 }
                 list.remove(0);
-                boolean productsNextLine = false;
                 String storeName = "";
                 HashMap<Product, Integer> productMap = new HashMap<>();
                 for (String s : list) {
                     if (s.startsWith("Store: ")) { //if the line contains details on Store
                         storeName = s.substring(7); //get storeName while omitting the "Store: " in the beginning of
                         // the line
-                        productsNextLine = true; //following line will be list of products
                     } else if (s.startsWith("Product<")) {//if the line contains details on the products
                         String[] split = line.split("Product<"); //split the list of products using the word Product
                         for (String product : split) {
@@ -92,7 +73,6 @@ public class Seller extends User {
         try {
             FileWriter fw = new FileWriter(this.StoreHistory, false);
             BufferedWriter bfw = new BufferedWriter(fw);
-            String productInfo;
             bfw.write(String.format(this.getEmail() + ";" + this.getName()) + "\n");
             for (Store store : stores) {
                 bfw.write(store.toString());
@@ -109,7 +89,6 @@ public class Seller extends User {
         try {
             FileWriter fw = new FileWriter(this.StoreHistory, true);
             BufferedWriter bfw = new BufferedWriter(fw);
-            int counter = 1;
             for (Store store : list) {
                 if (!stores.contains(store))
                     bfw.write(store.toString());

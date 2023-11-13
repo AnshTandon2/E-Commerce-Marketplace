@@ -116,7 +116,7 @@ public class Customer extends User {
     }
 
     public ArrayList<Product> getPurchaseHistory() { // get purchase history
-        return new ArrayList<Product>(purchaseHistory.keySet());
+        return new ArrayList<>(purchaseHistory.keySet());
     }
 
     public HashMap<Product, Integer> getShoppingCart() {
