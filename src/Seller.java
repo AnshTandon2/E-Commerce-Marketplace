@@ -71,8 +71,8 @@ public class Seller {
     /** Remove Product
      * Sellers can remove products from the current product line
      */
-    public void removeProduct(ArrayList<String> productList, String productName) {
-         StringBuilder productList = new StringBuilder();
+    public void removeProduct(String productName, String customerUsername) {
+        StringBuilder productList = new StringBuilder();
         try (BufferedReader bfr = new BufferedReader(new FileReader("/data/market.txt"))) {
             String line = bfr.readLine();
             while (line != null) {

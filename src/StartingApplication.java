@@ -56,7 +56,7 @@ public class StartingApplication {
                     username = s.nextLine();
                     System.out.println("Enter new password");
                     password = s.nextLine();
-                    System.out.println("Are you signing up as a:\n [1] Seller\n[2] Buyer");
+                    System.out.println("Are you signing up as a:\n[1] Seller\n[2] Buyer");
                     String roleChoice = s.nextLine();
                     // checks if they have an existing account or not
                     userRole = accountExists(username, password);
@@ -77,6 +77,8 @@ public class StartingApplication {
                             } else {
                                 System.out.println("Please try again!");
                             }
+                            bfw.flush();
+                            bfw.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -134,7 +136,8 @@ public class StartingApplication {
                     System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
                     if (sortChoice.equals("1")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "asc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "asc"); //not returning
+                        // correct values
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
@@ -214,6 +217,7 @@ public class StartingApplication {
                 }
             }
         }
+        System.out.println("Thank you for using marketplace!");
     }
     
     public static String accountExists(String username, String password) {
