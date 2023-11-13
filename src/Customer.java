@@ -1,5 +1,5 @@
-import java.util.*;
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * Customer Class
@@ -78,18 +78,17 @@ public class Customer {
         try (BufferedReader bfr = new BufferedReader(new FileReader("/data/market.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
-                String product[] = line.split(",");
-                if(product[7].equalsIgnoreCase(productID)) {
+                String[] product = line.split(",");
+                if (product[7].equalsIgnoreCase(productName)) {
                     if (Integer.parseInt(product[4]) < quantity) {
                         System.out.println("Quantity is higher than stock.");
                     } else {
-                        cart = String.format("%s,%s,%s,%s,%s,%s,%s", customerName, product[1], product[2], product[3],
-                                quantity, product[6], productID);
+                        cart = String.format("%s,%s,%s,%s,%s,%s,%s", name, product[1], product[2], product[3],
+                                quantity, product[6], productName);
                         break;
                     }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,7 +135,7 @@ public class Customer {
         try (BufferedReader bfr = new BufferedReader(new FileReader("/data/shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
-                String product[] = line.split(",");
+                String[] product = line.split(",");
                 if (product[0].equalsIgnoreCase(customerName)) {
                     buyItem(customerName, product[6], Integer.parseInt(product[4]));
                 }
@@ -147,7 +146,7 @@ public class Customer {
     }
 
     /** Still being implemented*/
-    public static boolean buyItem(String customerName,String productId, int quantity) throws IOException, FileNotFoundException {
+    public static boolean buyItem(String customerName,String productId, int quantity) throws IOException {
         FileReader fr = new FileReader("/data/market.txt");
         BufferedReader bfr = new BufferedReader(fr);
         String line = bfr.readLine();
@@ -186,7 +185,7 @@ public class Customer {
         }
         bfr.close();
         PrintWriter writer = new PrintWriter(new FileWriter("/data/market.txt"));
-        writer.print(content.toString());
+        writer.print(content);
         writer.close();
         return stringChanged;
     }
