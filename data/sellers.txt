@@ -1,5 +1,0 @@
-clarank;helloworld;clara
-davidkj;ignOps;david
-kavyahm;redJiks;kavya
-sandyruk;happy;sandy
-dylank;hugsFr;dylan
