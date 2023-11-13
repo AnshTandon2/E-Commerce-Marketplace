@@ -135,7 +135,7 @@ public class Marketplace {
     }
 
     public static void removeFromCart(String productName, String userName) {
-        File f = new File("/data/shoppingCart.txt");
+        File f = new File("shoppingCart.txt");
         try {
             Scanner scan = new Scanner(f);
             FileWriter fw = new FileWriter(f);
@@ -153,7 +153,7 @@ public class Marketplace {
      * Seller and Customer function
      */
     public static ArrayList<String> displayCart(String userName) {
-        File f = new File("/data/shoppingCart.txt");
+        File f = new File("shoppingCart.txt");
         ArrayList<String> shoppingCart = new ArrayList<>();
         try {
             Scanner scan = new Scanner(f);
