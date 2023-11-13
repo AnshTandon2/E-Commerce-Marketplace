@@ -69,7 +69,7 @@ public class Customer {
             e.printStackTrace();
         }
         // writing cart info to shoppingcart.txt
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingcart.txt", true))) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("/data/shoppingCart.txt", true))) {
             writer.write(cart);
             writer.newLine();
             writer.close();
@@ -81,7 +81,7 @@ public class Customer {
     /** Still being implemented*/
     public void removeFromCart(String customerName, String productName, String productId) {
         StringBuilder fileContents = new StringBuilder();
-        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingcart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("/data/shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String []product = line.split(",");
@@ -96,7 +96,7 @@ public class Customer {
             e.printStackTrace();
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingcart.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("/data/shoppingCart.txt"))) {
             writer.write(fileContents.toString());
             writer.close();
         } catch (Exception e) {
@@ -108,7 +108,7 @@ public class Customer {
 
     /**Still being implemented*/
     public void buyShoppingCartItems(String customerName) {
-        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingcart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("/data/shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String product[] = line.split(",");
@@ -123,7 +123,7 @@ public class Customer {
 
     /** Still being implemented*/
     public static boolean buyItem(String customerName,String productId, int quantity) throws IOException, FileNotFoundException {
-        FileReader fr = new FileReader("market.txt");
+        FileReader fr = new FileReader("/data/market.txt");
         BufferedReader bfr = new BufferedReader(fr);
         String line = bfr.readLine();
         StringBuilder content = new StringBuilder();
@@ -150,7 +150,7 @@ public class Customer {
                     stringChanged = true;
 
                     String productsBought = market[1] + "," + market[2] + "," + market[3] + "," + quantity + "," + customerName + "," + market[6];
-                    PrintWriter writer2 = new PrintWriter(new FileWriter("purchases.txt"));
+                    PrintWriter writer2 = new PrintWriter(new FileWriter("/data/purchases.txt"));
                     writer2.println(productsBought);
                     writer2.close();
                 }
@@ -160,7 +160,7 @@ public class Customer {
             line = bfr.readLine();
         }
         bfr.close();
-        PrintWriter writer = new PrintWriter(new FileWriter("market.txt"));
+        PrintWriter writer = new PrintWriter(new FileWriter("/data/market.txt"));
         writer.print(content.toString());
         writer.close();
         return stringChanged;
@@ -169,6 +169,29 @@ public class Customer {
     /** Customer Function*/
     public void viewPurchaseHistory() {
 
+    }
+
+    public void exportPurchaseHistory(String userName) {
+        File exportFile = new File("purchaseHistoryExport.csv");
+        File readingFile = new File("/data/purchases.txt");
+        try {
+            exportFile.createNewFile();
+            Scanner scan = new Scanner(readingFile);
+            FileWriter fw = new FileWriter(exportFile);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(";");
+                if (data[4].equals(userName)) {
+                    fw.write("Purchased:" + data[0] + ",Price:" + data[1] + ",FromSeller:" + data[5] + "Count:" + data[3]);
+                    fw.write("\n");
+                }
+
+            }
+            
+            scan.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /** Customer Function*/
