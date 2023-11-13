@@ -1,0 +1,4 @@
+this file is for seller to view all sales per store
+//can have duplicates
+
+productName;price;store;quantity;customerName;sellerName
