@@ -1,12 +1,10 @@
 import java.io.*;
 import java.util.*;
-import java.util.Scanner;
 
 /** Starting Application Class
  * Serves as the Login/Sign up system for a user
- * Verifies that they use a @purdue.edu email and
- * whether they are a buyer or seller
  * The class redirects them to the corresponding menu
+ * based on User Type
  *
  * @author Lalitha Chandolu, Ansh Tandon, Justin Ho-Yuk
  * @version November 12, 2023
@@ -15,7 +13,6 @@ import java.util.Scanner;
 
 public class StartingApplication {
 
-    // public static AccountManager am = new AccountManager();
 
     public static void main(String[] args) {
         // g2g
