@@ -135,7 +135,6 @@ public class Seller extends User {
         
     }
 
-<<<<<<< HEAD
     public void createProduct() {
 
 
@@ -199,7 +198,8 @@ public class Seller extends User {
             e.printStackTrace();
         }
         return arrayList;
-=======
+    }
+
     public void importStoreFile(String pathName) {
         File f = new File(pathName);
         try {
@@ -213,6 +213,9 @@ public class Seller extends User {
                     }
                 }
             }
+            
+        scan.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
@@ -222,7 +225,6 @@ public class Seller extends User {
 
     public void addNewStore(Store s) {
         stores.add(s);
->>>>>>> b0ca0193c4975c2a46c97f98d254d27600a69133
     }
 
     // be able to view total sales by their store
