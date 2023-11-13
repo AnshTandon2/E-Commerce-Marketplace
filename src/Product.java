@@ -42,7 +42,8 @@ public class Product {
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
             products = new ArrayList<>();
-            Product.ProductIDCounter = Integer.parseInt(bfr.readLine());
+            Product.ProductIDCounter = Integer.parseInt(line);
+            line = bfr.readLine();
             while (line != null) {
                 String[] productDetail = line.substring(8, line.length() - 1).split(";");
                 products.add(new Product(Integer.parseInt(productDetail[0]), productDetail[1],
