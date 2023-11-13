@@ -4,9 +4,8 @@ import java.io.*;
 /**
  * Seller Class
  * <p>
- * Initializes a seller object and
- * manages their selling history and identification
- * information.
+ * Seller class manages the seller's ability to add a product,
+ * remove a product, or edit a product (any of it's fields)
  *
  * @author Lalitha Chandolu, Nirmal Senthilkumar; Justin CS 180 Black
  * @version November 13, 2023
@@ -65,11 +64,6 @@ public class Seller {
      * @author Lalitha Chandolu
      * @version November 13, 2023
      */
-<<<<<<< HEAD
-    public void removeProduct(String productName, String customerUsername) {
-        StringBuilder productList = new StringBuilder();
-        try (BufferedReader bfr = new BufferedReader(new FileReader("market.txt"))) {
-=======
     public static String removeProduct(String productName, String storeName) {
         // can edit product, price, store, quantity, or description
         // go through market.txt and add lines to String[] ArrayList
@@ -77,7 +71,6 @@ public class Seller {
         File f = new File("market.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
->>>>>>> 2f4e5ea5059f5bb3f2fcd26ba4b9348bc592ae54
             String line = bfr.readLine();
             while (line != null) {
                 marketplaceList.add(line.split(";"));
@@ -93,7 +86,6 @@ public class Seller {
                     marketplaceList.remove(productInfo);
                 }
             }
-
             f.delete();
             f = new File("market.txt");
             // now write contents of ArrayList containing product info to ArrayList
@@ -105,29 +97,20 @@ public class Seller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-<<<<<<< HEAD
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("market.txt"))) {
-            writer.write(productList.toString());
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-=======
         return "Product doesn't exist in this store.\n";
->>>>>>> 2f4e5ea5059f5bb3f2fcd26ba4b9348bc592ae54
     }
 
 
     /** Add Product to Store
-     * Seller can add a new product to their existing store
+     * Seller can add a new product to their specified store
+     * if the product doesn't currently exist
      *
      * @param productName
      * @param price
      * @param storeName
      * @param quantity
      * @param description
+     * @param sellerUserName
      *
      * @author Lalitha Chandolu
      * @version November 13, 2023
@@ -222,6 +205,18 @@ public class Seller {
         return "Product doesn't exist in this store.\n";
     }
 
+
+    /** Export Store Information
+     * Allows a seller to export a csv file of the information of their store
+     * CSV contains rows of products sold in the store
+     * Each csv contains information for one of their unique stores
+     *
+     * @param merchantName
+     * @param storeName
+     *
+     * @author Justin
+     * @version November 13, 2023
+     */
     public void exportStoreInformation(String merchantName, String storeName) {
         File readingFile = new File("market.txt");
         File exportFile = new File("exportFile.csv");
@@ -241,12 +236,25 @@ public class Seller {
         }
     }
 
+    /** Import Store Information
+     * Takes a pathname from the seller and
+     * @param pathname
+     * @throws FileNotFoundException
+     * @throws IOException
+     *
+     * @author Justin
+     * @version November 13, 2023
+     */
     public void importStoreInformation(String pathname) throws FileNotFoundException, IOException {
+        // main method asks Seller for the file path as a command
         File f = new File(pathname);
         File writeToFile = new File("market.txt");
         if (!f.exists()) {
+            // file doesn't exist
+            // trying to import a non-existing file
             throw new FileNotFoundException();
         } else {
+            // writes the contents of the file into market.txt file
             Scanner scan = new Scanner(f);
             FileWriter fw = new FileWriter(writeToFile);
             //Same format as the market.txt
@@ -255,7 +263,6 @@ public class Seller {
                 fw.write(data);
                 fw.write("\n");
                 fw.flush();
-
             }
             fw.close();
         }
