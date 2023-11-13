@@ -49,7 +49,7 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 3. Marketplace
 4. Starting Application
 
-## User
+## Customer
 
 #### Fields
 | Name | Type | Modifier |
@@ -57,12 +57,11 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | name | String | private |
 | email | String | private |
 | password | String | private |
-| userList | ArrayList<User> | private static |
 
 #### Constructors
 | Name | Parameters | Modifier |
 | --- | --- | --- |
-| User | String name, String email, String password | public |
+| Customer | String name, String email, String password | public |
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
@@ -71,39 +70,13 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | getEmail() | None | String | public | Returns the email of the user |
 | getPassword() | None | String | public | Returns the password of the user |
 | setName() | String name | String | public | Sets the name of the user to given name |
-| setPassword() | String password | String | public | Sets the password of the user to given password|
-| accountExists() | String email, String password | boolean | public | Verifies if the account exists already in comparison to one other account |
-| generateUserList() | None | void | public static | Takes in a file with user information and splits different users by commas and then adds them into an array list |
-| updateUsers() | None | void | public static | Updates the user list by deleting the file that exists with the list of users and adding existing customer and seller objects in a format of "email, name, password, c/s". c is for customer and s is for seller. |
-| getExistingUsers() | None | ArrayList<User> | public static | Returns the array list of users |
-| addUser() | User user | void | public static | Adds an instance of customer or seller to user list |
-| getUserObject() | String email, String password | User | public static | Takes the email and password info of a user and uses it to compare to all values of the user list and then returns the user with the given information |
-| getUserObject() | String email | User | public static | Takes the email info of a user and uses it to compare to all values of the user list and then returns the user with the given information |
+| setEmail() | String email | String | public | Sets the email of the user to given email |
+| setPassword() | String password | String | public | Sets the password of the user to given password |
+| addToCart() | String productName, int quantity, String storeName | void | public | Adds anothe rproduct to the cart file |
+| removeFromCart() | String customerUsername, String productName, String productId | void | public | Takes in a file with shopping cart information and splits different customers by product and cumtomer name. |
+| buyShoppingCartItems() | String customerName | void | public | Empties shopping cart on the basis of buying and then adds those purchases to the purchase history list. |
+| buyItem() | String customerName,String productId, int quantity | boolean | public static | Adds an instance of customer or seller to user list |
 
-## Customer
-
-#### Fields
-| Name | Type | Modifier |
-| --- | --- | --- |
-| shoppingCart | ShoppingCart | private |
-| purchaseHistory | File | private |
-| customerHistoryFiles | ArrayList<File> | private static |
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| Customer | String name, String email, String password | public | Initiates a customer object with a name, email, and password and opens a file for its purchase history and shopping cart |
-
-#### Methods
-| Name | Parameters | Return Type | Modifier | Description |
-| --- | --- | --- | --- | --- |
-| initiatePurchaseHistoryFile() | None | void | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
-| modifyPurchaseHistoryFile() | ArrayList<Product> list | void | public | Modifies the existing purchase history file for the user by adding a new product purchase to the customer's purchase history |
-| exportPurchaseHistory() | None | void | public | Returns the customer Purchase History |
-| getCustomerPurchaseHistory() | String name, int userId | File | public static | Retrieves a purchase history file when given the customer's name and unique userId |
-| addToShoppingCart() | String product | void | public | Adds an item to the customer's shopping cart |
-| removeFromShoppingCart() | String product | void | public | Removes an item from the customer's shopping cart |
-| viewShoppingCart() | None | void | public | Allows customer view of what is in their shopping cart and data persistence permits user access even after logging out |
 
 ## Seller
 
