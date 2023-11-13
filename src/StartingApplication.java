@@ -107,10 +107,10 @@ public class StartingApplication {
         Marketplace.initializeMarketplace();
         while (!loggedOut) {
             if (userRole.equalsIgnoreCase("seller")) {
-                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a Product\n" +
-                        "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Import/Export " +
+                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. Add a Product\n" +
+                        "3. Edit a Product\n4. Delete a Product\n5. View Store Statistics\n6. Import/Export " +
                         "Products\n" +
-                        "8. Log Out");
+                        "7. Log Out");
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
                     System.out.println("1. View Marketplace\n2. Sort by Ascending Price\n3. Sort by Descending " +
@@ -146,23 +146,37 @@ public class StartingApplication {
                     } else {
                         System.out.println("Please go back and try again!");
                     }
-                } else if (MMChoice.equals("2")) {  //view sales by store
+                } else if (MMChoice.equals("2")) { // add a product
+                    System.out.println("Enter a Product Name: ");
+                    String productName = s.nextLine();
+                    System.out.println("Enter a Price: ");
+                    double price = s.nextDouble();
+                    s.nextLine();
+                    System.out.println("Enter a Product Name: ");
+                    String storeName = s.nextLine();
+                    System.out.println("Enter a Quantity: ");
+                    int quantity = s.nextInt();
+                    s.nextLine();
+                    System.out.println("Enter a description: ");
+                    String description = s.nextLine();
+                    System.out.println(Seller.addProduct(productName, price, storeName,
+                                            quantity, description, username));
 
-                } else if (MMChoice.equals("3")) { // add a product
+                } else if (MMChoice.equals("3")) {  // edit a product
 
-                } else if (MMChoice.equals("4")) {  // edit a product
 
-                } else if (MMChoice.equals("5")) { //delete a product
+                } else if (MMChoice.equals("4")) { //delete a product
 
-                } else if (MMChoice.equals("6")) { //view store statistics
+                } else if (MMChoice.equals("5")) { //view store statistics
 
-                } else if (MMChoice.equals("7")) { //import or exports for product
+                } else if (MMChoice.equals("6")) { //import or exports for product
                     //justin's part
-                } else if (MMChoice.equals("8")) { //logged out
+                } else if (MMChoice.equals("7")) { //logged out
                     loggedOut = true;
                 } else {
                         System.out.println("Please try again with valid input!");
                 }
+
             } else {
                 // the user is a Customer type
                 System.out.println("Customer Main Menu\n1. View Marketplace\n2. View Shopping Cart\n3. Search for " +

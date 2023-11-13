@@ -112,7 +112,8 @@ public class Seller {
      * @author Lalitha Chandolu
      * @version November 13, 2023
      */
-    public static String addProduct(String productName, double price, String storeName, int quantity, String description) {
+    public static String addProduct(String productName, double price, String storeName, int quantity,
+                                    String description, String sellerUserName) {
         // Creates a new product and adds it to the market.txt file
 
         File f = new File("market.txt");
@@ -130,13 +131,14 @@ public class Seller {
             for (String[] productInfo: marketplaceList) {
                 if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
                     exists = true;
-                    return ("Can't add this product to the store, as it already exists");
+                    return ("Can't add this product to the store, as it already exists.\n");
                 }
             }
             if (!exists) {
-                String newProduct = String.format("%s;%f;%s;%d;%s,%s\n", productName, price, storeName, quantity, description, username);
+                String newProduct = String.format("%s;%f;%s;%d;%s,%s\n", productName, price, storeName,
+                                    quantity, description, sellerUserName);
                 bfw.write(newProduct);
-                return String.format("Product was added successfully to %s", storeName);
+                return String.format("Product was added successfully to %s.\n", storeName);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,7 +156,7 @@ public class Seller {
      *
      * @author Lalitha Chandolu
      */
-    public void editProduct(String productName, String storeName, String changeField, String newValue) {
+    public static String editProduct(String productName, String storeName, String changeField, String newValue) {
         // can edit product, price, store, quantity, or description
         // go through market.txt and add lines to String[] ArrayList
         ArrayList<String[]> marketplaceList = new ArrayList<>();
@@ -179,22 +181,24 @@ public class Seller {
                         case "quantity" -> productInfo[3] = newValue;
                         case "description" -> productInfo[4] = newValue;
                     }
-                    // Create new product id
-//                    productInfo[7] = productIDGenerator(productInfo[1], productInfo[3], username, Double.parseDouble(productInfo[2]));
+                    return "Product was modified successfully.\n";
+
                 }
             }
-
+            // clear the existing file
+            // remake the market.txt file
+            f.delete();
+            f = new File("data/market.txt");
             // now write contents of ArrayList containing product info to ArrayList
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
             for (String[] productInfo: marketplaceList) {
                 String lineContents = String.join(";", productInfo);
                 bfw.write(lineContents + "\n");
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return "Product doesn't exist in this store.\n";
     }
 
     public void exportStoreInformation(String merchantName, String storeName) {
@@ -235,9 +239,4 @@ public class Seller {
             fw.close();
         }
     }
-
-    public void createProduct() {
-
-    }
-
 }
