@@ -15,7 +15,6 @@ public class StartingApplication {
 
 
     public static void main(String[] args) {
-        // g2g
         System.out.println("Welcome to the Boilermaker Bazaar! ");
         Scanner s = new Scanner(System.in);
         // welcomes the user to the application
@@ -127,8 +126,6 @@ public class StartingApplication {
                 } else {
                     System.out.println("Please try again with valid input!");
                 }
-
-
             } else {
                 // the user is a Customer type
                 System.out.println("Customer Main Menu:\n1. View Marketplace\n2. View Shopping Cart\n3. Search for Product\n" +
@@ -176,9 +173,6 @@ public class StartingApplication {
                     }
                     System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
-
-
-
                     if (sortChoice.equals("1")) {
                         ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "asc");
                         for (String str : sortedIndexes) {
@@ -209,11 +203,11 @@ public class StartingApplication {
                 } else {
                     System.out.println("Please try again with valid input!");
                 }
-
             }
         }
     }
-    public static String accountExists (String username, String password) {
+    
+    public static String accountExists(String username, String password) {
         // parses the file of all of the existing user in the marketplace
         File f = new File("/data/users.txt");
         try {
@@ -236,5 +230,4 @@ public class StartingApplication {
         // the info given doesn't match with an existing user
         return null;
     }
-
 }
