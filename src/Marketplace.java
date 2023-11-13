@@ -1,5 +1,11 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
 
 /**
  * Marketplace Class
@@ -10,12 +16,12 @@ import java.io.*;
  */
 public class Marketplace {
 
-    private static ArrayList<String> productIDs = new ArrayList<>();
-    private static ArrayList<String> productNames = new ArrayList<>();
-    private static ArrayList<Double> priceList = new ArrayList<>();
-    private static ArrayList<String> storeNames = new ArrayList<>();
-    private static ArrayList<Integer> quantityList = new ArrayList<>();
-    private static ArrayList<String> descriptionList = new ArrayList<>();
+    private static final ArrayList<String> productIDs = new ArrayList<>();
+    private static final ArrayList<String> productNames = new ArrayList<>();
+    private static final ArrayList<Double> priceList = new ArrayList<>();
+    private static final ArrayList<String> storeNames = new ArrayList<>();
+    private static final ArrayList<Integer> quantityList = new ArrayList<>();
+    private static final ArrayList<String> descriptionList = new ArrayList<>();
 
     /**
      * Reads the market.txt file and appends
@@ -159,7 +165,7 @@ public class Marketplace {
     /**
      * Seller and Customer function
      */
-    public ArrayList<String> displayCart(String userName) {
+    public static ArrayList<String> displayCart(String userName) {
         File f = new File("/data/shoppingCart.txt");
         ArrayList<String> shoppingCart = new ArrayList<>();
         try {
@@ -167,9 +173,7 @@ public class Marketplace {
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(";");
                 if (data[0].equals(userName)) {
-                    for (int i = 3; i < data.length; i++) {
-                        shoppingCart.add(data[i]);
-                    }
+                    shoppingCart.addAll(Arrays.asList(data).subList(3, data.length));
                 }
             }
             ArrayList<String> returnList = new ArrayList<>();
@@ -190,7 +194,7 @@ public class Marketplace {
         try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingcart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
-                String product[] = line.split(",");
+                String[] product = line.split(",");
                 if (product[0].equalsIgnoreCase(customerName)) {
                     System.out.printf("Product Name: %s\nProduct Price: %.2f\n" +
                                     "Quantity: %d\nTotal Cost: %.2f\nStore: %s\n\n",

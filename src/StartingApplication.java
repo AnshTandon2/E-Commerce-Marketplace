@@ -1,5 +1,6 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /** Starting Application Class
  * Serves as the Login/Sign up system for a user
@@ -159,7 +160,7 @@ public class StartingApplication {
                         System.out.println("try again");
                     }
                 } else if (MMChoice.equals("2")) {
-                    ArrayList<String> shoppingCart = Marketplace.displayShoppingCart(username);
+                    ArrayList<String> shoppingCart = Marketplace.displayCart(username);
                     for (String str : shoppingCart) {
                         System.out.println(str + "\n");
                     }
