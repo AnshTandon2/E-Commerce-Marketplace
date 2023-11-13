@@ -7,9 +7,7 @@ import java.util.Map;
  * Customer Class
  * <p>
  * Initializes a customer object and
- * manages their buying history and identification
- * information.
- * <p>
+ * manages their buying history and identification information
  * Customer info is saved in the following format:
  * First Line: email Name
  * Second Line to productLength+1 Line: Product.toString() + quantity;

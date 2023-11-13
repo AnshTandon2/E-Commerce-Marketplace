@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Product {
     private static int ProductIDCounter = 1;
     private String name;
-    private double price;
+    private Double price;
     private String description;
     private int ProductID;
     private static ArrayList<Product> products;
@@ -98,7 +98,7 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return this.price;
     }
 

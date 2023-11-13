@@ -35,128 +35,174 @@ public class Marketplace {
         return new ArrayList<>(list);
     }
 
-    public ArrayList<Product> findProductsByName(String name) {
-        ArrayList<Product> productList = getProductList();
-        ArrayList<Product> returnList = new ArrayList<>();
-        for (Product p : productList) {
-            if (p.getName().contains(name)) {
-                returnList.add(p);
-            }
-        }
-        return returnList;
-    }
-
-    public ArrayList<Product> findProductsByStore(String storeName) {
+    public ArrayList<Integer> findProductsByName(String name) {
+        ArrayList<Integer> productList = new ArrayList<>();
         for (Store store : stores) {
-            if (store.getName().equals(storeName)) {
-                return new ArrayList<>(store.getProducts().keySet());
+            for (Map.Entry<Integer, Integer> entry : store.getProducts().entrySet()) {
+                if (Objects.requireNonNull(Product.getProduct(entry.getKey())).getName().contains(name)) {
+                    productList.add(entry.getKey());
+                }
             }
-        }
-        return new ArrayList<>();
-    }
-
-    public ArrayList<Product> findProductsByDescription(String descriptionKey) {
-        ArrayList<Product> productList = getProductList();
-        ArrayList<Product> returnList = new ArrayList<>();
-        for (Product p : productList) {
-            if (p.getProductDescription().contains(descriptionKey)) {
-                returnList.add(p);
-            }
-        }
-        return returnList;
-    }
-
-    public ArrayList<Product> getProductList() {
-        ArrayList<Product> productList = new ArrayList<>();
-        for (Store store : stores) {
-            productList.addAll(store.getProducts().keySet());
         }
         return productList;
+    }
+
+    public HashMap<Integer, Integer> findProductsByStore(String storeName) {
+        for (Store store : stores) {
+            if (store.getName().equals(storeName)) {
+                return store.getProducts();
+            }
+        }
+        return new HashMap<>();
+    }
+
+    public ArrayList<Integer> findProductsByDescription(String descriptionKey) {
+        ArrayList<Integer> productList = new ArrayList<>();
+        for (Store store : stores) {
+            for (Map.Entry<Integer, Integer> entry : store.getProducts().entrySet()) {
+                if (Objects.requireNonNull(Product.getProduct(entry.getKey())).getDescription().contains(descriptionKey)) {
+                    productList.add(entry.getKey());
+                }
+            }
+        }
+        return productList;
+    }
+
+    public HashMap<Integer, Integer> findTotalProductList() {
+        HashMap<Integer, Integer> returnMap = new HashMap<>();
+        for (Store store : stores) {
+            returnMap.putAll(store.getProducts());
+        }
+        return returnMap;
     }
 
     public String productsToString() {
         StringBuilder outputString = new StringBuilder("List of Products and Prices:\n");
         for (Store store : stores) {
-            for (Product product : store.getProducts().keySet()) {
-                outputString.append(product.getName()).append(" : ").append(product.getPrice()).append("\n");
+            for (int productID : store.getProducts().keySet()) {
+                outputString.append(Objects.requireNonNull(Product.getProduct(productID)).getName()).append(" : ")
+                        .append(Objects.requireNonNull(Product.getProduct(productID)).getPrice()).append("\n");
             }
         }
         return outputString.toString();
     }
 
     public String listProductsByPrice(boolean ASCENDING) {
-        ArrayList<Product> products = new ArrayList<>();
+        HashMap<Integer, Integer> products = new HashMap<>();
         for (Store store : stores) {
-            products.addAll(store.getProducts().keySet());
+            products.putAll(store.getProducts());
         }
-        products.sort(Comparator.comparingDouble(Product::getPrice));
+        List<Map.Entry<Integer, Integer>> list = new LinkedList<>(products.entrySet());
+        list.sort((o1, o2) -> (Objects.requireNonNull(Product.getProduct(o1.getKey())).getPrice()).
+                compareTo(Objects.requireNonNull(Product.getProduct(o2.getKey())).getPrice()));
+        HashMap<Integer, Integer> temp = new LinkedHashMap<>();
         if (ASCENDING) {
+            for (Map.Entry<Integer, Integer> aa : list) {
+                temp.put(aa.getKey(), aa.getValue());
+            }
             StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Ascending:\n");
-            for (Product product : products) {
-                outputString.append(product.getName()).append(" : ").append(product.getPrice()).append("\n");
+            for (int product : temp.keySet()) {
+                outputString.append(Objects.requireNonNull(Product.getProduct(product)).getName()).append(" : ").
+                        append(Objects.requireNonNull(Product.getProduct(product)).getPrice()).append("\n");
             }
             return outputString.toString();
         } else {
-            Collections.reverse(products);
+            Collections.reverse(list);
+            for (Map.Entry<Integer, Integer> aa : list) {
+                temp.put(aa.getKey(), aa.getValue());
+            }
             StringBuilder outputString = new StringBuilder("List of Products and Prices by Price Descending:\n");
-            for (Product product : products) {
-                outputString.append(product.getName()).append(" : ").append(product.getPrice()).append("\n");
+            for (int product : temp.keySet()) {
+                outputString.append(Objects.requireNonNull(Product.getProduct(product)).getName()).append(" : ").
+                        append(Objects.requireNonNull(Product.getProduct(product)).getPrice()).append("\n");
             }
             return outputString.toString();
         }
     }
 
     public String listProductsByQuantity(boolean ASCENDING) {
-        StringBuilder returnString = new StringBuilder();
-        HashMap<Product, Integer> products = new HashMap<>();
+        HashMap<Integer, Integer> products = new HashMap<>();
         for (Store store : stores) {
             products.putAll(store.getProducts());
         }
-        List<Map.Entry<Product, Integer>> list = new LinkedList<>(products.entrySet());
-        list.sort(Map.Entry.comparingByValue());
-        if (!ASCENDING) {
+        List<Map.Entry<Integer, Integer>> list = new LinkedList<>(products.entrySet());
+        list.sort((o1, o2) -> (Objects.requireNonNull(o1.getValue()).compareTo(o2.getValue())));
+        HashMap<Integer, Integer> temp = new LinkedHashMap<>();
+        if (ASCENDING) {
+            for (Map.Entry<Integer, Integer> aa : list) {
+                temp.put(aa.getKey(), aa.getValue());
+            }
+            StringBuilder outputString = new StringBuilder("List of Products and Prices by Quantity Ascending:\n");
+            for (int product : temp.keySet()) {
+                outputString.append(Objects.requireNonNull(Product.getProduct(product)).getName()).append(" : ").
+                        append(products.get(product)).append("\n");
+            }
+            return outputString.toString();
+        } else {
             Collections.reverse(list);
+            for (Map.Entry<Integer, Integer> aa : list) {
+                temp.put(aa.getKey(), aa.getValue());
+            }
+            StringBuilder outputString = new StringBuilder("List of Products and Prices by Quantity Descending:\n");
+            for (int product : temp.keySet()) {
+                outputString.append(Objects.requireNonNull(Product.getProduct(product)).getName()).append(" : ").
+                        append(products.get(product)).append("\n");
+            }
+            return outputString.toString();
         }
-        for (Map.Entry<Product, Integer> entry : list) {
-            returnString.append(entry.getValue());
-        }
-        return returnString.toString();
     }
 
-    public String CustomerDashboard(Customer c) {
+    public String storesByQuantity(boolean ASCENDING) { //get first part of dashboard, list of stores by
+        // quantity
         StringBuilder returnString = new StringBuilder("List of stores by number of products sold:\n");
+        stores.sort(Comparator.comparing(o -> Double.valueOf(o.getQuantitySold())));
+        if (ASCENDING) {
+            stores.sort(Comparator.comparingInt(Store::getQuantitySold));
+
+        }
         for (Store store : stores) {
-            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
-        }
-        returnString.append("List of stores by products purchased:\n");
-        HashMap<Product, Integer> customerHistory = c.getProductHistoryMap();
-        for (Product product : customerHistory.keySet()) {
-            for (Store store : stores) {
-                if (store.getProducts().containsKey(product)) {
-                    returnString.append(store.getName()).append(": ").append(product.toString());
-                }
-            }
+            returnString.append(store.getName()).append(": ").append(store.getQuantitySold()).append("\n");
         }
         return returnString.toString();
     }
 
-    public String CustomerDashboard(Customer c, boolean ASCENDING) {
-        StringBuilder returnString = new StringBuilder("List of stores by number of products sold:\n");
-        for (Store store : sortStores(stores, ASCENDING)) {
-            returnString.append(store.getName()).append(": ").append(store.getProducts().size()).append("\n");
-        }
-        returnString.append("List of stores by products purchased:\n");
-        HashMap<Product, Integer> customerHistory;
-        customerHistory = sortHashMap(c.getProductHistoryMap(), ASCENDING);
-        for (Product product : customerHistory.keySet()) {
-            for (Store store : stores) {
-                if (store.getProducts().containsKey(product)) {
-                    returnString.append(store.getName()).append(": ").append(product.toString());
+    public String storesByProductsPurchased(Customer c, boolean ASCENDING) { //get first part of dashboard, list of
+        HashMap<Store, Integer> storeQuantity = new HashMap<>();
+        StringBuilder returnString = new StringBuilder("List of stores by products purchased:\n");
+        for (Store store : stores) {
+            for (Map.Entry<String, HashMap<Integer, Integer>> entry : store.getCustomerHistories().entrySet()) {
+                if (entry.getKey().equals(c.getEmail())) {
+                    int quantity = 0;
+                    for (Map.Entry<Integer, Integer> entry1 : entry.getValue().entrySet()) {
+                        quantity += entry1.getValue();
+                    }
+                    storeQuantity.put(store, quantity);
                 }
             }
         }
-
-        return returnString.toString();
+        List<Map.Entry<Store, Integer>> list = new LinkedList<>(storeQuantity.entrySet());
+        list.sort((o1, o2) -> (Objects.requireNonNull(o1.getValue()).compareTo(o2.getValue())));
+        HashMap<String, Integer> temp = new LinkedHashMap<>();
+        if (ASCENDING) {
+            for (Map.Entry<Store, Integer> aa : list) {
+                temp.put(aa.getKey().getName(), aa.getValue());
+            }
+            StringBuilder outputString = new StringBuilder("Stores by Quantity Sold Ascending:\n");
+            for (Map.Entry<String, Integer> entry : temp.entrySet()) {
+                outputString.append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
+            }
+            return outputString.toString();
+        } else {
+            Collections.reverse(list);
+            for (Map.Entry<Store, Integer> aa : list) {
+                temp.put(aa.getKey().getName(), aa.getValue());
+            }
+            StringBuilder outputString = new StringBuilder("Stores by Quantity Sold Descending:\n");
+            for (Map.Entry<String, Integer> entry : temp.entrySet()) {
+                outputString.append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
+            }
+            return outputString.toString();
+        }
     }
 
     public ArrayList<Store> getStores() {
