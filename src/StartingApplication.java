@@ -107,7 +107,7 @@ public class StartingApplication {
                 if (MMChoice.equals("1")) {
 
                 } else if (MMChoice.equals("2")) {
-
+                    System.out.println();
                 } else if (MMChoice.equals("3")) {
 
                 } else if (MMChoice.equals("4")) {
@@ -119,12 +119,29 @@ public class StartingApplication {
                 } else if (MMChoice.equals("7")) {
 
                 } else {
-                    
+
                 }
             } else {
 
             }
         }
+    }
+
+    public static String viewMarket() {
+        File f = new File("/data/Sellers.txt");
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] temp = line.split(";");
+                String products = temp[3].split(",")
+                line = bfr.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String accountExists(String email, String password) {
@@ -143,7 +160,7 @@ public class StartingApplication {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File f = new File("/data/Sellers.txt");
+        f = new File("/data/Sellers.txt");
         try {
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
