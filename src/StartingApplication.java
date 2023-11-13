@@ -212,17 +212,17 @@ public class StartingApplication {
                         System.out.println("try again");
                     }
                 } else if (MMChoice.equals("4")) { //purchase a product
-                    Marketplace.purchaseProduct();
+//                    Marketplace.purchaseProduct();
                     //need to implement logic for this
                 } else if (MMChoice.equals("5")) { //view shopping history
-                    Marketplace.viewShoppingHistory();
+//                    Marketplace.viewShoppingHistory();
                     //need to implement logic for this
                 } else if (MMChoice.equals("6")) {  //export shopping history
-                    Marketplace.exportShoppingHistory();
+//                    Marketplace.exportShoppingHistory();
                     //need to implement logic for this
 
                 } else if (MMChoice.equals("7")) { //view store statistics
-                    Marketplace.viewStatistics();
+//                    Marketplace.viewStatistics();
                     //need to implement logic for this
                 } else if (MMChoice.equals("8")) { //log out
                     loggedOut = true;
