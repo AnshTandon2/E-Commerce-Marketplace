@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -99,6 +100,35 @@ public class Seller extends User {
 
     public void exportStoreInformation() {
         int counter = 0;
+        File f = new File("/data/" + this.getEmail() + ".txt");
+        File exportFile = new File("export.csv");
+        try {
+            exportFile.createNewFile();
+            FileWriter fw = new FileWriter(exportFile);
+            Scanner scan = new Scanner(f);
+            scan.nextLine();
+            scan.nextLine();
+            String[] data = scan.nextLine().split(";");
+            for (String s : data) {
+                File f2 = new File("/data/" + s + ".txt");
+                Scanner scan2 = new Scanner(f2);
+                String storeID = scan2.nextLine();
+                String storeName = scan2.nextLine();
+                String[] merchandise = scan2.nextLine().split(";");
+                String[] merchPrise = scan2.nextLine().split(";");
+                fw.write(storeID + ":" + storeName);
+                fw.write("\n");
+                fw.write("\n");
+                for (int i = 0; i < merchandise.length; i++) {
+                    fw.write("Product: " + merchandise[i] + ", Quantity: " + merchPrise[i]);
+                }
+                fw.write("\n");
+                fw.write("---------------------------");
+                fw.write("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
     }
 
