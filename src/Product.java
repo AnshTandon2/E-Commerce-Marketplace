@@ -52,7 +52,7 @@ public class Product {
         }
     }
 
-    public void saveProduct(Product product) {
+    public static void saveProduct(Product product) {
         if (products.contains(product))
             return;
         try {
@@ -64,7 +64,7 @@ public class Product {
         }
     }
 
-    public Product getProduct(int productID) {
+    public static Product getProduct(int productID) {
         for (Product product : products) {
             if (product.getProductID() == productID)
                 return product;
