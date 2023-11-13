@@ -108,24 +108,60 @@ public class StartingApplication {
         while (!loggedOut) {
             if (userRole.equalsIgnoreCase("seller")) {
                 System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a Product\n" +
-                        "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Log Out");
+                        "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Import/Export " +
+                        "Products\n" +
+                        "8. Log Out");
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
-                    Marketplace.printMarketplace();
-                } else if (MMChoice.equals("2")) {
-                    System.out.println();
-                } else if (MMChoice.equals("3")) {
+                    System.out.println("1. View Marketplace\n2. Sort by Ascending Price\n3. Sort by Descending " +
+                            "price\n4. Sort by " +
+                            "ascending quantity\n5. Sort by Descending Quantity\n(Anything else.) exit");
+                    String sortChoice = s.nextLine();
+                    if (sortChoice.equals("2")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", true); //not returning
+                        // correct values
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str))); //incorrect
+                        }
+                    } else if (sortChoice.equals("3")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", false); //not returning
+                        // correct values
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str))); //incorrect
+                        }
+                    } else if (sortChoice.equals("4")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", true); //not returning
+                        // correct values
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str))); //incorrect
+                        }
+                    } else if (sortChoice.equals("5")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", false); //not returning
+                        // correct values
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str))); //incorrect
+                        }
+                    } else if (sortChoice.equals("1")) {
+                        Marketplace.printMarketplace();
+                    } else {
+                        System.out.println("Please go back and try again!");
+                    }
+                } else if (MMChoice.equals("2")) {  //view sales by store
 
-                } else if (MMChoice.equals("4")) {
+                } else if (MMChoice.equals("3")) { // add a product
 
-                } else if (MMChoice.equals("5")) {
+                } else if (MMChoice.equals("4")) {  // edit a product
 
-                } else if (MMChoice.equals("6")) {
+                } else if (MMChoice.equals("5")) { //delete a product
 
-                } else if (MMChoice.equals("7")) {
+                } else if (MMChoice.equals("6")) { //view store statistics
+
+                } else if (MMChoice.equals("7")) { //import or exports for product
+                    //justin's part
+                } else if (MMChoice.equals("8")) { //logged out
                     loggedOut = true;
                 } else {
-                    System.out.println("Please try again with valid input!");
+                        System.out.println("Please try again with valid input!");
                 }
             } else {
                 // the user is a Customer type
