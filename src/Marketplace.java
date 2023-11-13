@@ -127,13 +127,7 @@ public class Marketplace {
         return sortedProductIds;
     }
 
-    /**
-     * Customer function
-     */
-    public static void addToCart() {
-
-    }
-
+    
     public static void removeFromCart(String productName, String userName) {
         File f = new File("shoppingCart.txt");
         try {
