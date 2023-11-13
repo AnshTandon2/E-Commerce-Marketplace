@@ -1,4 +1,3 @@
-this file is for seller to view all sales per store
-//can have duplicates
-
-productName;price;store;quantity;customerName;sellerName
+Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+Purdue hat;31.00;sandyStore;2;lchandol;sandryuk
+Purdue Overalls;100.00;dylanStore;1;majumda;dylank
