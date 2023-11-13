@@ -97,6 +97,10 @@ public class Seller extends User {
         }
     }
 
+    public void exportStoreInformation() {
+        int counter = 0;
+        
+    }
 
     // be able to view total sales by their store
     // should have their own sales invoice per store

@@ -181,4 +181,24 @@ public class Customer extends User {
         }
         return total;
     }
+
+    public void exportPurchaseHistory() {
+        File f = new File(super.getName() + "PurchaseHistory.csv");
+        try {
+            f.createNewFile();
+            FileWriter fw = new FileWriter(f);
+            fw.write(super.getName() + " Purchase History");
+            fw.write("\n");
+            fw.write("\n");
+
+            for (Product p : this.purchaseHistory.keySet()) {
+                fw.write("Product Name: " + p.getName() + " Quantity: " + purchaseHistory.get(p));
+                fw.write("\n");
+            }
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
