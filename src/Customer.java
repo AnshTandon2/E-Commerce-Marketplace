@@ -46,6 +46,11 @@ public class Customer {
         this.password = password;
     }
 
+    public void viewCustomerMenu() {
+        Scanner scan = new Scanner(System.in);
+
+    }
+
     /** Still being implemented*/
     public void addToCart(String productID, int quantity, String customerName) {
         String cart = "";
@@ -79,13 +84,13 @@ public class Customer {
     }
 
     /** Still being implemented*/
-    public void removeFromCart(String customerName, String productName, String productId) {
+    public void removeFromCart(String customerUsername, String productName, String productId) {
         StringBuilder fileContents = new StringBuilder();
         try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingcart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
-                String []product = line.split(",");
-                if (product[0].equalsIgnoreCase(customerName) && product[6].equals(productID)) {
+                String []product = line.split(";");
+                if (product[0].equalsIgnoreCase(customerUsername)) {
                     // nothing happens then
                 } else {
                     fileContents.append(line).append("\n");
@@ -175,4 +180,6 @@ public class Customer {
     public void viewStoreStatistics() {
 
     }
+
+
 }

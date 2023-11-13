@@ -22,7 +22,7 @@ public class Marketplace {
      * Values to their corresponding ArrayLists;
      */
     public static void initializeMarketplace() {
-        File file = new File("/data/market.txt");
+        File file = new File("market.txt");
         try {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
@@ -101,10 +101,10 @@ public class Marketplace {
      * @param orderMethod is "asc" or "desc"
      *
      */
-    public static ArrayList<String> sortMarket(ArrayList<Integer> preRequisites, String sortBy, String orderMethod) {
+    public static ArrayList<String> sortMarket(String orderMethod, String sortBy) {
         ArrayList<String> sortedProductIds = new ArrayList<>();
 
-        if (sortBy.equalsIgnoreCase("price") && preRequisites == null) {
+        if (sortBy.equalsIgnoreCase("price")) {
             ArrayList<Double> tempPrices = priceList;
             Collections.sort(tempPrices);
             if (orderMethod.equalsIgnoreCase("asc")) {
@@ -126,7 +126,7 @@ public class Marketplace {
                     }
                 }
             }
-        } else if (sortBy.equalsIgnoreCase("quantity") && preRequisites == null) {
+        } else if (sortBy.equalsIgnoreCase("quantity")) {
             ArrayList<Integer> tempQuantity = quantityList;
             Collections.sort(tempQuantity);
             if (orderMethod.equalsIgnoreCase("asc")) {
@@ -159,7 +159,7 @@ public class Marketplace {
     /**
      * Seller and Customer function
      */
-    public ArrayList<String> displayCart(String userName) {
+    public static ArrayList<String> displayCart(String userName) {
         File f = new File("/data/shoppingCart.txt");
         ArrayList<String> shoppingCart = new ArrayList<>();
         try {

@@ -90,11 +90,11 @@ public class Seller {
             bfr.close();
 
             // Create product id
-            String productID = productIDGenerator(name,storeName,username,price);
+//            String productID = productIDGenerator(name,storeName,username,price);
+//
+//            String newProduct = String.format("%d,%s,%f,%s,%d,%s,%s,%s\n", lineNumber + 1, name, price, storeName, quantity, description, username, productID);
 
-            String newProduct = String.format("%d,%s,%f,%s,%d,%s,%s,%s\n", lineNumber + 1, name, price, storeName, quantity, description, username, productID);
-
-            bfw.write(newProduct);
+//            bfw.write(newProduct);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class Seller {
                         case "description" -> productInfo[5] = newValue;
                     }
                     // Create new product id
-                    productInfo[7] = productIDGenerator(productInfo[1], productInfo[3], username, Double.parseDouble(productInfo[2]));
+//                    productInfo[7] = productIDGenerator(productInfo[1], productInfo[3], username, Double.parseDouble(productInfo[2]));
                 }
             }
 

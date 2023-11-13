@@ -12,8 +12,6 @@ import java.util.*;
  */
 
 public class StartingApplication {
-
-
     public static void main(String[] args) {
         System.out.println("Welcome to the Boilermaker Bazaar! ");
         Scanner s = new Scanner(System.in);
@@ -65,7 +63,7 @@ public class StartingApplication {
                     // they don't have an existing account - so they can make an account
                     if (userRole == null) {
                         // they want to have the role of a seller
-                        File f = new File("/data/users.txt");
+                        File f = new File("users.txt");
                         try {
                             FileWriter fw = new FileWriter(f, true);
                             BufferedWriter bfw = new BufferedWriter(fw);
@@ -136,22 +134,22 @@ public class StartingApplication {
                     System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
                     if (sortChoice.equals("1")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "price", "asc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "asc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
                     } else if (sortChoice.equals("2")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "price", "dsc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "dsc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
                     } else if (sortChoice.equals("3")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "quantity", "asc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", "asc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
                     } else if (sortChoice.equals("4")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "quantity", "dsc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", "dsc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
@@ -159,7 +157,7 @@ public class StartingApplication {
                         System.out.println("try again");
                     }
                 } else if (MMChoice.equals("2")) {
-                    ArrayList<String> shoppingCart = Marketplace.displayShoppingCart(username);
+                    ArrayList<String> shoppingCart = Marketplace.displayCart(username);
                     for (String str : shoppingCart) {
                         System.out.println(str + "\n");
                     }
@@ -209,7 +207,7 @@ public class StartingApplication {
     
     public static String accountExists(String username, String password) {
         // parses the file of all of the existing user in the marketplace
-        File f = new File("/data/users.txt");
+        File f = new File("users.txt");
         try {
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
