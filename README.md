@@ -44,14 +44,10 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 # Functions of the Classes
 
 **Classes Being Implemented:**
-1. User
-2. Seller
-3. Customer
-4. Store
-5. Product
-8. Account Manager
-9. Marketplace
-10. Starting Application
+1. Seller
+2. Customer
+3. Marketplace
+4. Starting Application
 
 ## User
 
@@ -190,26 +186,14 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | toString() | None | String | public | Returns the information about a product in a "Product<name; price; description>" format |
 | populateProductList() | None | void | public | 
 
-## Account Manager
-
-#### Fields
-| Name | Type | Modifier |
-| --- | --- | --- |
-| INFO_FILE | String | private final |
-| seller | ArrayList<User> | private static |
-| customers | ArrayList<User> | private static |
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| AccountManager | String infoFile | public | ? |
+## Starting Application
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
+| main() | String[] args | void | public static | First welcomes the user to the application and shows them the sign in, sign up, or exit options. If sign in option is selected, user will be prompted to enter username and password. Then their input will be tested to see if their account exists. If it does pass the test, they will be confirmed as logged in and pushed to the main menu. If tests don't pass, then print an error message. If sign up option is selected, user will be prompted to enter their name, email, and password. Then they will be asked to give their user status(Seller or Buyer). Their account will be checked to see if it already exists. If it does not, then based on the status given the user information will be either added to the Seller or shoppingCart(stores buyers and their shopping carts) files. Once account is successfully made, user is redirected back to sign in page and follows those steps again until either error or main menu. Lastly if exit option is selected, the system will print a thank you message and stop running. |
 | signUp() | String email, String password | boolean | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
-| sortHashMap() | HashMap<Product, Integer> hashMap, boolean ASCENDING | HashMap<Product, Integer>  | public static | Modifies the existing hashmap list for better organization in other classes |
-| sortStores() | ArrayList<Store> stores,boolean ASCENDING | ArrayList<Store> | public static | Modifies list of stores based on quantity sold, so customers who interact with list can better analyze stores list |
+| accountExists() | String email, String password | String | public static | Takes in the email and password parameters and checks for any instances of those variables in the Seller and shoppingCart files by iterating through the files using a filereader. |
 | findProductsByName() | String name | ArrayList<Product> | public | Uses the product name string to identify products in product list that contains that name and return the list |
 | findProductsByStore() | String storeName | ArrayList<Product> | public | Uses the store name string to identify store in store list and retrieve list of products available at specified store |
 | findProductsByDescription() | String descriptionKey | ArrayList<Product> | public | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
