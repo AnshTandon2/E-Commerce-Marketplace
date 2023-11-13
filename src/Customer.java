@@ -147,7 +147,7 @@ public class Customer {
 
     /** Still being implemented*/
     public static boolean buyItem(String customerName,String productId, int quantity) throws IOException {
-        FileReader fr = new FileReader("/data/market.txt");
+        FileReader fr = new FileReader("data/market.txt");
         BufferedReader bfr = new BufferedReader(fr);
         String line = bfr.readLine();
         StringBuilder content = new StringBuilder();
@@ -184,8 +184,8 @@ public class Customer {
             line = bfr.readLine();
         }
         bfr.close();
-        PrintWriter writer = new PrintWriter(new FileWriter("/data/market.txt"));
-        writer.print(content);
+        PrintWriter writer = new PrintWriter(new FileWriter("data/market.txt"));
+        writer.print(content.toString());
         writer.close();
         return stringChanged;
     }
