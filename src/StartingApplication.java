@@ -23,21 +23,71 @@ public class StartingApplication {
         // welcomes the user to the application
         // redirects them to sign up or sign in page
         boolean redirected = false;
+        boolean exitOnFirst = false;
+        String username = "";
+        String password = "";
+        String userRole = "";
         do {
             try {
                 int value = 0;
                 System.out.println("Please select one of the three options: " +
-                        "1. Login to Application" +
-                        "2. Sign Up with a New Account" +
-                        "3. Exit");
+                        "\n1. Login to Application" +
+                        "\n2. Sign Up with a New Account" +
+                        "\n3. Exit");
                 value = Integer.parseInt(s.nextLine());
                 if (value == 1) {
-                    redirected = signIn(s);
+                    System.out.println("Enter username");
+                    username = s.nextLine();
+                    System.out.println("Enter password");
+                    password = s.nextLine();
+                    userRole = accountExists(username, password);
+                    if (userRole == null) {
+                        System.out.println("Username or password incorrect");
+                    } else {
+                        System.out.println("Success, logging you in now");
+                        redirected = true;
+                    }
+                    //redirected = signIn(s);
                 } else if (value == 2) {
-                    redirected = signUp(s);
+                    System.out.println("Enter your name");
+                    String name = s.nextLine();
+                    System.out.println("Enter new email (serves are username)");
+                    username = s.nextLine();
+                    System.out.println("Enter new password");
+                    password = s.nextLine();
+                    System.out.println("Are you signing up as a seller (enter 1) or customer (enter 2)");
+                    String roleChoice = s.nextLine();
+                    userRole = accountExists(username, password);
+                    if (userRole == null) {
+                        if (roleChoice.equals("1")) {
+                            File f = new File("/data/Sellers.txt");
+                            try {
+                                FileWriter fw = new FileWriter(f, true);
+                                BufferedWriter bfw = new BufferedWriter(fw);
+                                bfw.write(username + ";" + password + ";" + name + ";");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (roleChoice.equals("2")) {
+                            File f = new File("/data/shoppingCart.txt");
+                            try {
+                                FileWriter fw = new FileWriter(f, true);
+                                BufferedWriter bfw = new BufferedWriter(fw);
+                                bfw.write(username + ";" + password + ";" + name + ";");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            System.out.println("I literally told you to write one or two dumbass");
+                        }
+                    } else {
+                        System.out.println("Account already exists");
+                    }
+                    //redirected = signUp(s);
                 } else if (value == 3) {
                     System.out.println("Thank you for using Purdue Bazaar!");
                     redirected = true;
+                    exitOnFirst = true;
                 } else {
                     System.out.println("Please try again. Make sure you enter a valid choice.");
                 }
@@ -46,6 +96,69 @@ public class StartingApplication {
                 System.out.println("There was an error in your input, please try again");
             }
         } while (!redirected);
+
+        boolean loggedOut = exitOnFirst;
+
+        while (!loggedOut) {
+            if (userRole.equalsIgnoreCase("seller")) {
+                System.out.println("Main Menu:\n1. View Market\n2. View all sales by store\n3. Sell product\n4. Edit " +
+                        "Product Listing\n5. Delete Product Listing\n6. View Store Statistics\n7. Logout");
+                String MMChoice = s.nextLine();
+                if (MMChoice.equals("1")) {
+
+                } else if (MMChoice.equals("2")) {
+
+                } else if (MMChoice.equals("3")) {
+
+                } else if (MMChoice.equals("4")) {
+
+                } else if (MMChoice.equals("5")) {
+
+                } else if (MMChoice.equals("6")) {
+
+                } else if (MMChoice.equals("7")) {
+
+                } else {
+                    
+                }
+            } else {
+
+            }
+        }
+    }
+
+    public static String accountExists(String email, String password) {
+        File f = new File("/data/shoppingCart.txt");
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] temp = line.split(";");
+                if (temp[0].equals(email) && temp[1].equals(password)) {
+                    return "Customer";
+                }
+                line = bfr.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File f = new File("/data/Sellers.txt");
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] temp = line.split(";");
+                if (temp[0].equals(email) && temp[1].equals(password)) {
+                    return "Seller";
+                }
+                line = bfr.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static boolean signIn(Scanner s) {
@@ -56,24 +169,15 @@ public class StartingApplication {
         System.out.println("Please enter your Password: ");
         String password = s.nextLine();
         // verifies that the information matches
-        boolean accountExists = User.accountExists(email, password);
-        if (accountExists) {
+        String accountExists = accountExists(email, password);
+        if (accountExists.equals("Seller") || accountExists.equals("Customer")) {
             System.out.println("You're logged in. ");
+            return true;
             // get the user object
-            User user = User.getUserObject(email, password);
-            // check if they are a customer or seller
-            if (user instanceof Customer customer) {
-                viewCustomerMainMenu(s, customer);
-                return true;
-            } else if (user instanceof Seller seller) {
-                viewSellerMainMenu(s, seller);
-                return true;
-            }
         } else {
             System.out.println("Error. You don't have an existing account.");
             return false;
         }
-        return false;
     }
 
     public static boolean signUp(Scanner s) {
