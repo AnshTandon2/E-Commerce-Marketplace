@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -11,7 +14,7 @@ import java.util.*;
  * @version November 11, 2023
  */
 
-public abstract class User {
+public class User {
     private String name;
     private String email;
     private String password;
@@ -22,6 +25,41 @@ public abstract class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public static void generateUserList() {
+        File f = new File("/data/users.txt");
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(",");
+                userList.add(new User(data[1], data[0], data[2]));
+
+            }
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateUsers() {
+        File f = new File("/data/users.txt");
+        try {
+            FileWriter fw = new FileWriter(f);
+            f.delete();
+            f.createNewFile();
+            for (User user : userList) {
+                if (user instanceof Customer) {
+                    fw.write(user.getEmail() + "," + user.getName() + "," + user.getPassword() + ",c");
+                } else {
+                    fw.write(user.getEmail() + "," + user.getName() + "," + user.getPassword() + ",s");
+                }
+            }
+        
+            fw.close();    
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getName() {
