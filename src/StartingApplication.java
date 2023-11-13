@@ -15,7 +15,6 @@ public class StartingApplication {
 
 
     public static void main(String[] args) {
-        // g2g
         System.out.println("Welcome to the Boilermaker Bazaar! ");
         Scanner s = new Scanner(System.in);
         // welcomes the user to the application
@@ -102,63 +101,6 @@ public class StartingApplication {
             }
         } while (!redirected);
 
-<<<<<<< HEAD
-    public static boolean signIn(Scanner s) {
-        // g2g
-        readUsersFile();
-        System.out.println("Please enter your Email: ");
-        String email = s.nextLine();
-        System.out.println("Please enter your Password: ");
-        String password = s.nextLine();
-        // verifies that the information matches
-        boolean accountExists = userExists(email, password);
-        if (accountExists) {
-            System.out.println("You're logged in. ");
-            // get the user object
-            User user = User.getUserObject(email, password);
-            // check if they are a customer or seller
-            if (user instanceof Customer customer) {
-                viewCustomerMainMenu(s, customer);
-                return true;
-            } else if (user instanceof Seller seller) {
-                viewSellerMainMenu(s, seller);
-                return true;
-            }
-        } else {
-            System.out.println("Error. You don't have an existing account.");
-            return false;
-        }
-        return false;
-    }
-
-    public static boolean userExists(String email, String password) {
-
-
-    }
-
-    public static boolean signUp(Scanner s) {
-        System.out.println();
-        System.out.println("Please create a new user account");
-        System.out.println("Please enter your name: ");
-        String name = s.nextLine();
-        System.out.println("Please enter your unique email (this will serve as your id): ");
-        String email = s.nextLine();
-        boolean valid = checkEmail(email);
-        // email is valid - continue
-        if (valid) {
-            System.out.println("Please enter your designated password");
-            String password = s.nextLine();
-            boolean isValidUser = false;
-            if (!isValidUser) {
-                System.out.println("Are you a buyer or seller? (type b for buyer; s for seller");
-                String userType = s.nextLine();
-                if (userType.equalsIgnoreCase("s")) {
-                    Seller seller = new Seller(name, email, password);
-                    isValidUser = true;
-                } else if (userType.equalsIgnoreCase("b")) {
-                    Customer customer = new Customer(name, email, password);
-                    isValidUser = true;
-=======
 
         boolean loggedOut = exitOnFirst;
         Marketplace.initializeMarketplace();
@@ -181,12 +123,9 @@ public class StartingApplication {
 
                 } else if (MMChoice.equals("7")) {
                     loggedOut = true;
->>>>>>> d3a12059b9c6af8dd71612a4c4ccf7c1e2ba21d5
                 } else {
                     System.out.println("Please try again with valid input!");
                 }
-
-
             } else {
                 // the user is a Customer type
                 System.out.println("Customer Main Menu:\n1. View Marketplace\n2. View Shopping Cart\n3. Search for Product\n" +
@@ -234,9 +173,6 @@ public class StartingApplication {
                     }
                     System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
-
-
-
                     if (sortChoice.equals("1")) {
                         ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "asc");
                         for (String str : sortedIndexes) {
@@ -267,11 +203,11 @@ public class StartingApplication {
                 } else {
                     System.out.println("Please try again with valid input!");
                 }
-
             }
         }
     }
-    public static String accountExists (String username, String password) {
+    
+    public static String accountExists(String username, String password) {
         // parses the file of all of the existing user in the marketplace
         File f = new File("/data/users.txt");
         try {
@@ -294,5 +230,4 @@ public class StartingApplication {
         // the info given doesn't match with an existing user
         return null;
     }
-
 }
