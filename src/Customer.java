@@ -52,8 +52,7 @@ public class Customer {
 
     }
 
-    /** Still being implemented*/
-    public void addToCart(String productName, int quantity, String storeName) {
+    public void addToCart(String productName, int quantity, String storeName, String client, String password, String price) {
 
         File marketFile = new File("market.txt");
         String productStock = "";
@@ -64,7 +63,36 @@ public class Customer {
                 if (data[0].equals(productName) && data[2].equals(storeName)) {
                     productStock = data[3];
                     if (quantity > Integer.parseInt(productStock)) {
-
+                        System.out.println("Cannot add to cart as quantity exceeds stock");
+                    } else {
+                        System.out.println("Added to Cart!");
+                        File cartFile = new File("shoppingCart.txt");
+                        Scanner cartFileScan = new Scanner(cartFile);
+                        boolean exists = false;
+                        while (cartFileScan.hasNextLine()) {
+                            String initialCartData = cartFileScan.nextLine();
+                            String[] cartData = initialCartData.split(";");
+                            if (cartData[2].equals(productName) && cartData[4].equals(storeName)) {
+                                String input = null;
+                                Scanner sc = new Scanner(new File("shoppingCart.txt"));
+                                StringBuffer sb = new StringBuffer();
+                                while (sc.hasNextLine()) {
+                                    input = sc.nextLine() + "\n";
+                                    sb.append(input);
+                                }
+                                String finalStr = sb.toString();
+                                String toReplace = cartData[0] + ";" + cartData[1] + ";" + cartData[2] + ";" + cartData[3] + ";" + cartData[4] + (Integer.parseInt(cartData[5]) + quantity);
+                                finalStr = finalStr.replaceAll(initialCartData,toReplace);
+                                PrintWriter writer = new PrintWriter(cartFile);
+                                writer.append(finalStr);
+                                writer.flush();
+                                exists = true;
+                            }
+                        }
+                        if (exists == false) {
+                            FileWriter writer = new FileWriter("shoppingCart.txt");
+                            writer.write(client + ";" + password + ";" + productName + ";" + price + ";" + storeName + ";" + quantity);
+                        }
                     }
                 }
             }
@@ -73,79 +101,79 @@ public class Customer {
             e.printStackTrace();
         }
 
-
-        String cart = "";
-        // finding item from market to add to cart
-        try (BufferedReader bfr = new BufferedReader(new FileReader("market.txt"))) {
-            String line = bfr.readLine();
-            while (line != null) {
-                String[] product = line.split(",");
-                if (product[7].equalsIgnoreCase(productName)) {
-                    if (Integer.parseInt(product[4]) < quantity) {
-                        System.out.println("Quantity is higher than stock.");
-                    } else {
-                        cart = String.format("%s,%s,%s,%s,%s,%s,%s", name, product[1], product[2], product[3],
-                                quantity, product[6], productName);
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // writing cart info to shoppingcart.txt
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingCart.txt", true))) {
-            writer.write(cart);
-            writer.newLine();
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    /** Still being implemented*/
-    public void removeFromCart(String customerUsername, String productName, String productId) {
-        StringBuilder fileContents = new StringBuilder();
-        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
-            String line = bfr.readLine();
-            while (line != null) {
-                String []product = line.split(";");
-                if (product[0].equalsIgnoreCase(customerUsername)) {
-                    // nothing happens then
+    public void removeFromCart(String customerUsername, String productName) {
+
+        File f = new File("shoppingCart.txt");
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[0].equals(customerUsername) && data[2].equals(productName)) {
+                    String input = null;
+                    Scanner sc = new Scanner(f);
+                    StringBuffer sb = new StringBuffer();
+                    while (sc.hasNextLine()) {
+                        input = sc.nextLine() + "\n";
+                        sb.append(input);
+                    }
+                    String finalStr = sb.toString();
+                    finalStr = finalStr.replaceAll(initialData, "");
+                    PrintWriter writer = new PrintWriter(f);
+                    writer.append(finalStr);
+                    writer.flush();
+                    System.out.println("Removed!");
                 } else {
-                    fileContents.append(line).append("\n");
+                    System.out.println("Object doesn't exist in cart");
                 }
             }
-            bfr.close();
-        } catch (Exception e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingCart.txt"))) {
-            writer.write(fileContents.toString());
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
 
     /**Still being implemented*/
     public void buyShoppingCartItems(String customerName) {
-        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
-            String line = bfr.readLine();
-            while (line != null) {
-                String[] product = line.split(",");
-                if (product[0].equalsIgnoreCase(customerName)) {
-                    buyItem(customerName, product[6], Integer.parseInt(product[4]));
+
+        File f = new File("shoppingCart.txt");
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[0].equals(customerName)) {
+                    boolean flag = true;
+                    File market = new File("market.txt");
+                    Scanner marketScan = new Scanner(market);
+                    String seller = "";
+                    while (marketScan.hasNextLine()) {
+                        String[] marketData = scan.nextLine().split(";");
+                        if (Integer.parseInt(marketData[3]) < Integer.parseInt(data[5])) {
+                            flag = false;
+                            System.out.println("Not enough stock to buy");
+                        } else {
+                            seller = marketData[5];
+                        }
+                    }
+                    if (flag) {
+                        File purchases = new File("purchases.txt");
+                        FileWriter fw = new FileWriter(purchases, true);
+                        fw.write(data[2] + ";" + data[3] + ";" + data[4] + ";" + data[5] + ";" + data[0] + ";" + seller + "\n");
+                        fw.flush();
+                        fw.close();
+                    }
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /** Still being implemented*/
     public static boolean buyItem(String customerName,String productId, int quantity) throws IOException {
         FileReader fr = new FileReader("market.txt");

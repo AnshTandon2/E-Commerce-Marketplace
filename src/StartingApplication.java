@@ -117,7 +117,7 @@ public class StartingApplication {
                         "8. Log Out");
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
-                    System.out.println("1. View Marketplace\n2. Sort by Ascending Price\n3. Sort by Descending " +
+                    System.out.println("1. View Dashboard\n2. Sort by Ascending Price\n3. Sort by Descending " +
                             "price\n4. Sort by " +
                             "ascending quantity\n5. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
@@ -166,6 +166,7 @@ public class StartingApplication {
 //                    System.out.println(Seller.addProduct(productName, price, storeName,
 //                            quantity, description, username)); STILL NEEDS TO BE RAN
                 } else if (MMChoice.equals("3")) {  // edit a product
+                    //Seller.editProduct();
 
                 } else if (MMChoice.equals("4")) { //delete a product
 
