@@ -1,16 +1,7 @@
-*username;password;product;price;store;quantity*
-^^ notation of a line in shopping cart (delete later) ^^
-does each user have one shopping cart line or multiple?
-
-tandon39;firstSt;Computer;700.00;TechDeals;4
-majumda;greatSun;Economics Textbook;89.90;BookBuyBack;50
-nirmie;speedStars;Nintendo Switch;250.75;TechDeals;7
-lchandol;hackIt;Vintage Hoodie;28.50;PurdueGems;2
-glover44;compSco;Desk Monitor;130.00;GadgetStore;25
-jfotsopu;yellowCar;Purdue Keychain;5.60;StealsSold;56
-barted;yolok;Neck Pillow;12.80;35
-tandon39;firstSt;Football Ticket;50.00;FootballFallback;10
-morgan;bakedCheese;Gray Sweater;24.00;GlamTown;60
-afuchs;purCat;Basketball Ticket;42.00;GamesGlory;13
-
-
+tandom39;firstSt;Book;60.00;claraStore;2
+nirmie;speedStars;Purdue Overalls;100.00;dylanStore;3
+nirmie;speedStars;Purdue laptop bag;27.00;kavyaStore;1
+tandon39;firstSt;Purdue hat;31.00;sandyStore;4
+majumda;greatSun;Econ Textbook;35.00;claraStore;1
+lchandol;hackIt;Black and gold badge;30.00;davidStore;24
+glover44;compSci;Purdue Overalls;100.00;dylanStore;25
