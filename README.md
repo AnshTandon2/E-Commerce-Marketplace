@@ -188,6 +188,7 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | setDescription() | String description | String | public | Sets the description of the product to given description|
 | setPrice() | double price | double | public | Sets the price of the product to given price|
 | toString() | None | String | public | Returns the information about a product in a "Product<name; price; description>" format |
+| populateProductList() | None | void | public | 
 
 ## Account Manager
 
