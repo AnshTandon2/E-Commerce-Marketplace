@@ -16,15 +16,15 @@ public class Store {
     private int quantitySold;
     private String name;
 
-    private HashMap<Product, Integer> productsList;
+    private HashMap<Integer, Integer> productsList;
 
     public Store() {
         this.name = "";
         this.totalSales = 0;
-        this.productsList = new HashMap<Product, Integer>();
+        this.productsList = new HashMap<Integer, Integer>();
     }
 
-    public Store(String name, HashMap<Product, Integer> productsList, double sales) {
+    public Store(String name, HashMap<Integer, Integer> productsList, double sales) {
         this.name = name;
         this.totalSales = sales;
         this.productsList = productsList;
@@ -46,48 +46,48 @@ public class Store {
         this.totalSales = totalSales;
     }
 
-    public HashMap<Product, Integer> getProductsList() {
+    public HashMap<Integer, Integer> getProductsList() {
         return productsList;
     }
 
-    public void setProductsList(HashMap<Product, Integer> productsList) {
+    public void setProductsList(HashMap<Integer, Integer> productsList) {
         this.productsList = productsList;
     }
 
-    public HashMap<Product, Integer> getProducts() {
+    public HashMap<Integer, Integer> getProducts() {
         return this.productsList;
     }
 
-    public void setProducts(HashMap<Product, Integer> list) {
+    public void setProducts(HashMap<Integer, Integer> list) {
         this.productsList = list;
     }
 
     public String addProduct(Product product, int quantity) {
-        if (this.productsList.containsKey(product)) {
-            int productQuantity = productsList.get(product);
+        if (this.productsList.containsKey(product.getProductID())) {
+            int productQuantity = productsList.get(product.getProductID());
             // sets the product back in hash map
             // incrementing quantity available in the store by the amount specified
-            this.productsList.put(product, productQuantity + quantity);
+            this.productsList.put(product.getProductID(), productQuantity + quantity);
             return ("Quanity (" + quantity + ") of the " + product.getName() + " has been added.");
         } else {
-            this.productsList.put(product, 1);
+            this.productsList.put(product.getProductID(), 1);
             return ("This product has been added to your store. ");
         }
     }
 
     public void addProduct(Product product) {
         if (!this.productsList.containsKey(product)) {
-            this.productsList.put(product, 0);
+            this.productsList.put(product.getProductID(), 0);
         }
     }
 
     public String removeProduct(Product product, int quantity) {
-        if (this.productsList.containsKey(product)) {
+        if (this.productsList.containsKey(product.getProductID())) {
             // sets the product back in hash map
             // incrementing quantity available in the store by the amount specified
-            int productQuantity = productsList.get(product);
+            int productQuantity = productsList.get(product.getProductID());
             if (productQuantity - quantity > 0) {
-                this.productsList.put(product, productQuantity - quantity);
+                this.productsList.put(product.getProductID(), productQuantity - quantity);
                 return ("Quanity (" + quantity + ") of the " + product.getName() + " has been removed.");
             } else {
                 return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your " +
@@ -98,7 +98,7 @@ public class Store {
     }
 
     public void removeProduct(Product product) {
-        this.productsList.remove(product);
+        this.productsList.remove(product.getProductID());
     }
 
     public String getName() {
@@ -110,18 +110,18 @@ public class Store {
     }
 
     public boolean hasProductInStock(Product product) {
-        if (this.productsList.containsKey(product)) {
-            int quantityAvailable = productsList.get(product);
+        if (this.productsList.containsKey(product.getProductID())) {
+            int quantityAvailable = productsList.get(product.getProductID());
             return quantityAvailable > 0;
         }
         return false;
     }
 
     public static boolean checkQuantityAvailable(Store store, Product product, int quantity) {
-        if(store.productsList.containsKey(product)) {
+        if(store.productsList.containsKey(product.getProductID())) {
             // checks whether the given quantity exceeds the quantity
             // of the product that the store currently has
-            if (quantity < store.productsList.get(product)) {
+            if (quantity < store.productsList.get(product.getProductID())) {
                 return true;
             } else {
                 return false;
@@ -131,11 +131,11 @@ public class Store {
     }
 
     public String makeASale(Product product, int quantity) {
-        if (this.productsList.containsKey(product)) {
-            Integer productQuantity = productsList.get(product);
+        if (this.productsList.containsKey(product.getProductID())) {
+            Integer productQuantity = productsList.get(product.getProductID());
             // enough quantity available for sale
             if (productQuantity - quantity > 0) {
-                this.productsList.put(product, productQuantity - quantity);
+                this.productsList.put(product.getProductID(), productQuantity - quantity);
                 this.totalSales += quantity * product.getPrice();
                 return ("Sale Made:\nProduct:" + product.getName() + "\nQuantity: " + quantity);
             } else {
@@ -149,7 +149,7 @@ public class Store {
     @Override
     public String toString() {
         StringBuilder returnString = new StringBuilder("Store: " + getName() + "\n");
-        for (Map.Entry<Product, Integer> entry : getProductsList().entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : getProductsList().entrySet()) {
             returnString.append(entry.getKey().toString()).append(entry.getValue());
         }
         returnString.append("\nTotalSales: ").append(getTotalSales()).append("\n");

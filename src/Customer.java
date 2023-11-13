@@ -27,7 +27,7 @@ public class Customer extends User {
         super(name, email, password);
         super.addUser(this);
         // the purchase history file of every Customer will follow this notation
-        String fileNotation = (email + "-CustomerHistory.txt");
+        String fileNotation = ("/data/" + email + "-CustomerHistory.txt");
         this.customerHistory = new File(fileNotation);
         this.purchaseHistory = new HashMap<>();
         this.shoppingCart = new HashMap<>();

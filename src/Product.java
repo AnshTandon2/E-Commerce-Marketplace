@@ -36,12 +36,13 @@ public class Product {
     }
 
     public void populateProductList() {
-        File productFile = new File("products.txt");
+        File productFile = new File("/data/Products.txt");
         try {
             FileReader fr = new FileReader(productFile);
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
             products = new ArrayList<>();
+            Product.ProductIDCounter = Integer.parseInt(bfr.readLine());
             while (line != null) {
                 String[] productDetail = line.substring(8, line.length() - 1).split(";");
                 products.add(new Product(Integer.parseInt(productDetail[0]), productDetail[1],
@@ -56,7 +57,7 @@ public class Product {
         if (products.contains(product))
             return;
         try {
-            File productFile = new File("products.txt");
+            File productFile = new File("/data/products.txt");
             FileWriter fw = new FileWriter(productFile, false);
             BufferedWriter bfw = new BufferedWriter(fw);
             bfw.write(product.toString());

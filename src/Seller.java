@@ -20,7 +20,7 @@ public class Seller extends User {
     public Seller(String name, String email, String password) {
         super(name, email, password);
         // the purchase history file of every user will follow this notation
-        String fileNotation = (email + "-storeHistory.txt");
+        String fileNotation = ("/data/" + email + "-storeHistory.txt");
         StoreHistory = new File(fileNotation);
         if (!StoreHistory.exists()) { //if file doesn't exist (Seller is new)
             try {
