@@ -56,7 +56,7 @@ public class StartingApplication {
         System.out.println("Please enter your Password: ");
         String password = s.nextLine();
         // verifies that the information matches
-        boolean accountExists = User.accountExists(email, password);
+        boolean accountExists = userExists(email, password);
         if (accountExists) {
             System.out.println("You're logged in. ");
             // get the user object
@@ -74,6 +74,11 @@ public class StartingApplication {
             return false;
         }
         return false;
+    }
+
+    public static boolean userExists(String email, String password) {
+
+
     }
 
     public static boolean signUp(Scanner s) {

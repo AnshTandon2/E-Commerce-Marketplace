@@ -42,4 +42,9 @@ public class Seller {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void createProduct() {
+
+    }
+
 }
