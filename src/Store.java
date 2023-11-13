@@ -1,5 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 /**
  * Store Class
@@ -160,6 +162,33 @@ public class Store {
             return false;
         }
     }
+
+        public void generateStoreHistowy() {
+        File f = new File("/data/" + this.StoreID + ".txt");
+        try {
+            Scanner scan = new Scanner(f);
+            scan.nextLine();
+            scan.nextLine();
+            scan.nextLine();
+            String[] soldCustomers = scan.nextLine().split(";");
+            String[] soldQuantity = scan.nextLine().split(";");
+            String[] soldProduct = scan.nextLine().split(";");
+
+            HashMap<Integer, Integer> temp = new HashMap<Integer, Integer>();
+
+            for (int i = 0; i < soldCustomers.length; i++) {
+                temp.put(Integer.parseInt(soldProduct[i]), Integer.parseInt(soldQuantity[i]));
+                customerHistories.put(soldCustomers[i], temp);
+                temp.clear();
+            }
+
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public String toString() {
