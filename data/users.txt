@@ -1,1 +1,18 @@
+//username;password;name,userType
+userType signified whether they are a customer or a seller
+used for authentication purposes
+s for seller
+c for customer
 
+clarank;helloworld;clara,s
+davidkj;ignOps;david,s
+kavyahm;redJiks;kavya,s
+sandyruk;happy;sandy,s
+dylank;hugsFr;dylan,s
+
+tandon39;firstSt;ansh,c
+nirmie;speedStars;nirmal,c
+lchandol;hackIt;lalitha,c
+majumda;greatSun;ankita,c
+glover44;compSci,colten,c
+morganj;bakedCheese;morgan,c

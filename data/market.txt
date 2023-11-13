@@ -1,0 +1,4 @@
+/*1;productName;price;storeName;quantity;description;sellerName;productId(opt)/*
+All products sold in the marketplace
+
+1.Whiteboard;10.00;SupplyStore;20;Blank whiteboard to write on;kavya;productId
