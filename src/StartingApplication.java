@@ -36,76 +36,90 @@ public class StartingApplication {
                         "\n3. Exit");
                 value = Integer.parseInt(s.nextLine());
                 if (value == 1) {
+                    //  the user has an existing account and would like to login to the marketplace
                     System.out.println("Enter username");
                     username = s.nextLine();
                     System.out.println("Enter password");
                     password = s.nextLine();
+                    // verifies that the existing account exists
                     userRole = accountExists(username, password);
                     if (userRole == null) {
-                        System.out.println("Username or password incorrect");
+                        // user inputted wrong information or user doesn't currently exist
+                        System.out.println("The username or password is incorrect");
+                        // should go back again to main menu due to error
                     } else {
+                        // signed in successfully
                         System.out.println("Success, logging you in now");
                         redirected = true;
                     }
-                    //redirected = signIn(s);
                 } else if (value == 2) {
+                    // would like to make a new account in the marketplace
                     System.out.println("Enter your name");
                     String name = s.nextLine();
-                    System.out.println("Enter new email (serves are username)");
+                    // allows each user to have a unique identifier
+                    System.out.println("Enter your Purdue username (the part before your @purdue.edu)");
                     username = s.nextLine();
                     System.out.println("Enter new password");
                     password = s.nextLine();
-                    System.out.println("Are you signing up as a seller (enter 1) or customer (enter 2)");
+                    System.out.println("Are you signing up as a \n [1] Seller \n [2] Buyer");
                     String roleChoice = s.nextLine();
+                    // checks if they have an existing account or not
                     userRole = accountExists(username, password);
+                    // they don't have an existing account - so they can make an account
                     if (userRole == null) {
+                        // they want to have the role of a seller
                         if (roleChoice.equals("1")) {
                             File f = new File("/data/Sellers.txt");
                             try {
                                 FileWriter fw = new FileWriter(f, true);
                                 BufferedWriter bfw = new BufferedWriter(fw);
+                                // populates a list of sellers (with the given information)
                                 bfw.write(username + ";" + password + ";" + name + ";");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         } else if (roleChoice.equals("2")) {
+                            // they want to have a Customer role
                             File f = new File("/data/shoppingCart.txt");
                             try {
                                 FileWriter fw = new FileWriter(f, true);
                                 BufferedWriter bfw = new BufferedWriter(fw);
+                                // populates a new file of Customers (based on given info)
                                 bfw.write(username + ";" + password + ";" + name + ";");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            System.out.println("I literally told you to write one or two dumbass");
+                            System.out.println("Please try again!");
                         }
                     } else {
+                        // account exists - go back to main menu
                         System.out.println("Account already exists");
                     }
-                    //redirected = signUp(s);
                 } else if (value == 3) {
+                    // would like to exit the application
                     System.out.println("Thank you for using Purdue Bazaar!");
                     redirected = true;
                     exitOnFirst = true;
                 } else {
+                    // invalid choice was enetered
                     System.out.println("Please try again. Make sure you enter a valid choice.");
                 }
             } catch (NumberFormatException e) {
-                // user didn;t enter a number
+                // user didn't enter a number
                 System.out.println("There was an error in your input, please try again");
             }
         } while (!redirected);
 
-        boolean loggedOut = exitOnFirst;
 
+        boolean loggedOut = exitOnFirst;
         while (!loggedOut) {
             if (userRole.equalsIgnoreCase("seller")) {
-                System.out.println("Main Menu:\n1. View Market\n2. View all sales by store\n3. Sell product\n4. Edit " +
-                        "Product Listing\n5. Delete Product Listing\n6. View Store Statistics\n7. Logout");
+                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a Product\n" +
+                        "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Log Out");
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
-
+                    Marketplace.printMarketplace();
                 } else if (MMChoice.equals("2")) {
                     System.out.println();
                 } else if (MMChoice.equals("3")) {
@@ -117,16 +131,36 @@ public class StartingApplication {
                 } else if (MMChoice.equals("6")) {
 
                 } else if (MMChoice.equals("7")) {
-
+                    loggedOut = true;
                 } else {
-
+                    System.out.println("Please try again with valid input!");
                 }
             } else {
+                // the user is a Customer type
+                System.out.println("Customer Main Menu:\n1. View Marketplace\n2. View Shopping Cart\n3. Search for Product\n" +
+                        "4. View Shopping History\n5. Log Out");
+                String MMChoice = s.nextLine();
+                if (MMChoice.equals("1")) {
+                    Marketplace.printMarketplace();
+                } else if (MMChoice.equals("2")) {
+                    Marketplace.displayShoppingCart(String username);
+                } else if (MMChoice.equals("3")) {
+                    System.out.println("Enter your search term: ");
+                    String keyword = s.nextLine();
+                    System.out.println(Marketplace.searchProduct(keyword));
+                } else if (MMChoice.equals("4")) {
+
+                } else if (MMChoice.equals("5")) {
+                    loggedOut = true;
+                } else {
+                    System.out.println("Please try again with valid input!");
+                }
 
             }
         }
     }
 
+    /***************************************************************************************************************/
     public static String viewMarket() {
         File f = new File("/data/Sellers.txt");
         try {
