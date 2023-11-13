@@ -301,6 +301,7 @@ public class StartingApplication {
                         System.out.println("Please try searching again!");
                     }
                 } else if (MMChoice.equals("4")) { //purchase a product
+<<<<<<< Updated upstream
                     boolean flag = false;
                     System.out.println("Enter product name: ");
                     String name = s.nextLine();
@@ -366,6 +367,9 @@ public class StartingApplication {
                     }
 
 //                    Marketplace.purchaseProduct();
+=======
+//                    Customer.purchaseProduct();
+>>>>>>> Stashed changes
                     //need to implement logic for this
                 } else if (MMChoice.equals("5")) { //view shopping history
                     Customer.viewHistory(username);

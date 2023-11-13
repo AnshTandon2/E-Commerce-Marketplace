@@ -134,7 +134,7 @@ public class Marketplace {
      * @param productName product to be removed
      * @param userName customer's cart to remove from
      */
-    public static void removeFromCart(String productName, String userName) {
+    /*public static void removeFromCart(String productName, String userName) {
         File f = new File("shoppingCart.txt");
         String toRemove = "";
         try {
@@ -174,7 +174,7 @@ public class Marketplace {
             }
         }
 
-    }
+    }*/
 
     /**
      * Display the shopping cart of the given customer
