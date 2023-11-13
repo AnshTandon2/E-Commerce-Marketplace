@@ -29,22 +29,31 @@ public class Store {
     private HashMap<String, HashMap<Integer, Integer>> customerHistories;
     // customer histories hash map structure <email, <Product ID, Quantity Bought>>
 
-    public Store() {
+    public Store() { //Only used when making a completely new
         this.name = "";
         this.totalSales = 0;
         this.quantitySold = 0;
         this.productsList = new HashMap<Integer, Integer>();
+        File f = new File("/data/AllStores.txt");
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                StoreIDCounter++;
+            }
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.StoreID = StoreIDCounter;
         StoreIDCounter++;
     }
 
-    public Store(String name, HashMap<Integer, Integer> productsList, double sales) {
+    public Store(String name, HashMap<Integer, Integer> productsList, double sales, int storeID, HashMap<String, HashMap<Integer, Integer>> customerHistories) {
         this.name = name;
         this.totalSales = sales;
         this.productsList = productsList;
-        this.StoreID = StoreIDCounter;
-        StoreIDCounter++;
-        this.customerHistories = new HashMap<String, HashMap<Integer, Integer>>();
+        this.StoreID = storeID;
+        this.customerHistories = customerHistories;
     }
 
     public static boolean checkQuantityAvailable(Store store, int productID, int quantity) {

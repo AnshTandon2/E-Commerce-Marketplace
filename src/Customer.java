@@ -31,6 +31,24 @@ public class Customer extends User {
         addUser(this);
     }
 
+    public void createCustomerFile() {
+        File f = new File("/data/" + super.getEmail() + ".txt");
+        try {
+            if (!f.exists()) {
+                f.createNewFile();
+                FileWriter fw = new FileWriter(f);
+                fw.write(super.getName());
+                fw.write("\n");
+                fw.write(super.getEmail());
+                fw.write("\n");
+                fw.write(super.getPassword());
+                fw.write("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateCustomerHistory(int productID, int quantity) {
         try {
             File customerHistory = new File(getFileNotation());

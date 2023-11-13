@@ -35,7 +35,7 @@ public class Product {
         this.ProductID = productID;
     }
 
-    public void populateProductList() {
+    public static void populateProductList() {
         File productFile = new File("/data/Products.txt");
         try {
             FileReader fr = new FileReader(productFile);
@@ -115,6 +115,6 @@ public class Product {
     //}
 
     public String toString() {
-        return "Product<" + getProductID() + ";" + getName() + ";" + getPrice() + ";" + getProductDescription() + ">";
+        return "Product<" + getProductID() + ";" + getName() + ";" + getPrice() + ";" + getDescription() + ">";
     }
 }

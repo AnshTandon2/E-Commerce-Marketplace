@@ -255,9 +255,13 @@ public class Marketplace {
                         System.out.println("Account already exists");
                     } else {
                         if (Integer.parseInt(isBuyer) == 1) {
-                            User.addUser(new Customer(userName, email, password));
+                            Customer custom = new Customer(userName, email, password);
+                            User.addUser(custom);
+                            custom.createCustomerFile();
                         } else if (Integer.parseInt(isBuyer) == 2) {
-                            User.addUser(new Seller(userName, email, password));
+                            Seller sell = new Seller(userName, email, password);
+                            User.addUser(sell);
+                            sell.createSellerFile();
                         }
                         //loggedIn = true;
                     }
@@ -282,11 +286,24 @@ public class Marketplace {
 
         User user = User.getUserObject(email, password);
 
+        Product.populateProductList();
+        User.generateUserList();
+
+        Customer c = null;
+        Seller s = null;
+
+        if (user instanceof Seller) {
+            s = new Seller(userName, email, password);
+        } else if (user instanceof Customer) {
+            c = new Customer(userName, email, password);
+        }
+
+
         while (start) {
             if (user instanceof Seller) {
 
             } else {
-                
+
             }
         }
 

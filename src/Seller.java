@@ -22,9 +22,49 @@ public class Seller extends User {
     public Seller(String name, String email, String password) {
         super(name, email, password);
         // the purchase history file of every user will follow this notation
-        String fileNotation = ("/data/" + email + "-storeHistory.txt");
+        String fileNotation = ("/data/" + email + ".txt");
+        this.stores = new ArrayList<Store>();
         StoreHistory = new File(fileNotation);
-        if (!StoreHistory.exists()) { //if file doesn't exist (Seller is new)
+
+        try {
+            Scanner scan = new Scanner(StoreHistory);
+            scan.nextLine();
+            scan.nextLine();
+            scan.nextLine();
+            if (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(";");
+                for (int i = 0; i < data.length; i++) {
+                    File f2 = new File("/data/" + data[i] + ".txt");
+                    Scanner scan2 = new Scanner(f2);
+                    HashMap<Integer, Integer> temp = new HashMap<>();
+                    String storeID = scan2.nextLine();
+                    String storeName = scan2.nextLine();
+                    String[] merchandise = scan2.nextLine().split(";");
+                    String[] merchStock = scan2.nextLine().split(";");
+                    String[] soldCustomers = scan2.nextLine().split(";");
+                    String[] soldQuantity = scan2.nextLine().split(";");
+                    String[] soldProduct = scan2.nextLine().split(";");
+
+                    HashMap<Integer, Integer> temp2 = new HashMap<>();
+                    HashMap<String, HashMap<Integer, Integer>> temp3 = new HashMap<>();
+
+                    for (int j = 0; j < merchandise.length; j++) {
+                        temp.put(Integer.parseInt(merchandise[j]), Integer.parseInt(merchStock[j]));
+                        temp2.put(Integer.parseInt(soldProduct[j]), Integer.parseInt(soldQuantity[j]));
+                        temp3.put(soldCustomers[j], temp2);
+
+                    }
+                    this.stores.add(new Store(storeName, temp, 0.0, Integer.parseInt(storeID), temp3));
+                }
+            }
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        /*if (!StoreHistory.exists()) { //if file doesn't exist (Seller is new)
             try {
                 FileWriter fw = new FileWriter(StoreHistory, false);
                 BufferedWriter bfw = new BufferedWriter(fw);
@@ -68,6 +108,26 @@ public class Seller extends User {
                 }
             } catch (IOException ignored) {
             }
+        }*/
+    }
+
+    public void createSellerFile() {
+        File f = new File("/data/" + super.getEmail() + ".txt");
+        try {
+            if (!f.exists()) {
+                f.createNewFile();
+                FileWriter fw = new FileWriter(f);
+                fw.write(super.getName());
+                fw.write("\n");
+                fw.write(super.getEmail());
+                fw.write("\n");
+                fw.write(super.getPassword());
+                fw.write("\n");
+                fw.flush();
+                fw.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -298,7 +358,7 @@ public class Seller extends User {
                     }
                 }
             }
-            
+
         scan.close();
 
         } catch (IOException e) {

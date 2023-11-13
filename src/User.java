@@ -46,7 +46,7 @@ public class User {
     public static void updateUsers() {
         File f = new File("/data/users.txt");
         try {
-            FileWriter fw = new FileWriter(f);
+            FileWriter fw = new FileWriter(f, true);
             // deletes the content in the current users file
             f.delete();
             // makes the file a blank slate
