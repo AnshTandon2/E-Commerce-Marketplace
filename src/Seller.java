@@ -72,7 +72,28 @@ public class Seller {
      * Sellers can remove products from the current product line
      */
     public void removeProduct(ArrayList<String> productList, String productName) {
+         StringBuilder productList = new StringBuilder();
+        try (BufferedReader bfr = new BufferedReader(new FileReader("/data/market.txt"))) {
+            String line = bfr.readLine();
+            while (line != null) {
+                String []product = line.split(";");
+                if (product[0].equalsIgnoreCase(customerUsername)) {
+                    // nothing happens then
+                } else {
+                    productList.append(line).append("\n");
+                }
+            }
+            bfr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("/data/market.txt"))) {
+            writer.write(productList.toString());
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
