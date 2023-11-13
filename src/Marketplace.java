@@ -23,6 +23,7 @@ public class Marketplace {
      */
     public static void initializeMarketplace() {
         File file = new File("market.txt");
+        int counter = 0;
         try {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
@@ -32,7 +33,8 @@ public class Marketplace {
                 storeNames.add(data[2]);
                 quantityList.add(Integer.parseInt(data[3]));
                 descriptionList.add(data[4]);
-                productIDs.add(data[5]);
+                productIDs.add(Integer.toString(counter));
+                counter++;
                 // maybe will need to add a unique product id
             }
         } catch (IOException e){
@@ -60,6 +62,7 @@ public class Marketplace {
         return info;
     }
 
+    //TODO Flag for Review
     public static ArrayList<String> searchProduct(String keyword) {
         ArrayList<String> matchedProducts = new ArrayList<String>();
         for(int index = 0; index < productIDs.size(); index++) {
@@ -102,11 +105,9 @@ public class Marketplace {
      *
      */
     public static ArrayList<String> sortMarket(String orderMethod, String sortBy) {
-        ArrayList<String> sortedProductIds = new ArrayList<>();
+        ArrayList<String> sortedProductIds = productIDs;
 
         if (sortBy.equalsIgnoreCase("price")) {
-            ArrayList<Double> tempPrices = priceList;
-            Collections.sort(tempPrices);
             if (orderMethod.equalsIgnoreCase("asc")) {
                 sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
             } else if (orderMethod.equalsIgnoreCase("dsc")) {
@@ -114,8 +115,6 @@ public class Marketplace {
                 Collections.reverse(sortedProductIds);
             }
         } else if (sortBy.equalsIgnoreCase("quantity")) {
-            ArrayList<Integer> tempQuantity = quantityList;
-            Collections.sort(tempQuantity);
             if (orderMethod.equalsIgnoreCase("asc")) {
                 sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
             } else if (orderMethod.equals("dsc")) {
