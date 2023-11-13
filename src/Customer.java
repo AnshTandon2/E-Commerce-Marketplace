@@ -52,10 +52,30 @@ public class Customer {
     }
 
     /** Still being implemented*/
-    public void addToCart(String productID, int quantity, String customerName) {
+    public void addToCart(String productName, int quantity, String storeName) {
+
+        File marketFile = new File("/data/market.txt");
+        String productStock = "";
+        try {
+            Scanner scan = new Scanner(marketFile);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(";");
+                if (data[0].equals(productName) && data[2].equals(storeName)) {
+                    productStock = data[3];
+                    if (quantity > Integer.parseInt(productStock)) {
+                        
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         String cart = "";
         // finding item from market to add to cart
-        try (BufferedReader bfr = new BufferedReader(new FileReader("market.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("/data/market.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String product[] = line.split(",");
@@ -191,7 +211,7 @@ public class Customer {
                 }
 
             }
-            
+
             scan.close();
             fw.close();
         } catch (IOException e) {
