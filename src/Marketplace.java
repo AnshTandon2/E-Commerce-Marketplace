@@ -134,7 +134,7 @@ public class Marketplace {
 
     }
 
-    public static boolean removeFromCart(String productName, String userName) {
+    public static void removeFromCart(String productName, String userName) {
         File f = new File("/data/shoppingCart.txt");
         try {
             Scanner scan = new Scanner(f);
