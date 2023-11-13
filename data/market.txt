@@ -1,4 +1,12 @@
-/*1;productName;price;storeName;quantity;description;sellerName;productId(opt)/*
-All products sold in the marketplace
-
-1.Whiteboard;10.00;SupplyStore;20;Blank whiteboard to write on;kavya;productId
+Book;60.00;claraStore;5;A nice book;clarank
+Econ textbook;35.00;claraStore;8;A nice chair;clarank
+Purdue Half Zip;52.00;dylanStore;12;A embroidered wool/cotton jacket;dylank
+Purdue laptop bag;30.00;dylanStore;33;A nice laptop cover/bag;dylank
+Purdue Overalls;100.00;dylanStore;20;Purdue Overalls for School Spirit;dylank
+Black and gold badge;30.00;davidStore;48;A nice badge;davidkj
+Purdue Tote Bag;18.00;davidStore;32;A nice tote bag;davidkj
+Purdue phone case;39.00;kavyaStore;24;A nice phone case;kavyahm
+Purdue laptop bag;27.00;kavyaStore;43;A nice laptop bag;kavyahm
+Purdue hoodie;74.00;sandyStore;19;A nice hoodie;sandyruk
+Purdue hat;31.00;sandyStore;0;A nice hat;sandyruk
+Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk

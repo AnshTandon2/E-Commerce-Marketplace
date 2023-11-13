@@ -101,58 +101,62 @@ public class Marketplace {
      * @param orderMethod is "asc" or "desc"
      *
      */
+<<<<<<< HEAD
     public static ArrayList<String> sortMarket(String orderMethod, String sortBy) {
         ArrayList<String> sortedProductIds = new ArrayList<>();
 
         if (sortBy.equalsIgnoreCase("price")) {
             ArrayList<Double> tempPrices = priceList;
             Collections.sort(tempPrices);
+=======
+    public static ArrayList<String> sortMarket(String sortBy, String orderMethod) {
+        ArrayList<String> sortedProductIds = productIDs;
+
+        if (sortBy.equalsIgnoreCase("price")) {
+            //Collections.reverse(temp);
+>>>>>>> 1aa0094e9bce0a53c7d4dc7b467217d77aa2e315
             if (orderMethod.equalsIgnoreCase("asc")) {
-                for (int i = 0; i < tempPrices.size(); i++) {
-                    for (int j = 0; j < tempPrices.size(); j++) {
-                        if (tempPrices.get(i) == priceList.get(j)) {
-                            sortedProductIds.add(Integer.toString(j));
-                            //tempPrices.remove(i);
-                        }
-                    }
-                        
-                }
-            } else {
-                for (int i = tempPrices.size() - 1; i != 0; i--) {
-                    for (int j = 0; j < tempPrices.size(); j++) {
-                        if (tempPrices.get(i) == priceList.get(j)) {
-                            sortedProductIds.add(Integer.toString(j));
-                        }
-                    }
-                }
+                sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
+            } else if (orderMethod.equalsIgnoreCase("dsc")) {
+                sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
+                Collections.reverse(sortedProductIds);
             }
         } else if (sortBy.equalsIgnoreCase("quantity")) {
+<<<<<<< HEAD
             ArrayList<Integer> tempQuantity = quantityList;
             Collections.sort(tempQuantity);
+=======
+>>>>>>> 1aa0094e9bce0a53c7d4dc7b467217d77aa2e315
             if (orderMethod.equalsIgnoreCase("asc")) {
-                for (int i = 0; i < tempQuantity.size(); i++) {
-                    for (int j = 0; j < tempQuantity.size(); j++) {
-                        if (tempQuantity.get(i) == quantityList.get(j)) {
-                            sortedProductIds.add(Integer.toString(j));
-                        }
-                    }
-                }
-            } else {
-                for (int i = tempQuantity.size() - 1; i != 0; i--) {
-                    for (int j = 0; j < tempQuantity.size(); j++) {
-                        if (tempQuantity.get(i) == quantityList.get(j)) {
-                            sortedProductIds.add(Integer.toString(j));
-                        }
-                    }
-                }
+                sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
+            } else if (orderMethod.equals("dsc")) {
+                sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
+                Collections.reverse(sortedProductIds);
             }
             // neither price or quantity is given
-        } else if (sortBy.equalsIgnoreCase("price") && sortBy != null) {
-
-        } else {
-
         }
         return sortedProductIds;
+    }
+
+    /**
+     * Customer function
+     */
+    public static void addToCart() {
+
+    }
+
+    public static boolean removeFromCart(String productName, String userName) {
+        File f = new File("/data/shoppingCart.txt");
+        try {
+            Scanner scan = new Scanner(f);
+            FileWriter fw = new FileWriter(f);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(";");
+                
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -161,6 +161,17 @@ public class StartingApplication {
                     for (String str : shoppingCart) {
                         System.out.println(str + "\n");
                     }
+                    System.out.println("1. Remove Cart Item\n2. buy cart items\n(Anything else.) exit");
+                    String cartChoice = s.nextLine();
+                    if (cartChoice.equals("1")) {
+                        System.out.println("Enter cart item name to be removed");
+                        String removeChoice = s.nextLine();
+                        Marketplace.removeFromCart(removeChoice, username);
+                    } else if (cartChoice.equals("2")) {
+
+                    } else {
+
+                    }
                 } else if (MMChoice.equals("3")) {
                     System.out.println("Enter your search term: ");
                     String keyword = s.nextLine();
