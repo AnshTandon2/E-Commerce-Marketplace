@@ -49,10 +49,8 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 3. Customer
 4. Store
 5. Product
-6. Marketplace
-7. Shopping Cart
 8. Account Manager
-9. Main
+9. Marketplace
 10. Starting Application
 
 ## User
