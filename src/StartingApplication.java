@@ -145,7 +145,6 @@ public class StartingApplication {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str))); //incorrect
                         }
                     } else if (sortChoice.equals("2")) {
-<<<<<<< HEAD
                         //shopping cart
 //                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "dsc");
 //                        for (String str : sortedIndexes) {
@@ -161,22 +160,6 @@ public class StartingApplication {
 //                        for (String str : sortedIndexes) {
 //                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
 //                        }
-=======
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", false);
-                        for (String str : sortedIndexes) {
-                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
-                        }
-                    } else if (sortChoice.equals("3")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", true);
-                        for (String str : sortedIndexes) {
-                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
-                        }
-                    } else if (sortChoice.equals("4")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", false);
-                        for (String str : sortedIndexes) {
-                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
-                        }
->>>>>>> 6341181bf9764a5013ba37b18b8329503485af37
                     } else {
                         System.out.println("try again");
                     }

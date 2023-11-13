@@ -146,13 +146,8 @@ public class Customer {
     }
 
     /** Still being implemented*/
-<<<<<<< HEAD
     public static boolean buyItem(String customerName,String productId, int quantity) throws IOException, FileNotFoundException {
         FileReader fr = new FileReader("market.txt");
-=======
-    public static boolean buyItem(String customerName,String productId, int quantity) throws IOException {
-        FileReader fr = new FileReader("/data/market.txt");
->>>>>>> 6341181bf9764a5013ba37b18b8329503485af37
         BufferedReader bfr = new BufferedReader(fr);
         String line = bfr.readLine();
         StringBuilder content = new StringBuilder();
@@ -189,13 +184,9 @@ public class Customer {
             line = bfr.readLine();
         }
         bfr.close();
-<<<<<<< HEAD
         PrintWriter writer = new PrintWriter(new FileWriter("market.txt"));
         writer.print(content.toString());
-=======
-        PrintWriter writer = new PrintWriter(new FileWriter("/data/market.txt"));
-        writer.print(content);
->>>>>>> 6341181bf9764a5013ba37b18b8329503485af37
+
         writer.close();
         return stringChanged;
     }
