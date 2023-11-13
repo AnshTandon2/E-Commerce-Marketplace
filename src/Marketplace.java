@@ -101,20 +101,12 @@ public class Marketplace {
      * @param orderMethod is "asc" or "desc"
      *
      */
-<<<<<<< HEAD
     public static ArrayList<String> sortMarket(String orderMethod, String sortBy) {
         ArrayList<String> sortedProductIds = new ArrayList<>();
 
         if (sortBy.equalsIgnoreCase("price")) {
             ArrayList<Double> tempPrices = priceList;
             Collections.sort(tempPrices);
-=======
-    public static ArrayList<String> sortMarket(String sortBy, String orderMethod) {
-        ArrayList<String> sortedProductIds = productIDs;
-
-        if (sortBy.equalsIgnoreCase("price")) {
-            //Collections.reverse(temp);
->>>>>>> 1aa0094e9bce0a53c7d4dc7b467217d77aa2e315
             if (orderMethod.equalsIgnoreCase("asc")) {
                 sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
             } else if (orderMethod.equalsIgnoreCase("dsc")) {
@@ -122,11 +114,8 @@ public class Marketplace {
                 Collections.reverse(sortedProductIds);
             }
         } else if (sortBy.equalsIgnoreCase("quantity")) {
-<<<<<<< HEAD
             ArrayList<Integer> tempQuantity = quantityList;
             Collections.sort(tempQuantity);
-=======
->>>>>>> 1aa0094e9bce0a53c7d4dc7b467217d77aa2e315
             if (orderMethod.equalsIgnoreCase("asc")) {
                 sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
             } else if (orderMethod.equals("dsc")) {
