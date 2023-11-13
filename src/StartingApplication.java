@@ -1,11 +1,23 @@
 import java.util.*;
 import java.io.*;
 
+/** Starting Application Class
+ * Serves as the Login/Sign up system for a user
+ * Verifies that they use an @purdue.edu email and
+ * whether they are a buyer or seller
+ * The class redirects them to the corresponding menu
+ *
+ * @author Lalitha Chandolu, Ansh Tandon, Justin Ho-Yuk
+ * @version November 12, 2023
+ *
+ */
+
 public class StartingApplication {
 
-    public static AccountManager am = new AccountManager();
+    // public static AccountManager am = new AccountManager();
 
     public static void main(String[] args) {
+        // g2g
         System.out.println("Welcome to the Boilermaker Bazaar! ");
         Scanner s = new Scanner(System.in);
         // welcomes the user to the application
@@ -35,66 +47,9 @@ public class StartingApplication {
             }
         } while (!redirected);
     }
-    
-    public static void readUsersFile() {
-        File file = new File("users.txt");
-        try {
-            Scanner fileReader = new Scanner(file);
-            while(fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                // 3rd element is token for Seller or Customer
-                String[] tokens = line.split(",");
-                if(tokens[3].equals("c")) {
-                    Customer c = new Customer(tokens[1], tokens[0], tokens[2]);
-                    User.addUser(c);
-                } else if (tokens[3].equals("s")) {
-                    Seller s = new Seller(tokens[1], tokens[0], tokens[2]);
-                    User.addUser(s);
-                }
-            } // end of while loop
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void logOut() {
-        File file = new File("users.txt");
-        file.delete();
-        try {
-            file.createNewFile();
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bfw = new BufferedWriter(fw);
-            for (User user : User.getExistingUsers()) {
-                String userType;
-                if (user instanceof Seller) {
-                    userType= "s";
-                } else {
-                    userType = "c";
-                }
-                String formatLine = String.format("%s,%s,%s,%s\n", user.getEmail(), user.getName(),
-                                                user.getPassword(), userType);
-                bfw.append(formatLine);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean checkEmail(String email) {
-        // verifies that the email is a valid Purdue email
-        if(email.contains("@")) {
-            String[] tokens = email.split("@");
-            if(tokens[1].equals("purdue.edu")) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
 
     public static boolean signIn(Scanner s) {
+        // g2g
         readUsersFile();
         System.out.println("Please enter your Email: ");
         String email = s.nextLine();
@@ -134,160 +89,206 @@ public class StartingApplication {
         // email is valid - continue
         if (valid) {
             System.out.println("Please enter your designated password");
-            String password =
-
-                        System.out.println("Are you a buyer or seller? (type b for buyer; s for seller");
-                        String userType = s.nextLine();
-                        if (userType.equalsIgnoreCase("s")) {
-                            Seller seller = new Seller(name, email, password);
-                            seller.nextPart();
-                            break;
-//                    am.addSeller();
-                        } else if (userType.equalsIgnoreCase("b")) {
-                            Customer customer = new Customer(name, email, password);
-                            customer.nextPart();
-                            break;
-                        } else {
-                            System.out.println("You didn't enter something right, please try again");
-                        }
-                    }
-                    break;
-                } else if (makeAccount.equalsIgnoreCase("no")) {
-                    System.out.println("Okay, goodbye!");
-                    unchecked = false;
+            String password = s.nextLine();
+            boolean isValidUser = false;
+            if (!isValidUser) {
+                System.out.println("Are you a buyer or seller? (type b for buyer; s for seller");
+                String userType = s.nextLine();
+                if (userType.equalsIgnoreCase("s")) {
+                    Seller seller = new Seller(name, email, password);
+                    isValidUser = true;
+                } else if (userType.equalsIgnoreCase("b")) {
+                    Customer customer = new Customer(name, email, password);
+                    isValidUser = true;
                 } else {
-                    System.out.println("Sorry your input didn't match. Please try again.");
+                    System.out.println("You didn't enter something right, please try again");
                 }
             }
-
+            boolean canSignIn = false;
+            boolean signedIn = false;
+            while (!canSignIn) {
+                // allows the new user to choose if  they want to sign
+                // in to the marketplace application
+                System.out.println("Would you like to sign in to the marketplace now? (type y or n) ");
+                String choice = s.nextLine();
+                if (choice.equalsIgnoreCase("y")) {
+                    // redirects them to signIn method
+                    canSignIn = true;
+                    signedIn = signIn(s);
+                } else if (choice.equalsIgnoreCase("n")) {
+                    // ends the program here
+                    canSignIn = true;
+                    System.out.println("Goodbye");
+                } else {
+                    // repeats the loop for user input
+                    canSignIn = false;
+                    System.out.println("Sorry, wrong input was given. Please try again.");
+                }
+            }
         } else {
-
+            System.out.println("Your email was invalid. Make sure you are a Purdue Student.");
+            return false;
         }
+        return true;
     }
-    
-    
+
     public static void viewSellerMainMenu(Scanner s, Seller seller) {
         System.out.println("Welcome Seller.");
         boolean choiceIsValid = false;
         while (!choiceIsValid) {
-        System.out.println(" Enter a number between 1 to 4: \n " +
-                "1. Manage Stores\n" + 
-                "2. View Store Statistics\n" + 
-                "3. View Store Selling History\n" + 
-                "4. Log Out");
-        String choice = s.nextLine();
-        if (choice.equals("1")) {
-            choiceIsValid = true;
-            System.out.println("1. Add a product");
-            System.out.println("2. Delete a product");
-            System.out.println("3. Modify a product");
-            System.out.println("4. Delete a store");
-        } else if (choice.equals("2")) {
-            // view store statistics
-            //placeholder for seller stats method);
-            choiceIsValid = true;
-        } else if (choice.equals("3")) {
-            choiceIsValid = true;
-        } else if (choice.equals("4")) {
-            choiceIsValid = true;
-            System.out.println("Goodbye! We hope you visit again.");
-            logOut();
-        } else {
-            System.out.println("Invalid input was given. Please try again with valid input.");
-            choiceIsValid = false;
+            System.out.println(" Enter a number between 1 to 4: \n " +
+                    "1. Manage Stores\n" +
+                    "2. View Store Statistics\n" +
+                    "3. View Store Selling History\n" +
+                    "4. Log Out");
+            String choice = s.nextLine();
+
+            if (choice.equals("1")) {
+                // Submenu: Manage Stores Options
+                choiceIsValid = true;
+                System.out.println("Enter a number between 1 - 4: \n");
+                System.out.println("1. Add a product");
+                System.out.println("2. Delete a product");
+                System.out.println("3. Modify a product");
+                System.out.println("4. Delete a store");
+                choice = s.nextLine();
+
+                if (choice.equals("1")) {
+                    // seller.addProduct(); // make in seller
+                } else if (choice.equals("2")) {
+                    // seller.deleteProduct();
+                } else if (choice.equals("3")) {
+                    // seller.modifyProduct();
+                } else if (choice.equals("4")) {
+                    // seller.deleteAStore();
+                }
+
+            } else if (choice.equals("2")) {
+                // View Store Statistics Option
+                //placeholder for seller stats method);
+                choiceIsValid = true;
+
+            } else if (choice.equals("3")) {
+                // View Store Selling History
+                choiceIsValid = true;
+
+            } else if (choice.equals("4")) {
+                choiceIsValid = true;
+                System.out.println("Goodbye! We hope you visit again.");
+                logOut();
+
+            } else {
+                System.out.println("Invalid input was given. Please try again with valid input.");
+                choiceIsValid = false;
+            }
+
         }
     }
-    
+
     public static void viewCustomerMainMenu(Scanner s, Customer customer) {
-        
-        
-    }
+        System.out.println("Welcome Customer.");
+        boolean choiceIsValid = false;
+        while (!choiceIsValid) {
+            System.out.println(" Enter a number between 1 to 4: \n " +
+                    "1. View Overall Marketplace\n" +
+                    "2. Search for a Store\n" +
+                    "3. Search for a product\n" +
+                    "4. View Shopping Cart\n" +
+                    "5. Sort Marketplace\n" +
+                    "6. Export Purchase History\n" +
+                    "7. Log Out");
+            String choice = s.nextLine();
+            if (choice.equals("1")) {
+                // use findProductByName("");
 
+            } else if (choice.equals("2")) {
+                // use find getStores();
+                System.out.println(" Enter a number between 1 to 3: \n " +
+                        "1. Sort stores by products sold (ascending) \n" +
+                        "2. Sort stores by products sold (descending) \n" +
+                        "3. Search for a product\n");
 
-    /**
-    public void customerFile(String email) {
-        File file = new File(email + ".txt");
-        if (file.exists()) {
-            continue;
-        } else {
-            try {
-                file.createNewFile();
-            } catch (Exception e) {
-                System.out.println("Error in creating new file");
-                e.printStackTrace();
+            } else if (choice.equals("3")) {
+                System.out.println(" Enter a number between 1 to 4: \n " +
+                        "1. Find product by name\n" +
+                        "2. Find product by description\n" +
+                        "3. Find product by Store\n");
+                choice = s.nextLine();
+
+            } else if (choice.equals("4")) {
+
+            } else if (choice.equals("5")) {
+
+            } else if (choice.equals("6")) {
+
+            } else if (choice.equals("7")) {
+                choiceIsValid = true;
+                System.out.println("Goodbye! We hope you visit again.");
+                logOut();
+
+            } else {
+                System.out.println("Invalid input was given. Please try again with valid input.");
+                choiceIsValid = false;
             }
         }
-        try (PrintWriter pw = new PrintWriter(file)) {
-            pw.write("Type - Customer\n");
-            pw.write("EmailID: " + email + "\n");
-            pw.write("Shopping Cart: ");
-            pw.write("\n");
-            pw.write("Purchase History: ");
-        } catch (Exception e) {
+    }
+
+    public static void readUsersFile() {
+        File file = new File("users.txt");
+        try {
+            Scanner fileReader = new Scanner(file);
+            while(fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                // 3rd element is token for Seller or Customer
+                String[] tokens = line.split(",");
+                if(tokens[3].equals("c")) {
+                    Customer c = new Customer(tokens[1], tokens[0], tokens[2]);
+                    User.addUser(c);
+                } else if (tokens[3].equals("s")) {
+                    Seller s = new Seller(tokens[1], tokens[0], tokens[2]);
+                    User.addUser(s);
+                }
+            } // end of while loop
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void sellerFile(String email) {
-        File file = new File(email + ".txt");
-        if (file.exists()) {
-            continue;
-        } else {
-            try {
-                file.createNewFile();
-            } catch (Exception e) {
-                System.out.println("Error in creating new file");
-                e.printStackTrace();
+    public static void logOut() {
+        File file = new File("users.txt");
+        file.delete();
+        try {
+            file.createNewFile();
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bfw = new BufferedWriter(fw);
+            for (User user : User.getExistingUsers()) {
+                String userType;
+                if (user instanceof Seller) {
+                    userType= "s";
+                } else {
+                    userType = "c";
+                }
+                String formatLine = String.format("%s,%s,%s,%s\n", user.getEmail(), user.getName(),
+                        user.getPassword(), userType);
+                bfw.append(formatLine);
             }
-        }
-        try (PrintWriter pw = new PrintWriter(file)) {
-            pw.write("Type - Seller\n");
-            pw.write("EmailID: " + email + "\n");
-            pw.write("Shopping Cart: ");
-            pw.write("\n");
-            pw.write("Purchase History: ");
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public ArrayList<User> getAccounts() {
-        File file = new File("accounts.txt");
-        ArrayList<User> users = new ArrayList<>();
-        if (file.exists()) {
-            continue;
+    public static boolean checkEmail(String email) {
+        // verifies that the email is a valid Purdue email
+        if(email.contains("@")) {
+            String[] tokens = email.split("@");
+            if(tokens[1].equals("purdue.edu")) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            try {
-                file.createNewFile();
-            } catch (Exception e) {
-                System.out.println("Error in creating new file");
-                e.printStackTrace();
-            }
+            return false;
         }
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            ArrayList<String> vars = new ArrayList<>();
-            String s;
-            while ((s = br.readLine()) != null) {
-                vars.add(s);
-            }
-            for (String temp: vars) {
-                String[] arr = temp.split(",");
-                users.add(new User(arr[0], arr[1], arr[2]));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return users;
-        //read through csv and get all of the users that are there in the csv, and return a new file of them
-        //make sure we encrypt the passwords with the csv
     }
 
-    public ArrayList<User> addAccounts() {
-        //adds new accounts to the array list of users
-    }
-
-    */
-
-}
+} // end of the java file
