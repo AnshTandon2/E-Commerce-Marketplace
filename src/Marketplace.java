@@ -18,7 +18,7 @@ public class Marketplace {
     private static ArrayList<String> descriptionList = new ArrayList<>();
 
     public static void initializeMarketplace() {
-        File file = new File("market.txt");
+        File file = new File("/data/market.txt");
         try {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
@@ -53,8 +53,8 @@ public class Marketplace {
 
     public static String getProductInfo(int index) {
         String info = "";
-        info += String.format("%d; %s; Price: %.2f; %s", index + 1, productNames.get(index),
-                priceList.get(index), storeNames.get(index);
+        info += String.format("%d;%s;%.2f;%s", index, productNames.get(index),
+                priceList.get(index), storeNames.get(index));
         if (quantityList.get(index) == 0) {
             // there is no stock of the product available
             info += String.format("%s is out of stock.\n", productNames.get(index));
@@ -96,21 +96,58 @@ public class Marketplace {
      * @param orderMethod is "asc" or "desc"
      *
      */
-    public static ArrayList<String> sortMarker(String sortBy, String orderMethod) {
-        if (sortBy.equalsIgnoreCase("price")) {
+    public static ArrayList<String> sortMarket(ArrayList<Integer> preRequisites, String sortBy, String orderMethod) {
+        ArrayList<String> sortedProductIds = new ArrayList<>();
+
+        if (sortBy.equalsIgnoreCase("price") && preRequisites == null) {
+            ArrayList<Double> tempPrices = priceList;
+            Collections.sort(tempPrices);
             if (orderMethod.equalsIgnoreCase("asc")) {
-
-            } else if(orderMethod.equalsIgnoreCase("desc") {
-
+                for (int i = 0; i < tempPrices.size(); i++) {
+                    for (int j = 0; j < tempPrices.size(); j++) {
+                        if (tempPrices.get(i) == priceList.get(j)) {
+                            sortedProductIds.add(Integer.toString(j));
+                            //tempPrices.remove(i);
+                        }
+                    }
+                        
+                }
             } else {
-                // invalid input was given
+                for (int i = tempPrices.size() - 1; i != 0; i--) {
+                    for (int j = 0; j < tempPrices.size(); j++) {
+                        if (tempPrices.get(i) == priceList.get(j)) {
+                            sortedProductIds.add(Integer.toString(j));
+                        }
+                    }
+                }
             }
-        } else if (sortBy.equalsIgnoreCase("quantity")) {
+        } else if (sortBy.equalsIgnoreCase("quantity") && preRequisites == null) {
+            ArrayList<Integer> tempQuantity = quantityList;
+            Collections.sort(tempQuantity);
+            if (orderMethod.equalsIgnoreCase("asc")) {
+                for (int i = 0; i < tempQuantity.size(); i++) {
+                    for (int j = 0; j < tempQuantity.size(); j++) {
+                        if (tempQuantity.get(i) == quantityList.get(j)) {
+                            sortedProductIds.add(Integer.toString(j));
+                        }
+                    }
+                }
+            } else {
+                for (int i = tempQuantity.size() - 1; i != 0; i--) {
+                    for (int j = 0; j < tempQuantity.size(); j++) {
+                        if (tempQuantity.get(i) == quantityList.get(j)) {
+                            sortedProductIds.add(Integer.toString(j));
+                        }
+                    }
+                }
+            }
+            // neither price or quantity is given
+        } else if (sortBy.equalsIgnoreCase("price") && sortBy != null) {
 
         } else {
-            // neither price or quantity is given
-            return null;
+
         }
+        return sortedProductIds;
     }
 
     /**
@@ -124,8 +161,30 @@ public class Marketplace {
     /**
      * Seller and Customer function
      */
-    public static void displayShoppingCart() {
-
+    public static ArrayList<String> displayShoppingCart(String userName) {
+        File f = new File("/data/shoppingCart.txt");
+        ArrayList<String> shoppingCart = new ArrayList<>();
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(";");
+                if (data[0].equals(userName)) {
+                    for (int i = 3; i < data.length; i++) {
+                        shoppingCart.add(data[i]);
+                    }
+                }
+            }
+            ArrayList<String> returnList = new ArrayList<>();
+            for (String s : shoppingCart) {
+                returnList.add(getProductInfo(Integer.parseInt(s)));
+            }
+            return returnList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Shopping Cart Empty");
+        }
+        return null;
     }
 
     /** Seller Function */

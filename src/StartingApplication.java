@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 import java.util.Scanner;
 
 /** Starting Application Class
@@ -113,6 +114,7 @@ public class StartingApplication {
 
 
         boolean loggedOut = exitOnFirst;
+        Marketplace.initializeMarketplace();
         while (!loggedOut) {
             if (userRole.equalsIgnoreCase("seller")) {
                 System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a Product\n" +
@@ -142,12 +144,72 @@ public class StartingApplication {
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
                     Marketplace.printMarketplace();
+                    System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
+                    String sortChoice = s.nextLine();
+                    if (sortChoice.equals("1")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "price", "asc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else if (sortChoice.equals("2")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "price", "dsc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else if (sortChoice.equals("3")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "quantity", "asc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else if (sortChoice.equals("4")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "quantity", "dsc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else {
+                        System.out.println("try again");
+                    }
                 } else if (MMChoice.equals("2")) {
-                    Marketplace.displayShoppingCart(String username);
+                    ArrayList<String> shoppingCart = Marketplace.displayShoppingCart(username);
+                    for (String str : shoppingCart) {
+                        System.out.println(str + "\n");
+                    }
                 } else if (MMChoice.equals("3")) {
                     System.out.println("Enter your search term: ");
                     String keyword = s.nextLine();
-                    System.out.println(Marketplace.searchProduct(keyword));
+                    ArrayList<String> preReq = new ArrayList<>();
+                    for (String str : Marketplace.searchProduct(keyword)) {
+                        System.out.println(str);
+                        preReq.add(str.split(";")[0]);
+                    }
+                    System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
+                    String sortChoice = s.nextLine();
+
+
+
+                    if (sortChoice.equals("1")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "asc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else if (sortChoice.equals("2")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "dsc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else if (sortChoice.equals("3")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", "asc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else if (sortChoice.equals("4")) {
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", "dsc");
+                        for (String str : sortedIndexes) {
+                            System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
+                        }
+                    } else {
+                        System.out.println("try again");
+                    }
                 } else if (MMChoice.equals("4")) {
 
                 } else if (MMChoice.equals("5")) {
