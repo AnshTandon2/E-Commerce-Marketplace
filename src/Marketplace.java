@@ -105,11 +105,9 @@ public class Marketplace {
      *
      */
     public static ArrayList<String> sortMarket(String orderMethod, String sortBy) {
-        ArrayList<String> sortedProductIds = new ArrayList<>();
+        ArrayList<String> sortedProductIds = productIDs;
 
         if (sortBy.equalsIgnoreCase("price")) {
-            ArrayList<Double> tempPrices = priceList;
-            Collections.sort(tempPrices);
             if (orderMethod.equalsIgnoreCase("asc")) {
                 sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
             } else if (orderMethod.equalsIgnoreCase("dsc")) {
@@ -117,8 +115,6 @@ public class Marketplace {
                 Collections.reverse(sortedProductIds);
             }
         } else if (sortBy.equalsIgnoreCase("quantity")) {
-            ArrayList<Integer> tempQuantity = quantityList;
-            Collections.sort(tempQuantity);
             if (orderMethod.equalsIgnoreCase("asc")) {
                 sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
             } else if (orderMethod.equals("dsc")) {
