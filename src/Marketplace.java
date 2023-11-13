@@ -50,7 +50,7 @@ public class Marketplace {
      */
     public static void printMarketplace() {
         for (int index = 0; index < productIDs.size(); index++) {
-            System.out.print(getProductInfo(index));
+            System.out.print(productDetail(index));
             System.out.println("----------------------------------");
         }
     }
@@ -74,11 +74,14 @@ public class Marketplace {
         return info;
     }
 
-    //TODO Flag for Review
     public static ArrayList<String> searchProduct(String keyword) {
         ArrayList<String> matchedProducts = new ArrayList<String>();
-        for (int index = 0; index < productIDs.size(); index++) {
-            matchedProducts.add(getProductInfo(index));
+        for (int i = 0; i < productIDs.size(); i++) {
+            if (productNames.get(i).toLowerCase().contains(keyword.toLowerCase()) ||
+                    storeNames.get(i).toLowerCase().contains(keyword.toLowerCase()) ||
+                    descriptionList.get(i).toLowerCase().contains(keyword.toLowerCase())) {
+                matchedProducts.add(productDetail(i));
+            }
         }
         return matchedProducts;
     }
@@ -87,20 +90,19 @@ public class Marketplace {
     public static String productDetail(int index) {
         // index is decremented because when user enter index 1
         // they mean the first line - which is index 0 in Java
-        index -= 1;
         if (quantityList.get(index) > 0) {
             // the quantity available of the product is greather than 0
             // return the detailed description of the product along with the other info
-            return String.format("\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" +
-                            "\nDescription: %s", productNames.get(index), priceList.get(index), storeNames.get(index),
+            return String.format("Product Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" +
+                            "\nDescription: %s\n", productNames.get(index), priceList.get(index), storeNames.get(index),
                     quantityList.get(index), descriptionList.get(index));
 
 
         } else {
             // there is no stock available of the product
             // return the product name, price, store, and quantity (specify it's out of stock)
-            return String.format("\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of" +
-                            " Stock", productNames.get(index), priceList.get(index), storeNames.get(index),
+            return String.format("Product Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of" +
+                            " Stock\n", productNames.get(index), priceList.get(index), storeNames.get(index),
                     quantityList.get(index));
         }
     }
