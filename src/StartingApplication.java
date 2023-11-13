@@ -275,7 +275,7 @@ public class StartingApplication {
                 } else if (MMChoice.equals("6")) {  //export shopping history
                     Customer.exportPurchaseHistory(username);
                 } else if (MMChoice.equals("7")) { //view store statistics
-//                    Marketplace.viewStatistics();
+                    Customer.viewStoreStatistics(username);
                     //need to implement logic for this
                 } else if (MMChoice.equals("8")) { //log out
                     loggedOut = true;
