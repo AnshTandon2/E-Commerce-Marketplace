@@ -1,4 +1,7 @@
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -191,26 +194,6 @@ public class Marketplace {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    /**
-     * Combine this code to displayCart()
-     */
-    public void printCart(String customerName) {
-        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
-            String line = bfr.readLine();
-            while (line != null) {
-                String[] product = line.split(",");
-                if (product[0].equalsIgnoreCase(customerName)) {
-                    System.out.printf("Product Name: %s\nProduct Price: %.2f\n" + "Quantity: %d\nTotal Cost: %" +
-                                    ".2f\nStore: %s\n\n", product[1], Double.parseDouble(product[2]),
-                            Integer.parseInt(product[4]),
-                            Double.parseDouble(product[2]) * Integer.parseInt(product[4]), product[3]);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
