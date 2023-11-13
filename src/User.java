@@ -44,12 +44,30 @@ public abstract class User {
         this.password = password;
     }
 
-    public ArrayList<User> getExistingUsers() { return this.userList;}
+    public static ArrayList<User> getExistingUsers() { return userList;}
 
-    public void addUser(User user) {
+    public static void addUser(User user) {
         if (user instanceof Customer || user instanceof Seller) {
             userList.add(user);
         }
+    }
+
+    public static User getUserObject(String email, String password) {
+        for(User user: userList) {
+            if((email.equals(user.getEmail()) && (password.equals(user.getPassword())))) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public static User getUserObject(String email) {
+        for(User user: userList) {
+            if((email.equals(user.getEmail()))) {
+                return user;
+            }
+        }
+        return null;
     }
 
     public static boolean accountExists(String email, String password) {

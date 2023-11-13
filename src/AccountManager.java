@@ -5,7 +5,7 @@ import java.io.*;
 public class AccountManager {
 
     private final String INFO_FILE;
-    //option within userdashboard asking to edit ur account information. If you are a buyer or seller, you will have
+    //option within user dashboard asking to edit ur account information. If you are a buyer or seller, you will have
     // a dashboard with all your account and one of them would be to access your account details.
     // list of options that user picks (in the dashboard --> list of options of view store, add product, or change
     // account details, or view account details, display statistics)
@@ -90,7 +90,6 @@ public class AccountManager {
             e.printStackTrack(); //error exception handling.
             return false;
         }
-
     }
 
 }

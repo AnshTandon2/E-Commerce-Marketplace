@@ -1,12 +1,12 @@
-tandon39@purdue.edu,Ansh,hel3H9
-majumda@purdue.edu,Ankita,northPur
-nirmie@purdue.edu,Nirmal,speedStars
-lchandol@purdue.edum,Lalitha,procraDistr
-glover44@purdue.edu,Colten,uniIFixed
-jfotsopu@purdue.edu,Jason,nurburVans
-based@purdue.edu,Bart,compFace
-justin@purdue.edu,Justin,hackIt
-morgan@purdue.edu,Morgan,bakedCheez
-afuchs@purdue.edu,Aaron,offWholeGrain
+tandon39@purdue.edu,Ansh,hel3H9,c
+majumda@purdue.edu,Ankita,northPur,s
+nirmie@purdue.edu,Nirmal,speedStars,c
+lchandol@purdue.edum,Lalitha,procraDistr,s
+glover44@purdue.edu,Colten,uniIFixed,s
+jfotsopu@purdue.edu,Jason,nurburVans,s
+based@purdue.edu,Bart,compFace,s
+justin@purdue.edu,Justin,hackIt,s
+morgan@purdue.edu,Morgan,bakedCheez,s
+afuchs@purdue.edu,Aaron,offWholeGrain,s
 
 
