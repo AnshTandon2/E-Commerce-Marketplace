@@ -13,8 +13,6 @@ import java.util.Scanner;
  */
 
 public class StartingApplication {
-
-
     public static void main(String[] args) {
         System.out.println("Welcome to the Boilermaker Bazaar! ");
         Scanner s = new Scanner(System.in);
@@ -66,7 +64,7 @@ public class StartingApplication {
                     // they don't have an existing account - so they can make an account
                     if (userRole == null) {
                         // they want to have the role of a seller
-                        File f = new File("/data/users.txt");
+                        File f = new File("users.txt");
                         try {
                             FileWriter fw = new FileWriter(f, true);
                             BufferedWriter bfw = new BufferedWriter(fw);
@@ -221,7 +219,7 @@ public class StartingApplication {
     
     public static String accountExists(String username, String password) {
         // parses the file of all of the existing user in the marketplace
-        File f = new File("/data/users.txt");
+        File f = new File("users.txt");
         try {
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
