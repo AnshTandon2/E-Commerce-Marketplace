@@ -5,6 +5,7 @@ import java.util.*;
  * Marketplace Class
  * <p>
  * Creates a marketplace class with the main functionality of getting store information.
+ *
  * @author Nirmal Senthilkumar, Ansh Tandon; CS 180 Black
  * @version November 11, 2023
  */
@@ -37,7 +38,7 @@ public class Marketplace {
                 counter++;
                 // maybe will need to add a unique product id
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -51,13 +52,14 @@ public class Marketplace {
 
     public static String getProductInfo(int index) {
         String info = "";
-        info += String.format("%d;%s;%.2f;%s", index, productNames.get(index),
-                priceList.get(index), storeNames.get(index));
+        info += String.format("%d;%s;%.2f;%s", index, productNames.get(index), priceList.get(index),
+                storeNames.get(index));
         if (quantityList.get(index) == 0) {
             // there is no stock of the product available
             info += String.format("%s is out of stock.\n", productNames.get(index));
         } else {
-            info += String.format("There is a quantity of %d of %s\n", quantityList.get(index), productNames.get(index));
+            info += String.format("There is a quantity of %d of %s\n", quantityList.get(index),
+                    productNames.get(index));
         }
         return info;
     }
@@ -65,7 +67,7 @@ public class Marketplace {
     //TODO Flag for Review
     public static ArrayList<String> searchProduct(String keyword) {
         ArrayList<String> matchedProducts = new ArrayList<String>();
-        for(int index = 0; index < productIDs.size(); index++) {
+        for (int index = 0; index < productIDs.size(); index++) {
             matchedProducts.add(getProductInfo(index));
         }
         return matchedProducts;
@@ -79,30 +81,26 @@ public class Marketplace {
         if (quantityList.get(index) > 0) {
             // the quantity available of the product is greather than 0
             // return the detailed description of the product along with the other info
-            return String.format("\nProduct Name: %s" +
-                                 "\nProduct Price: %.2f" +
-                                 "\nStore: %s" +
-                                 "\nQuantity: %d" +
-                                 "\nDescription: %s", productNames.get(index), priceList.get(index),
-                                                      storeNames.get(index), quantityList.get(index), descriptionList.get(index));
+            return String.format("\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" +
+                            "\nDescription: %s", productNames.get(index), priceList.get(index), storeNames.get(index),
+                    quantityList.get(index), descriptionList.get(index));
 
 
         } else {
             // there is no stock available of the product
             // return the product name, price, store, and quantity (specify it's out of stock)
-            return String.format("\nProduct Name: %s" +
-                                "\nProduct Price: %.2f" +
-                                "\nStore: %s" +
-                                "\nQuantity: Out of Stock", productNames.get(index), priceList.get(index),
-                                                            storeNames.get(index), quantityList.get(index));
+            return String.format("\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of" +
+                            " Stock", productNames.get(index), priceList.get(index), storeNames.get(index),
+                    quantityList.get(index));
         }
     }
 
-    /** Nirmal can do this as he did it with initial code
+    /**
+     * Nirmal can do this as he did it with initial code
      * *
-     * @param sortBy is "price" or "quantity"
-     * @param ASCENDING how to sort
      *
+     * @param sortBy    is "price" or "quantity"
+     * @param ASCENDING how to sort
      */
     public static ArrayList<String> sortMarket(String sortBy, boolean ASCENDING) {
         ArrayList<String> sortedProductIds = new ArrayList<>(productIDs);
@@ -121,7 +119,7 @@ public class Marketplace {
         return sortedProductIds;
     }
 
-    
+
     public static void removeFromCart(String productName, String userName) {
         File f = new File("data/shoppingCart.txt");
         String toRemove = "";
@@ -134,7 +132,7 @@ public class Marketplace {
                 if (data[3].equals(productName) && data[0].equals(userName)) {
                     toRemove = initialData;
                 }
-                
+
             }
             scan.close();
         } catch (IOException e) {
@@ -171,37 +169,43 @@ public class Marketplace {
     public static ArrayList<String> displayCart(String userName) {
         File f = new File("shoppingCart.txt");
         ArrayList<String> shoppingCart = new ArrayList<>();
+        ArrayList<String> quantities = new ArrayList<>();
         try {
             Scanner scan = new Scanner(f);
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(";");
                 if (data[0].equals(userName)) {
-                    shoppingCart.addAll(Arrays.asList(data).subList(3, data.length));
+                    shoppingCart.addAll(Arrays.asList(data).subList(2, data.length));
                 }
             }
             ArrayList<String> returnList = new ArrayList<>();
-            for (String s : shoppingCart) {
-                returnList.add(getProductInfo(Integer.parseInt(s)));
+            for (int i = 0; i < shoppingCart.size() / 4; i++) {
+                int nameIndex = productNames.indexOf(shoppingCart.get(4 * i));
+                if (nameIndex != -1) {
+                    returnList.add(shoppingCart.get(4 * i) + " : " + (shoppingCart.get(4 + 3)));
+                } else {
+                    returnList.add("invalid product, out of stock");
+                }
             }
             return returnList;
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Shopping Cart Empty");
+            return null;
         }
-        return null;
     }
 
-    /** Combine this code to displayCart()*/
+    /**
+     * Combine this code to displayCart()
+     */
     public void printCart(String customerName) {
         try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String[] product = line.split(",");
                 if (product[0].equalsIgnoreCase(customerName)) {
-                    System.out.printf("Product Name: %s\nProduct Price: %.2f\n" +
-                                    "Quantity: %d\nTotal Cost: %.2f\nStore: %s\n\n",
-                            product[1], Double.parseDouble(product[2]), Integer.parseInt(product[4]),
+                    System.out.printf("Product Name: %s\nProduct Price: %.2f\n" + "Quantity: %d\nTotal Cost: %" +
+                                    ".2f\nStore: %s\n\n", product[1], Double.parseDouble(product[2]),
+                            Integer.parseInt(product[4]),
                             Double.parseDouble(product[2]) * Integer.parseInt(product[4]), product[3]);
                 }
             }

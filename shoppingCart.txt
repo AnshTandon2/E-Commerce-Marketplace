@@ -1,10 +1,9 @@
 tandon39;firstSt;Computer;700.00;TechDeals;4
 majumda;greatSun;Economics Textbook;89.90;BookBuyBack;50
-nirmie;speedStars;Nintendo Switch;250.75;TechDeals;7
 lchandol;hackIt;Vintage Hoodie;28.50;PurdueGems;2
 glover44;compSci;Desk Monitor;130.00;GadgetStore;25
 tandon39;firstSt;Football Ticket;50.00;FootballFallback;10
 morganj;bakedCheese;Gray Sweater;24.00;GlamTown;60
-nirmie;sppedStars;Basketball Ticket;42.00;GamesGlory;13
-
+nirmie;speedStars;Purdue hoodie;74.00;sandyStore;19
+nirmie;speedStars;Book;60.00;claraStore;5
 

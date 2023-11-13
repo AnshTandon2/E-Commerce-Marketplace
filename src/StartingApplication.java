@@ -2,14 +2,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/** Starting Application Class
+/**
+ * Starting Application Class
  * Serves as the Login/Sign up system for a user
  * The class redirects them to the corresponding menu
  * based on User Type
  *
  * @author Lalitha Chandolu, Ansh Tandon, Justin Ho-Yuk
  * @version November 12, 2023
- *
  */
 
 public class StartingApplication {
@@ -26,10 +26,8 @@ public class StartingApplication {
         do {
             try {
                 int value = 0;
-                System.out.println("Please select one of the three options: " +
-                        "\n1. Login to Application" +
-                        "\n2. Sign Up with a New Account" +
-                        "\n3. Exit");
+                System.out.println("Please select one of the three options: " + "\n1. Login to Application" + "\n2. " +
+                        "Sign Up with a New Account" + "\n3. Exit");
                 value = Integer.parseInt(s.nextLine());
                 if (value == 1) {
                     //  the user has an existing account and would like to login to the marketplace
@@ -107,8 +105,8 @@ public class StartingApplication {
         Marketplace.initializeMarketplace();
         while (!loggedOut) {
             if (userRole.equalsIgnoreCase("seller")) {
-                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a Product\n" +
-                        "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Log Out");
+                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a " +
+                        "Product\n" + "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Log Out");
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
                     Marketplace.printMarketplace();
@@ -129,15 +127,12 @@ public class StartingApplication {
                 }
             } else {
                 // the user is a Customer type
-                System.out.println("Customer Main Menu\n1. View Marketplace\n2. View Shopping Cart\n3. Search for " +
-                        "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export Shopping History\n7. " +
-                        "View" +
-                        " Store Statistics\n8. Log Out");
+                System.out.println("Customer Main Menu\n1. View Marketplace\n2. View Shopping Cart\n3. Search for " + "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export Shopping History\n7. " + "View" + " Store Statistics\n8. Log Out");
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
                     System.out.println("1. View Marketplace\n2. Sort by Ascending Price\n3. Sort by Descending " +
-                            "price\n4. Sort by " +
-                            "ascending quantity\n5. Sort by Descending Quantity\n(Anything else.) exit");
+                            "price\n4. Sort by " + "ascending quantity\n5. Sort by Descending Quantity\n(Anything " +
+                            "else.) exit");
                     String sortChoice = s.nextLine();
                     if (sortChoice.equals("2")) {
                         ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", true); //not returning
@@ -152,7 +147,7 @@ public class StartingApplication {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str))); //incorrect
                         }
                     } else if (sortChoice.equals("4")) {
-                         ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", true); //not returning
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", true); //not returning
                         // correct values
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str))); //incorrect
@@ -170,8 +165,9 @@ public class StartingApplication {
                     }
                 } else if (MMChoice.equals("2")) { //display cart
                     ArrayList<String> shoppingCart = Marketplace.displayCart(username); //error here
+                    assert shoppingCart != null;
                     for (String str : shoppingCart) {
-                        System.out.println(str + "\n");
+                        System.out.println(str);
                     }
                     System.out.println("1. Remove Cart Item\n2. buy cart items\n(Anything else.) exit");
                     String cartChoice = s.nextLine();
@@ -192,7 +188,8 @@ public class StartingApplication {
                         System.out.println(str);
                         preReq.add(str.split(";")[0]);
                     }
-                    System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
+                    System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending" +
+                            " quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
                     if (sortChoice.equals("1")) {
                         ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", true);
@@ -239,7 +236,7 @@ public class StartingApplication {
         }
         System.out.println("Thank you for using marketplace!");
     }
-    
+
     public static String accountExists(String username, String password) {
         // parses the file of all of the existing user in the marketplace
         File f = new File("users.txt");
