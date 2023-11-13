@@ -22,17 +22,17 @@ public class Main {
         String email = "";
 
         boolean loggedIn = false;
+        boolean exitFromFirst = false;
         do {
             try {
-                System.out.println("Select an option:\n1. Login\n2. Create New Account");
+                System.out.println("Select an option:\n1. Login\n2. Create New Account\n3. Exit");
                 String firstPgOption = scan.nextLine();
                 if (Integer.parseInt(firstPgOption) == 1) {
                     System.out.println("Please Enter your Username");
                     String un = scan.nextLine();
                     System.out.println("Please enter your password"); 
                     String pw = scan.nextLine();
-                    User newUser = new User(un, "placeHolder", pw);
-                    if (!newUser.accountExists(un, pw)) {
+                    if (!User.accountExists(un, pw)) {
                         System.out.println("Username or password incorrect");
                     } else {
                         userName = un;
@@ -48,17 +48,20 @@ public class Main {
                     String newEmail = scan.nextLine();
                     System.out.println("Would you like to be a buyer (enter 1) or seller (enter 2)?");
                     String sellerBuyer = scan.nextLine();
-                    User registeringUser = new User(newUN, newEmail, newPW);
-                    if (registeringUser.accountExists(newEmail, newPW)) {
+                    if (User.accountExists(newEmail, newPW)) {
                         System.out.println("Account already exists");
                     } else {
                         if (Integer.parseInt(sellerBuyer) == 1) {
-                            registeringUser.makeNewUser(newUN, newPW, newEmail, true);
+                            User.addUser(new User(newUN, newEmail, newPW));
                         } else if (Integer.parseInt(sellerBuyer) == 2) {
-                            registeringUser.makeNewUser(newUN, newPW, newEmail, false);
+                            User.addUser(new User(userName, newEmail, newPW));
                         }
                         //loggedIn = true;
                     }
+                } else if (Integer.parseInt(firstPgOption) == 3) {
+                    exitFromFirst = true;
+                } else {
+                    System.out.println("Please enter a valid choice");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid choice");
@@ -66,10 +69,15 @@ public class Main {
         } while (!loggedIn);
         
         boolean loggedOut = false;
+
+        if (exitFromFirst) {
+            loggedOut = true;
+        }
+       
         User user = new User(userName, email, password);
         while (!loggedOut) {
 
-            if (user.isBuyer(userName, password)) {
+            if (user instanceof Seller) {
                 System.out.println("Main Menu Options:");
                 System.out.println("1. Search for items");
                 System.out.println("2. View Purchase history");
@@ -113,7 +121,9 @@ public class Main {
             }
         }
 
-        System.out.println("Thank you for visiting! You are now logged out");
+        System.out.println("Thank you for visiting! Application shutting down");
+
+        scan.close();
 
         
         // Press Ctrl+R or click the green arrow button in the gutter to run the code.
