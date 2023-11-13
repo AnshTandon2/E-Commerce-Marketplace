@@ -13,40 +13,24 @@ import java.util.HashMap;
  * @version November 12, 2023
  */
 public class Seller extends User {
-    private File StoreHistory;
+    // fields inherited from parent code: name, email, password
+    private final File StoreHistory;
     private ArrayList<Store> stores;
-    // fields from parent code
-    // email
-    // name
-    // password
-
-    public Seller(String info, ArrayList<Store> storeList) {
-        // call to super constructor has to be the first line
-        super(info.split(",")[0], info.split(",")[1], info.split(",")[2]);
-        // calls the parent constructor and sends the seller's name, email, and password
-        try {
-            if (this.stores.isEmpty()) {
-                this.stores = new ArrayList<>();
-            } else {
-                this.stores = storeList;
-            }
-        } catch (NullPointerException e) {
-        }
-    }
 
     public Seller(String name, String email, String password) {
         super(name, email, password);
         // the purchase history file of every user will follow this notation
         String fileNotation = (email + "-storeHistory.txt");
         StoreHistory = new File(fileNotation);
-        if (!StoreHistory.exists()) {
+        if (!StoreHistory.exists()) { //if file doesn't exist (Seller is new)
             try {
                 FileWriter fw = new FileWriter(StoreHistory, false);
                 BufferedWriter bfw = new BufferedWriter(fw);
+                //First Line: [example@.email.com;John Doe]
                 bfw.write(String.format(this.getEmail() + ";" + this.getName() + "\n"));
             } catch (IOException ignored) {
             }
-        } else {
+        } else { //file exists, reading from it
             try {
                 FileReader fr = new FileReader(StoreHistory);
                 BufferedReader bfr = new BufferedReader(fr);
@@ -57,27 +41,26 @@ public class Seller extends User {
                     line = bfr.readLine();
                 }
                 list.remove(0);
-                boolean productsNextLine = false;
+                String storeName = "";
+                HashMap<Product, Integer> productMap = new HashMap<>();
                 for (String s : list) {
-                    String storeName = "";
-                    HashMap<Product, Integer> productMap = new HashMap<>();
-                    if (s.startsWith("Store: ")) {
-                        storeName = s.substring(6);
-                        productsNextLine = true;
-                    }
-                    if (productsNextLine) {
-                        assert line != null;
-                        String[] split = line.split("Product");
+                    if (s.startsWith("Store: ")) { //if the line contains details on Store
+                        storeName = s.substring(7); //get storeName while omitting the "Store: " in the beginning of
+                        // the line
+                    } else if (s.startsWith("Product<")) {//if the line contains details on the products
+                        String[] split = line.split("Product<"); //split the list of products using the word Product
                         for (String product : split) {
-                            String[] productAndQuantity = product.split("<");
+                            //ex. Product<productName;Price;Description>;Quantity
+                            //split the quantity at the end with the product details
+                            String[] productAndQuantity = product.split(">");
+                            //get product details and split them up into the Array: [productName, Price, Description]
                             String[] productDetail = productAndQuantity[1].split(";");
                             Product newProduct = new Product(productDetail[0], Double.parseDouble(productDetail[1]),
                                     productDetail[2]);
+                            //add quantity to the map using the product as the key
                             productMap.put(newProduct, Integer.parseInt(productAndQuantity[2]));
                         }
-                        productsNextLine = false;
-                    }
-                    if (s.startsWith("TotalSales: ")) {
+                    } else if (s.startsWith("TotalSales: ")) {//if the line contains data on TotalSales
                         stores.add(new Store(storeName, productMap, Double.parseDouble(s.substring(12))));
                     }
                 }
@@ -90,7 +73,6 @@ public class Seller extends User {
         try {
             FileWriter fw = new FileWriter(this.StoreHistory, false);
             BufferedWriter bfw = new BufferedWriter(fw);
-            String productInfo;
             bfw.write(String.format(this.getEmail() + ";" + this.getName()) + "\n");
             for (Store store : stores) {
                 bfw.write(store.toString());
@@ -107,7 +89,6 @@ public class Seller extends User {
         try {
             FileWriter fw = new FileWriter(this.StoreHistory, true);
             BufferedWriter bfw = new BufferedWriter(fw);
-            int counter = 1;
             for (Store store : list) {
                 if (!stores.contains(store))
                     bfw.write(store.toString());
