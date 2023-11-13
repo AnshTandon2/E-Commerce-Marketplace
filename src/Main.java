@@ -32,7 +32,7 @@ public class Main {
                     System.out.println("Please enter your password"); 
                     String pw = scan.nextLine();
                     User newUser = new User(un, "placeHolder", pw);
-                    if (!newUser.checkAccountExists()) {
+                    if (!newUser.accountExists(un, pw)) {
                         System.out.println("Username or password incorrect");
                     } else {
                         userName = un;
@@ -49,7 +49,7 @@ public class Main {
                     System.out.println("Would you like to be a buyer (enter 1) or seller (enter 2)?");
                     String sellerBuyer = scan.nextLine();
                     User registeringUser = new User(newUN, newEmail, newPW);
-                    if (registeringUser.checkAccountExists()) {
+                    if (registeringUser.accountExists(newEmail, newPW)) {
                         System.out.println("Account already exists");
                     } else {
                         if (Integer.parseInt(sellerBuyer) == 1) {
