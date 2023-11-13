@@ -22,7 +22,7 @@ public class Marketplace {
      * Values to their corresponding ArrayLists;
      */
     public static void initializeMarketplace() {
-        File file = new File("market.txt");
+        File file = new File("data/market.txt");
         int counter = 0;
         try {
             Scanner s = new Scanner(file);
@@ -123,7 +123,7 @@ public class Marketplace {
 
     
     public static void removeFromCart(String productName, String userName) {
-        File f = new File("/data/shoppingCart.txt");
+        File f = new File("data/shoppingCart.txt");
         String toRemove = "";
         try {
             Scanner scan = new Scanner(f);
@@ -194,7 +194,7 @@ public class Marketplace {
 
     /** Combine this code to displayCart()*/
     public void printCart(String customerName) {
-        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingcart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String[] product = line.split(",");
