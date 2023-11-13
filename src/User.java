@@ -33,8 +33,9 @@ public class User {
             Scanner scan = new Scanner(f);
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(",");
+                // order: name, email, password,
+                // adds a User to the existing User list from the file
                 userList.add(new User(data[1], data[0], data[2]));
-
             }
             scan.close();
         } catch (IOException e) {
@@ -46,16 +47,23 @@ public class User {
         File f = new File("/data/users.txt");
         try {
             FileWriter fw = new FileWriter(f);
+            // deletes the content in the current users file
             f.delete();
+            // makes the file a blank slate
             f.createNewFile();
             for (User user : userList) {
                 if (user instanceof Customer) {
+                    // adds the user as an instance of Customer to the users.txt file
+                    // with the 'c' indicator at the end
+                    // order: email, name, password
                     fw.write(user.getEmail() + "," + user.getName() + "," + user.getPassword() + ",c");
                 } else {
+                    // adds the user as an instance of Seller to the users.txt file
+                    // with the 's' indicator at the end
+                    // order: email, name, password
                     fw.write(user.getEmail() + "," + user.getName() + "," + user.getPassword() + ",s");
                 }
             }
-        
             fw.close();    
         } catch (IOException e) {
             e.printStackTrace();
