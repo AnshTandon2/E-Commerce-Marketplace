@@ -56,29 +56,37 @@ public class StartingApplication {
                 } else if (value == 2) {
                     // would like to make a new account in the marketplace
                     System.out.println("Enter your name");
-                    String name = s.nextLine();
+                    String name = s.nextLine().toLowerCase();
                     // allows each user to have a unique identifier
                     System.out.println("Enter your Purdue username (the part before your @purdue.edu)");
                     username = s.nextLine();
                     System.out.println("Enter new password");
                     password = s.nextLine();
-                    System.out.println("Are you signing up as a \n [1] Seller \n [2] Buyer");
+                    System.out.println("Are you signing up as a:\n [1] Seller\n[2] Buyer");
                     String roleChoice = s.nextLine();
                     // checks if they have an existing account or not
                     userRole = accountExists(username, password);
                     // they don't have an existing account - so they can make an account
                     if (userRole == null) {
                         // they want to have the role of a seller
-                        if (roleChoice.equals("1")) {
-                            File f = new File("/data/Sellers.txt");
-                            try {
-                                FileWriter fw = new FileWriter(f, true);
-                                BufferedWriter bfw = new BufferedWriter(fw);
-                                // populates a list of sellers with the username (purdue email)
-                                bfw.write(username + ";");
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                        File f = new File("/data/users.txt");
+                        try {
+                            FileWriter fw = new FileWriter(f, true);
+                            BufferedWriter bfw = new BufferedWriter(fw);
+                            // populates a list of sellers with the username (purdue email)
+                            if (roleChoice.equals("1")) {
+                                // s is indicator for seller user type
+                                bfw.write(username + ";" + password + ";" + name + ";" + "s");
+                            } else if (roleChoice.equals("2")) {
+                                // c is indicator for customer user type
+                                bfw.write(username + ";" + password + ";" + name + ";" + "c");
+                            } else {
+                                System.out.println("Please try again!");
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        /**
                         } else if (roleChoice.equals("2")) {
                             // they want to have a Customer role
                             File f = new File("/data/shoppingCart.txt");
@@ -90,9 +98,7 @@ public class StartingApplication {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        } else {
-                            System.out.println("Please try again!");
-                        }
+                        */
                     } else {
                         // account exists - go back to main menu
                         System.out.println("Account already exists");
