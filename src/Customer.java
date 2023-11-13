@@ -54,7 +54,7 @@ public class Customer {
     /** Still being implemented*/
     public void addToCart(String productName, int quantity, String storeName) {
 
-        File marketFile = new File("data/market.txt");
+        File marketFile = new File("market.txt");
         String productStock = "";
         try {
             Scanner scan = new Scanner(marketFile);
@@ -75,7 +75,7 @@ public class Customer {
 
         String cart = "";
         // finding item from market to add to cart
-        try (BufferedReader bfr = new BufferedReader(new FileReader("data/market.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("market.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String[] product = line.split(",");
@@ -93,7 +93,7 @@ public class Customer {
             e.printStackTrace();
         }
         // writing cart info to shoppingcart.txt
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("data/shoppingCart.txt", true))) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingCart.txt", true))) {
             writer.write(cart);
             writer.newLine();
             writer.close();
@@ -105,7 +105,7 @@ public class Customer {
     /** Still being implemented*/
     public void removeFromCart(String customerUsername, String productName, String productId) {
         StringBuilder fileContents = new StringBuilder();
-        try (BufferedReader bfr = new BufferedReader(new FileReader("data/shoppingCart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String []product = line.split(";");
@@ -120,7 +120,7 @@ public class Customer {
             e.printStackTrace();
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/shoppingCart.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingCart.txt"))) {
             writer.write(fileContents.toString());
             writer.close();
         } catch (Exception e) {
@@ -132,7 +132,7 @@ public class Customer {
 
     /**Still being implemented*/
     public void buyShoppingCartItems(String customerName) {
-        try (BufferedReader bfr = new BufferedReader(new FileReader("data/shoppingCart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String[] product = line.split(",");
@@ -147,7 +147,7 @@ public class Customer {
 
     /** Still being implemented*/
     public static boolean buyItem(String customerName,String productId, int quantity) throws IOException {
-        FileReader fr = new FileReader("data/market.txt");
+        FileReader fr = new FileReader("market.txt");
         BufferedReader bfr = new BufferedReader(fr);
         String line = bfr.readLine();
         StringBuilder content = new StringBuilder();
@@ -174,7 +174,7 @@ public class Customer {
                     stringChanged = true;
 
                     String productsBought = market[1] + "," + market[2] + "," + market[3] + "," + quantity + "," + customerName + "," + market[6];
-                    PrintWriter writer2 = new PrintWriter(new FileWriter("data/purchases.txt"));
+                    PrintWriter writer2 = new PrintWriter(new FileWriter("purchases.txt"));
                     writer2.println(productsBought);
                     writer2.close();
                 }
@@ -197,7 +197,7 @@ public class Customer {
 
     public void exportPurchaseHistory(String userName) {
         File exportFile = new File("purchaseHistoryExport.csv");
-        File readingFile = new File("data/purchases.txt");
+        File readingFile = new File("purchases.txt");
         try {
             exportFile.createNewFile();
             Scanner scan = new Scanner(readingFile);
