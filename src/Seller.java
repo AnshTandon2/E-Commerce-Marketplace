@@ -100,15 +100,9 @@ public class Seller {
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, true));
 
             //figure out how many lines the market.txt file already has
-            // to have a index that is accurate
-            int lineNumber = 0;
-            while (bfr.readLine() != null) {
-                lineNumber ++;
-            }
-            bfr.close();
             // example format:
             //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
-            String newProduct = String.format("%s;%f;%s;%d;%s,%s,%s\n", productName, price, storeName, quantity, description, username);
+            String newProduct = String.format("%s;%f;%s;%d;%s,%s\n", productName, price, storeName, quantity, description, username);
             bfw.write(newProduct);
 
         } catch (IOException e) {
@@ -126,7 +120,6 @@ public class Seller {
      * @param newValue
      *
      * @author Lalitha Chandolu
-     * @version November 13, 2023
      */
     public void editProduct(String productName, String storeName, String changeField, String newValue) {
         // can edit product, price, store, quantity, or description
