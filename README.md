@@ -62,7 +62,8 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | --- | --- | --- |
 | name | String | private |
 | email | String | private |
-| password | String| private |
+| password | String | private |
+| userList | ArrayList<User> | private static |
 
 #### Constructors
 | Name | Parameters | Modifier |
@@ -78,6 +79,11 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | setName() | String name | String | public | Sets the name of the user to given name |
 | setPassword() | String password | String | public | Sets the password of the user to given password|
 | accountExists() | String email, String password | boolean | public | Verifies if the account exists already in comparison to one other account |
+| generateUserList() | None | void | public static | Takes in a file with user information and splits different users by commas and then adds them into an array list |
+| updateUsers() | None | void | public static | Updates the user list by deleting the file that exists with the list of users and adding existing customer and seller objects in a format of "email, name, password, c/s". c is for customer and s is for seller. |
+| getExistingUsers() | None | ArrayList<User> | public static | Returns the array list of users |
+| addUser() | User user | void | public static | Adds an instance of customer or seller to user list |
+| getUserObject() | String email, String password | User | public static | Takes the email and password info of a user and uses it to compare to 
 
 ## Customer
 
