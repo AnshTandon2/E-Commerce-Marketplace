@@ -109,7 +109,7 @@ public class StartingApplication {
                         "Product\n" + "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. Log Out");
                 String MMChoice = s.nextLine();
                 if (MMChoice.equals("1")) {
-                    System.out.println("1. View Marketplace\n2. Sort by Ascending Price\n3. Sort by Descending " +
+                    System.out.println("1. View Dashboard\n2. Sort by Ascending Price\n3. Sort by Descending " +
                             "price\n4. Sort by " +
                             "ascending quantity\n5. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
@@ -159,6 +159,7 @@ public class StartingApplication {
                                             quantity, description, username));
 
                 } else if (MMChoice.equals("3")) {  // edit a product
+                    //Seller.editProduct();
 
 
                 } else if (MMChoice.equals("4")) { //delete a product
