@@ -123,7 +123,7 @@ public class Marketplace {
     }
 
 
-    public static void removeFromCart(String productName, String userName) {
+    /*public static void removeFromCart(String productName, String userName) {
         File f = new File("shoppingCart.txt");
         String toRemove = "";
         try {
@@ -163,7 +163,7 @@ public class Marketplace {
             }
         }
 
-    }
+    }*/
 
 
     /**

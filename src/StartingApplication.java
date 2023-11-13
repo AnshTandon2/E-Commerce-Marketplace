@@ -228,7 +228,7 @@ public class StartingApplication {
                     if (cartChoice.equals("1")) {
                         System.out.println("Enter cart item name to be removed");
                         String removeChoice = s.nextLine();
-                        Marketplace.removeFromCart(removeChoice, username);
+                        //Marketplace.removeFromCart(removeChoice, username);
                     } else if (cartChoice.equals("2")) {
 
                     } else {
