@@ -184,8 +184,13 @@ public class Customer {
             line = bfr.readLine();
         }
         bfr.close();
-        PrintWriter writer = new PrintWriter(new FileWriter("data/market.txt"));
+<<<<<<< HEAD
+        PrintWriter writer = new PrintWriter(new FileWriter("market.txt"));
         writer.print(content.toString());
+=======
+        PrintWriter writer = new PrintWriter(new FileWriter("/data/market.txt"));
+        writer.print(content);
+>>>>>>> 6341181bf9764a5013ba37b18b8329503485af37
         writer.close();
         return stringChanged;
     }
