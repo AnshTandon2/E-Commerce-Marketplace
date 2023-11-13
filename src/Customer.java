@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -54,7 +55,7 @@ public class Customer {
     /** Still being implemented*/
     public void addToCart(String productName, int quantity, String storeName) {
 
-        File marketFile = new File("data/market.txt");
+        File marketFile = new File("market.txt");
         String productStock = "";
         try {
             Scanner scan = new Scanner(marketFile);
@@ -75,7 +76,7 @@ public class Customer {
 
         String cart = "";
         // finding item from market to add to cart
-        try (BufferedReader bfr = new BufferedReader(new FileReader("data/market.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("market.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String[] product = line.split(",");
@@ -93,7 +94,7 @@ public class Customer {
             e.printStackTrace();
         }
         // writing cart info to shoppingcart.txt
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("data/shoppingCart.txt", true))) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingCart.txt", true))) {
             writer.write(cart);
             writer.newLine();
             writer.close();
@@ -105,7 +106,7 @@ public class Customer {
     /** Still being implemented*/
     public void removeFromCart(String customerUsername, String productName, String productId) {
         StringBuilder fileContents = new StringBuilder();
-        try (BufferedReader bfr = new BufferedReader(new FileReader("data/shoppingCart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String []product = line.split(";");
@@ -120,7 +121,7 @@ public class Customer {
             e.printStackTrace();
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/shoppingCart.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("shoppingCart.txt"))) {
             writer.write(fileContents.toString());
             writer.close();
         } catch (Exception e) {
@@ -132,7 +133,7 @@ public class Customer {
 
     /**Still being implemented*/
     public void buyShoppingCartItems(String customerName) {
-        try (BufferedReader bfr = new BufferedReader(new FileReader("data/shoppingCart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String[] product = line.split(",");
@@ -147,7 +148,7 @@ public class Customer {
 
     /** Still being implemented*/
     public static boolean buyItem(String customerName,String productId, int quantity) throws IOException {
-        FileReader fr = new FileReader("data/market.txt");
+        FileReader fr = new FileReader("market.txt");
         BufferedReader bfr = new BufferedReader(fr);
         String line = bfr.readLine();
         StringBuilder content = new StringBuilder();
@@ -174,7 +175,7 @@ public class Customer {
                     stringChanged = true;
 
                     String productsBought = market[1] + "," + market[2] + "," + market[3] + "," + quantity + "," + customerName + "," + market[6];
-                    PrintWriter writer2 = new PrintWriter(new FileWriter("data/purchases.txt"));
+                    PrintWriter writer2 = new PrintWriter(new FileWriter("purchases.txt"));
                     writer2.println(productsBought);
                     writer2.close();
                 }
@@ -184,25 +185,15 @@ public class Customer {
             line = bfr.readLine();
         }
         bfr.close();
-<<<<<<< HEAD
         PrintWriter writer = new PrintWriter(new FileWriter("market.txt"));
         writer.print(content.toString());
-=======
-        PrintWriter writer = new PrintWriter(new FileWriter("/data/market.txt"));
-        writer.print(content);
->>>>>>> 6341181bf9764a5013ba37b18b8329503485af37
         writer.close();
         return stringChanged;
     }
 
-    /** Customer Function*/
-    public void viewPurchaseHistory() {
-
-    }
-
-    public void exportPurchaseHistory(String userName) {
+    public static void exportPurchaseHistory(String userName) {
         File exportFile = new File("purchaseHistoryExport.csv");
-        File readingFile = new File("data/purchases.txt");
+        File readingFile = new File("purchases.txt");
         try {
             exportFile.createNewFile();
             Scanner scan = new Scanner(readingFile);
@@ -219,6 +210,28 @@ public class Customer {
             scan.close();
             fw.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void viewHistory(String customerUsername) {
+        //viewing the purchase history file
+        try  {
+            BufferedReader br = new BufferedReader(new FileReader("purchases.txt"));
+            String line;
+            ArrayList<String> histories = new ArrayList<>();
+            while ((line = br.readLine()) != null) {
+                histories.add(line);
+            }
+            System.out.println("Product Purchase History");
+            for (String temp: histories) {
+                String[] arr = temp.split(";");
+                if (arr[4].equals(customerUsername)) {
+                    System.out.println("Name: " + arr[0] +  ", Price: " + arr[1] +  ", Store: " + arr[2] + ", Quantity: "
+                            +  arr[3]);
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -64,7 +64,7 @@ public class StartingApplication {
                     // they don't have an existing account - so they can make an account
                     if (userRole == null) {
                         // they want to have the role of a seller
-                        File f = new File("data/users.txt");
+                        File f = new File("users.txt");
                         try {
                             FileWriter fw = new FileWriter(f, true);
                             BufferedWriter bfw = new BufferedWriter(fw);
@@ -165,7 +165,7 @@ public class StartingApplication {
                 }
             } else {
                 // the user is a Customer type
-                System.out.println("Customer Main Menu\n1. View Marketplace\n2. View Shopping Cart\n3. Search for " +
+                System.out.println("Customer Main Menu\n1. View Dashboard\n2. View Shopping Cart\n3. Search for " +
                         "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export/Import Shopping " +
                         "History\n7. " +
                         "View" +
@@ -258,12 +258,9 @@ public class StartingApplication {
 //                    Marketplace.purchaseProduct();
                     //need to implement logic for this
                 } else if (MMChoice.equals("5")) { //view shopping history
-//                    Marketplace.viewShoppingHistory();
-                    //need to implement logic for this
-                } else if (MMChoice.equals("6")) {  //export/import shopping history
-//                    Marketplace.exportShoppingHistory();
-                    //need to implement logic for this
-
+                    Customer.viewHistory(username);
+                } else if (MMChoice.equals("6")) {  //export shopping history
+                    Customer.exportPurchaseHistory(username);
                 } else if (MMChoice.equals("7")) { //view store statistics
 //                    Marketplace.viewStatistics();
                     //need to implement logic for this
