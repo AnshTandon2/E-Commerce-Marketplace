@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.Buffer;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,9 +136,93 @@ public class Seller extends User {
         
     }
 
-    public void createProduct() {
+    public void createProduct(String name, String store, String description, double price, int quantity) {
+        ArrayList<Product> products = getProducts();
+        products.add(new Product(name, price, description));
+        setProducts(products);
+        //add implementation here that updates quantity accordingly
+//        addStoreToSellerFile(store);
+        updateStoreFile();
+        System.out.println(name + " was successfully added to marketplace!");
+        //go back to main application (or just call createProduct there)
 
+    }
 
+    public void setProducts(ArrayList<Product> products) { //set the products.txt
+        try (PrintWriter pw = new PrintWriter(new FileWriter("products.txt"))) {
+            for (Product a : products) {
+                pw.write(a.getName() + "," + a.getDescription() + "," + a.getPrice());
+                pw.println();
+            }
+            pw.println();
+            pw.close();
+            pw.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void productSoldInfo() {
+        for (Store s: stores) {
+            HashMap<Integer, Integer> temp = s.getProductsList(); //hasmap of product Id and quantity,
+            for (Integer productId: temp.keySet()) {
+                Product a = Product.getProduct(productId);
+                System.out.println(a.getName() + ", " + temp.get(productId));
+            }
+            //for each product it should go through all the stores and how much of quantityt sold for each product ID
+        }
+    }
+
+    public void viewSales() {
+
+        ArrayList<String> sales = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(this.getName() + ".txt"))) {
+            int count = 0;
+            String line = "";
+            boolean salesAspect = false;
+            while ((line = br.readLine()) != null) {
+               if (line.contains("Sales")) {
+                   salesAspect = true;
+                   continue;
+               }
+               if (salesAspect) {
+                   sales.add(line);
+               }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (String a : sales) {
+            String[] arr = a.split(",");
+            System.out.println("Product name: " + arr[0]);
+            System.out.println("Quantity purchased: " + arr[1]);
+            System.out.println("Customer name: " + arr[2]);
+            System.out.println("");//get revenu
+        }
+
+    }
+
+    public ArrayList<Product> getProducts() { //read the product file
+        File file = new File("products.txt");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        ArrayList<Product> allProducts = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while((line = br.readLine()) != null) {
+                String[] tokens = line.split(",");
+                allProducts.add(new Product(tokens[0], Double.parseDouble(tokens[1]), tokens[2]));
+            } // end of while loop
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return allProducts;
     }
 
     public boolean verifyProductIsNew() {
