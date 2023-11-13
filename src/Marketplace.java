@@ -27,12 +27,12 @@ public class Marketplace {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
                 String[] data = s.nextLine().split(";");
-                productIDs.add(data[0]);
-                productNames.add(data[1]);
-                priceList.add(Double.parseDouble(data[2]));
-                storeNames.add(data[3]);
-                quantityList.add(Integer.parseInt(data[4]));
-                descriptionList.add(data[5]);
+                productNames.add(data[0]);
+                priceList.add(Double.parseDouble(data[1]));
+                storeNames.add(data[2]);
+                quantityList.add(Integer.parseInt(data[3]));
+                descriptionList.add(data[4]);
+                productIDs.add(data[5]);
                 // maybe will need to add a unique product id
             }
         } catch (IOException e){
