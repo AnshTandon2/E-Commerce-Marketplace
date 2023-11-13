@@ -1,10 +1,13 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 /**
  * Store Class
  * <p>
  * Initiates a new store for the marketplace
+ * Owned and modifiable by a Seller user
  * Store has an id, name, products list, and a count of total sales
  *
  * @author Lalitha Chandolu, Nirmal Senthilkumar; CS 180 Black
@@ -12,22 +15,35 @@ import java.util.Map;
  */
 
 public class Store {
+
+    private static int StoreIDCounter = 1;
+
     private double totalSales;
     private int quantitySold;
     private String name;
-
+    private int StoreID;
     private HashMap<Integer, Integer> productsList;
+    // Products list hash map structure <Product ID, Quantity in Store>
+
+    private HashMap<String, HashMap<Integer, Integer>> customerHistories;
+    // customer histories hash map structure <email, <Product ID, Quantity Bought>>
 
     public Store() {
         this.name = "";
         this.totalSales = 0;
+        this.quantitySold = 0;
         this.productsList = new HashMap<Integer, Integer>();
+        this.StoreID = StoreIDCounter;
+        StoreIDCounter++;
     }
 
     public Store(String name, HashMap<Integer, Integer> productsList, double sales) {
         this.name = name;
         this.totalSales = sales;
         this.productsList = productsList;
+        this.StoreID = StoreIDCounter;
+        StoreIDCounter++;
+        this.customerHistories = new HashMap<String, HashMap<Integer, Integer>>();
     }
 
     public int getQuantitySold() {
@@ -50,55 +66,12 @@ public class Store {
         return productsList;
     }
 
-    public void setProductsList(HashMap<Integer, Integer> productsList) {
-        this.productsList = productsList;
-    }
-
-    public HashMap<Integer, Integer> getProducts() {
-        return this.productsList;
-    }
-
     public void setProducts(HashMap<Integer, Integer> list) {
         this.productsList = list;
     }
 
-    public String addProduct(Product product, int quantity) {
-        if (this.productsList.containsKey(product.getProductID())) {
-            int productQuantity = productsList.get(product.getProductID());
-            // sets the product back in hash map
-            // incrementing quantity available in the store by the amount specified
-            this.productsList.put(product.getProductID(), productQuantity + quantity);
-            return ("Quanity (" + quantity + ") of the " + product.getName() + " has been added.");
-        } else {
-            this.productsList.put(product.getProductID(), 1);
-            return ("This product has been added to your store. ");
-        }
-    }
-
-    public void addProduct(Product product) {
-        if (!this.productsList.containsKey(product)) {
-            this.productsList.put(product.getProductID(), 0);
-        }
-    }
-
-    public String removeProduct(Product product, int quantity) {
-        if (this.productsList.containsKey(product.getProductID())) {
-            // sets the product back in hash map
-            // incrementing quantity available in the store by the amount specified
-            int productQuantity = productsList.get(product.getProductID());
-            if (productQuantity - quantity > 0) {
-                this.productsList.put(product.getProductID(), productQuantity - quantity);
-                return ("Quanity (" + quantity + ") of the " + product.getName() + " has been removed.");
-            } else {
-                return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your " +
-                        "store. ");
-            }
-        }
-        return ("This product is not in your store. ");
-    }
-
-    public void removeProduct(Product product) {
-        this.productsList.remove(product.getProductID());
+    public void setProductsList(HashMap<Integer, Integer> productsList) {
+        this.productsList = productsList;
     }
 
     public String getName() {
@@ -109,6 +82,52 @@ public class Store {
         this.name = name;
     }
 
+    public String addProduct(Product product, Integer quantity) {
+        if (this.productsList.containsKey(product.getProductID())) {
+            int productQuantity = productsList.get(product.getProductID());
+            // sets the product back in hash map
+            // incrementing quantity available in the store by the amount specified
+            this.productsList.put(product.getProductID(), productQuantity + quantity);
+            return ("Quanity (" + quantity + ") of the " + product.getName() + " has been added.");
+        } else {
+            this.productsList.put(product.getProductID(), quantity);
+            return ("This product has been added to your store. ");
+        }
+    }
+
+    public String addProduct(Product product) {
+        if (!this.productsList.containsKey(product.getProductID())) {
+            this.productsList.put(product.getProductID(), 0);
+            return ("This product has been added to your store, but there is no current stock. ");
+        } else {
+            return ("This product already exists in your store. ");
+        }
+    }
+
+    public String removeProduct(Product product, int quantity) {
+        if (this.productsList.containsKey(product.getProductID())) {
+            // sets the product back in hash map
+            // incrementing quantity available in the store by the amount specified
+            int productQuantity = productsList.get(product.getProductID());
+            if (productQuantity - quantity > 0) {
+                this.productsList.put(product.getProductID(), productQuantity - quantity);
+                return ("Quantity (" + quantity + ") of the " + product.getName() + " has been removed.");
+            } else {
+                return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your store." +
+                        "\n This quantity can't be removed");
+            }
+        }
+        return ("This product is not in your store. ");
+    }
+
+    public String removeProduct(Product product) {
+        if (this.productsList.containsKey(product.getProductID())) {
+            this.productsList.remove(product.getProductID());
+            return ("This product has been removed from your store. ");
+        }
+        return ("This product is not in your store. ");
+    }
+
     public boolean hasProductInStock(Product product) {
         if (this.productsList.containsKey(product.getProductID())) {
             int quantityAvailable = productsList.get(product.getProductID());
@@ -117,34 +136,59 @@ public class Store {
         return false;
     }
 
-    public static boolean checkQuantityAvailable(Store store, Product product, int quantity) {
-        if(store.productsList.containsKey(product.getProductID())) {
+    public static boolean checkQuantityAvailable(Store store, int productID, int quantity) {
+        if (store.productsList.containsKey(productID)) {
             // checks whether the given quantity exceeds the quantity
             // of the product that the store currently has
-            if (quantity < store.productsList.get(product.getProductID())) {
-                return true;
-            } else {
-                return false;
-            }
+            return quantity < store.productsList.get(productID);
         }
         return false;
     }
 
-    public String makeASale(Product product, int quantity) {
+    public boolean makeAPurchase(Product product, int quantity) {
         if (this.productsList.containsKey(product.getProductID())) {
             Integer productQuantity = productsList.get(product.getProductID());
-            // enough quantity available for sale
             if (productQuantity - quantity > 0) {
                 this.productsList.put(product.getProductID(), productQuantity - quantity);
                 this.totalSales += quantity * product.getPrice();
-                return ("Sale Made:\nProduct:" + product.getName() + "\nQuantity: " + quantity);
+                // purchase went through properly
+                return true;
             } else {
-                return ("Can't make this sale because quantity specified exceeds quantity available. ");
+                // the quantity demanded exceeds the quantity the store has
+                return false;
             }
         } else {
-            return ("This product is currently unavailable in this store");
+            // this store does not sell that product
+            return false;
         }
     }
+
+        public void generateStoreHistowy() {
+        File f = new File("/data/" + this.StoreID + ".txt");
+        try {
+            Scanner scan = new Scanner(f);
+            scan.nextLine();
+            scan.nextLine();
+            scan.nextLine();
+            String[] soldCustomers = scan.nextLine().split(";");
+            String[] soldQuantity = scan.nextLine().split(";");
+            String[] soldProduct = scan.nextLine().split(";");
+
+            HashMap<Integer, Integer> temp = new HashMap<Integer, Integer>();
+
+            for (int i = 0; i < soldCustomers.length; i++) {
+                temp.put(Integer.parseInt(soldProduct[i]), Integer.parseInt(soldQuantity[i]));
+                customerHistories.put(soldCustomers[i], temp);
+                temp.clear();
+            }
+
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public String toString() {
@@ -155,7 +199,5 @@ public class Store {
         returnString.append("\nTotalSales: ").append(getTotalSales()).append("\n");
         return returnString.toString();
     }
-
-    // add the functionality that sellers have on their customers and their sales invoices tmr (11/12)
 
 }

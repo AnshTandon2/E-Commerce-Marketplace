@@ -3,15 +3,15 @@ import java.util.ArrayList;
 
 /**
  * Product class:
- * creates a new product object
- * with a name, price, and description associated with it
+ * Creates a new product object
+ * with a name, price, product ID, and description associated with it
  *
- * @author Lalitha Chandolu, CS 180 Black
+ * @author Lalitha Chandolu, Nirmal Senthilkumar; CS 180 Black
  * @version November 11, 2023
  */
 
 public class Product {
-    private static int ProductIDCounter = 0;
+    private static int ProductIDCounter = 1;
     private String name;
     private double price;
     private String description;
@@ -42,7 +42,8 @@ public class Product {
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
             products = new ArrayList<>();
-            Product.ProductIDCounter = Integer.parseInt(bfr.readLine());
+            Product.ProductIDCounter = Integer.parseInt(line);
+            line = bfr.readLine();
             while (line != null) {
                 String[] productDetail = line.substring(8, line.length() - 1).split(";");
                 products.add(new Product(Integer.parseInt(productDetail[0]), productDetail[1],
@@ -105,21 +106,13 @@ public class Product {
         this.price = price;
     }
 
-    public static int getProductIDCounter() {
-        return ProductIDCounter;
-    }
+    // public static int getProductIDCounter() {
+        //return ProductIDCounter;
+    //}
 
-    public static void setProductIDCounter(int productIDCounter) {
-        ProductIDCounter = productIDCounter;
-    }
-
-    public String getProductDescription() {
-        return this.description;
-    }
-
-    public void setProductDescription(String desc) {
-        this.description = desc;
-    }
+    // public static void setProductIDCounter(int productIDCounter) {
+        //ProductIDCounter = productIDCounter;
+    //}
 
     public String toString() {
         return "Product<" + getProductID() + ";" + getName() + ";" + getPrice() + ";" + getProductDescription() + ">";

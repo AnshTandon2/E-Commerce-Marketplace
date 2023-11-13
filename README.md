@@ -49,10 +49,8 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 3. Customer
 4. Store
 5. Product
-6. Marketplace
-7. Shopping Cart
 8. Account Manager
-9. Main
+9. Marketplace
 10. Starting Application
 
 ## User
@@ -62,7 +60,8 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | --- | --- | --- |
 | name | String | private |
 | email | String | private |
-| password | String| private |
+| password | String | private |
+| userList | ArrayList<User> | private static |
 
 #### Constructors
 | Name | Parameters | Modifier |
@@ -78,6 +77,12 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | setName() | String name | String | public | Sets the name of the user to given name |
 | setPassword() | String password | String | public | Sets the password of the user to given password|
 | accountExists() | String email, String password | boolean | public | Verifies if the account exists already in comparison to one other account |
+| generateUserList() | None | void | public static | Takes in a file with user information and splits different users by commas and then adds them into an array list |
+| updateUsers() | None | void | public static | Updates the user list by deleting the file that exists with the list of users and adding existing customer and seller objects in a format of "email, name, password, c/s". c is for customer and s is for seller. |
+| getExistingUsers() | None | ArrayList<User> | public static | Returns the array list of users |
+| addUser() | User user | void | public static | Adds an instance of customer or seller to user list |
+| getUserObject() | String email, String password | User | public static | Takes the email and password info of a user and uses it to compare to all values of the user list and then returns the user with the given information |
+| getUserObject() | String email | User | public static | Takes the email info of a user and uses it to compare to all values of the user list and then returns the user with the given information |
 
 ## Customer
 
@@ -165,6 +170,7 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | price | double | private |
 | description | String | private |
 | ProductID | int | private |
+| products | ArrayList<Product> | private static |
 
 #### Constructors
 | Name | Parameters | Modifier | Description |

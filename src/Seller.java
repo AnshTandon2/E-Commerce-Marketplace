@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -99,9 +100,42 @@ public class Seller extends User {
 
     public void exportStoreInformation() {
         int counter = 0;
+        File f = new File("/data/" + this.getEmail() + ".txt");
+        File exportFile = new File("export.csv");
+        try {
+            exportFile.createNewFile();
+            FileWriter fw = new FileWriter(exportFile);
+            Scanner scan = new Scanner(f);
+            scan.nextLine();
+            scan.nextLine();
+            String[] data = scan.nextLine().split(";");
+            for (String s : data) {
+                File f2 = new File("/data/" + s + ".txt");
+                Scanner scan2 = new Scanner(f2);
+                String storeID = scan2.nextLine();
+                String storeName = scan2.nextLine();
+                String[] merchandise = scan2.nextLine().split(";");
+                String[] merchPrise = scan2.nextLine().split(";");
+                fw.write(storeID + ":" + storeName);
+                fw.write("\n");
+                fw.write("\n");
+                for (int i = 0; i < merchandise.length; i++) {
+                    fw.write("Product: " + merchandise[i] + ", Quantity: " + merchPrise[i]);
+                }
+                fw.write("\n");
+                fw.write("---------------------------");
+                fw.write("\n");
+                scan2.close();
+            }
+            scan.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
     }
 
+<<<<<<< HEAD
     public void createProduct() {
 
 
@@ -165,6 +199,30 @@ public class Seller extends User {
             e.printStackTrace();
         }
         return arrayList;
+=======
+    public void importStoreFile(String pathName) {
+        File f = new File(pathName);
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) { 
+                //format: [StoreName],[NewProductName],[NewProductQuantity],[NewProductPrice],[NewProductDescription];
+                String[] data = scan.nextLine().split(",");
+                for (Store s : stores) {
+                    if (data[0].equals(s.getName())) {
+                        s.addProduct(new Product(data[1], Double.parseDouble(data[3]), data[4]));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewStore(Store s) {
+        stores.add(s);
+>>>>>>> b0ca0193c4975c2a46c97f98d254d27600a69133
     }
 
     // be able to view total sales by their store
