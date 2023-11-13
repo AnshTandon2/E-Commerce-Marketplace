@@ -37,7 +37,7 @@ public class Seller {
         // methods lists all of the products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
         ArrayList<String[]> marketplaceList = new ArrayList<>();
-        File f = new File("market.txt");
+        File f = new File("data/market.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
@@ -75,7 +75,7 @@ public class Seller {
      */
     public void removeProduct(String productName, String customerUsername) {
         StringBuilder productList = new StringBuilder();
-        try (BufferedReader bfr = new BufferedReader(new FileReader("/data/market.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("data/market.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
                 String []product = line.split(";");
@@ -90,7 +90,7 @@ public class Seller {
             e.printStackTrace();
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("/data/market.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/market.txt"))) {
             writer.write(productList.toString());
             writer.close();
         } catch (Exception e) {
@@ -146,7 +146,7 @@ public class Seller {
         // can edit product, price, store, quantity, or description
         // go through market.txt and add lines to String[] ArrayList
         ArrayList<String[]> marketplaceList = new ArrayList<>();
-        File f = new File("market.txt");
+        File f = new File("data/market.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
@@ -186,7 +186,7 @@ public class Seller {
     }
 
     public void exportStoreInformation(String merchantName, String storeName) {
-        File readingFile = new File("/data/market.txt");
+        File readingFile = new File("data/market.txt");
         File exportFile = new File("exportFile.csv");
         try {
             exportFile.createNewFile();
@@ -206,7 +206,7 @@ public class Seller {
 
     public void importStoreInformation(String pathname) throws FileNotFoundException, IOException {
         File f = new File(pathname);
-        File writeToFile = new File("/data/market.txt");
+        File writeToFile = new File("data/market.txt");
         if (!f.exists()) {
             throw new FileNotFoundException();
         } else {

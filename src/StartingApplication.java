@@ -64,7 +64,7 @@ public class StartingApplication {
                     // they don't have an existing account - so they can make an account
                     if (userRole == null) {
                         // they want to have the role of a seller
-                        File f = new File("users.txt");
+                        File f = new File("data/users.txt");
                         try {
                             FileWriter fw = new FileWriter(f, true);
                             BufferedWriter bfw = new BufferedWriter(fw);
