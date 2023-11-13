@@ -1,5 +1,5 @@
-import java.util.*;
 import java.io.*;
+import java.util.Scanner;
 
 /** Starting Application Class
  * Serves as the Login/Sign up system for a user
@@ -62,12 +62,10 @@ public class StartingApplication {
             // get the user object
             User user = User.getUserObject(email, password);
             // check if they are a customer or seller
-            if (user instanceof Customer) {
-                Customer customer = (Customer) user;
+            if (user instanceof Customer customer) {
                 viewCustomerMainMenu(s, customer);
                 return true;
-            } else if (user instanceof Seller) {
-                Seller seller = (Seller) user;
+            } else if (user instanceof Seller seller) {
                 viewSellerMainMenu(s, seller);
                 return true;
             }
@@ -281,14 +279,10 @@ public class StartingApplication {
         // verifies that the email is a valid Purdue email
         if(email.contains("@")) {
             String[] tokens = email.split("@");
-            if(tokens[1].equals("purdue.edu")) {
-                return true;
-            } else {
-                return false;
-            }
+            return tokens[1].equals("purdue.edu");
         } else {
             return false;
         }
     }
 
-} // end of the java file
+}
