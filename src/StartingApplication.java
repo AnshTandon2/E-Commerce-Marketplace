@@ -74,8 +74,8 @@ public class StartingApplication {
                             try {
                                 FileWriter fw = new FileWriter(f, true);
                                 BufferedWriter bfw = new BufferedWriter(fw);
-                                // populates a list of sellers (with the given information)
-                                bfw.write(username + ";" + password + ";" + name + ";");
+                                // populates a list of sellers with the username (purdue email)
+                                bfw.write(username + ";");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -86,7 +86,7 @@ public class StartingApplication {
                                 FileWriter fw = new FileWriter(f, true);
                                 BufferedWriter bfw = new BufferedWriter(fw);
                                 // populates a new file of Customers (based on given info)
-                                bfw.write(username + ";" + password + ";" + name + ";");
+                                bfw.write(username + ";" + password + ";" + name.toLowerCase() + ";");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
