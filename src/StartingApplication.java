@@ -147,25 +147,37 @@ public class StartingApplication {
                         System.out.println("Please go back and try again!");
                     }
                 } else if (MMChoice.equals("2")) {  //view sales by store
+                    System.out.println("Enter a Product Name: ");
+                    String productName = s.nextLine();
+                    System.out.println("Enter a Price: ");
+                    double price = s.nextDouble();
+                    s.nextLine();
+                    System.out.println("Enter a Product Name: ");
+                    String storeName = s.nextLine();
+                    System.out.println("Enter a Quantity: ");
+                    int quantity = s.nextInt();
+                    s.nextLine();
+                    System.out.println("Enter a description: ");
+                    String description = s.nextLine();
+                    System.out.println(Seller.addProduct(productName, price, storeName,
+                            quantity, description, username));
+                } else if (MMChoice.equals("3")) {  // edit a product
 
-                } else if (MMChoice.equals("3")) { // add a product
 
-                } else if (MMChoice.equals("4")) {  // edit a product
+                } else if (MMChoice.equals("4")) { //delete a product
 
-                } else if (MMChoice.equals("5")) { //delete a product
+                } else if (MMChoice.equals("5")) { //view store statistics
 
-                } else if (MMChoice.equals("6")) { //view store statistics
-
-                } else if (MMChoice.equals("7")) { //import or exports for product
+                } else if (MMChoice.equals("6")) { //import or exports for product
                     //justin's part
-                } else if (MMChoice.equals("8")) { //logged out
+                } else if (MMChoice.equals("7")) { //logged out
                     loggedOut = true;
                 } else {
                         System.out.println("Please try again with valid input!");
                 }
             } else {
                 // the user is a Customer type
-                System.out.println("Customer Main Menu\n1. View Dashboard\n2. View Shopping Cart\n3. Search for " +
+                System.out.println("Customer Main Menu\n1. View Marketplace\n2. View Shopping Cart\n3. Search for " +
                         "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export/Import Shopping " +
                         "History\n7. " +
                         "View" +
@@ -229,7 +241,8 @@ public class StartingApplication {
                         System.out.println(str);
                         preReq.add(str.split(";")[0]);
                     }
-                    System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
+                    System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending" +
+                            " quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
                     if (sortChoice.equals("1")) {
                         ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", true);
