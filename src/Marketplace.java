@@ -216,4 +216,83 @@ public class Marketplace {
     public void addStore(Store store) {
         this.stores.add(store);
     }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Welcome to marketplace!");
+
+        String userName = "";
+        String password = "";
+        String email = "";
+
+        boolean loggedIn = false;
+        boolean exitOnFirst = false;
+
+        do {
+            try {
+                System.out.println("Select an option:\n1. Login\n2. Signup\n3. Exit");
+                String firstPgOption = scan.nextLine();
+                if (Integer.parseInt(firstPgOption) == 1) {
+                    System.out.println("Enter email");
+                    email = scan.nextLine();
+                    System.out.println("Enter password");
+                    password = scan.nextLine();
+                    if (User.accountExists(email, password)) {
+                        loggedIn = true;
+                    } else {
+                        System.out.println("email or password is incorrect");
+                    }
+                } else if (Integer.parseInt(firstPgOption) == 2) {
+                    System.out.println("Enter new email (this will serve as your ID/Username)");
+                    email = scan.nextLine();
+                    System.out.println("Enter new password");
+                    password = scan.nextLine();
+                    System.out.println("Enter your name");
+                    userName = scan.nextLine();
+                    System.out.println("Will you be a buyer (enter 1) or seller? (enter 2)");
+                    String isBuyer = scan.nextLine();
+                    if (User.accountExists(email, password)) {
+                        System.out.println("Account already exists");
+                    } else {
+                        if (Integer.parseInt(isBuyer) == 1) {
+                            User.addUser(new Customer(userName, email, password));
+                        } else if (Integer.parseInt(isBuyer) == 2) {
+                            User.addUser(new Seller(userName, email, password));
+                        }
+                        //loggedIn = true;
+                    }
+
+
+                } else if (Integer.parseInt(firstPgOption) == 3) {
+                    exitOnFirst = true;
+                    loggedIn = true;
+                } else {
+                    System.out.println("Please enter a valid choice");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid choice");
+            }
+        } while (!loggedIn);
+
+        boolean start = true;
+
+        if (exitOnFirst) {
+            start = false;
+        }
+
+        User user = User.getUserObject(email, password);
+
+        while (start) {
+            if (user instanceof Seller) {
+
+            } else {
+                
+            }
+        }
+
+        System.out.println("Thank you for using our service");
+
+        scan.close();
+    }
+
 }

@@ -114,14 +114,6 @@ public class Product {
         //ProductIDCounter = productIDCounter;
     //}
 
-    public String getProductDescription() {
-        return this.description;
-    }
-
-    public void setProductDescription(String desc) {
-        this.description = desc;
-    }
-
     public String toString() {
         return "Product<" + getProductID() + ";" + getName() + ";" + getPrice() + ";" + getProductDescription() + ">";
     }
