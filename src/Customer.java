@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Customer Class
@@ -20,6 +18,7 @@ import java.util.Map;
  * @version November 11, 2023
  */
 public class Customer extends User {
+    private Scanner s = new Scanner(System.in);
     private final File customerHistory; //file that holds the purchase history and shopping cart
     private final HashMap<Product, Integer> purchaseHistory; //hashmap with products purchased and quantity
     private final HashMap<Product, Integer> shoppingCart; //hashmap with products in cart and the quantity
@@ -77,6 +76,14 @@ public class Customer extends User {
 
     public HashMap<Product, Integer> getProductHistoryMap() {
         return purchaseHistory;
+    }
+
+    public void viewAllProducts() {
+        ArrayList<Product> temp = getProducts(); //get all the information from product file
+        System.out.println("All Products: ");
+        for (int i = 0; i < temp.size(); i++) {
+            System.out.println(i + ") " + temp.get(i));
+        }
     }
 
     public void updatePurchaseHistoryFile() {
@@ -156,6 +163,37 @@ public class Customer extends User {
             }
         }
     }
+
+    public ArrayList<Product> getProducts() { //read the product file
+        File file = new File("products.txt");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        ArrayList<Product> allProducts = new ArrayList<Product>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while((line = br.readLine()) != null) {
+                String[] tokens = line.split(",");
+                allProducts.add(new Product(tokens[0], Double.parseDouble(tokens[1]), tokens[2]));
+            } // end of while loop
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return allProducts;
+    }
+
+    public void exportHistory() {
+
+    }
+
+    public void setProducts() { //set the products.txt
+
+    }
+
 
     public void clearShoppingCart() {
         this.shoppingCart.clear();
