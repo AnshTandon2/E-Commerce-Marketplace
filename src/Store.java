@@ -10,6 +10,8 @@ import java.util.Scanner;
  * Initiates a new store for the marketplace
  * Owned and modifiable by a Seller user
  * Store has an id, name, products list, and a count of total sales
+ * Sellers can add products to a store, remove products, and view store invoices
+ * Customers can make a Purchase through the Store class
  *
  * @author Lalitha Chandolu, Nirmal Senthilkumar; CS 180 Black
  * @version November 12, 2023
@@ -18,7 +20,6 @@ import java.util.Scanner;
 public class Store {
 
     private static int StoreIDCounter = 1;
-
     private double totalSales;
     private int quantitySold;
     private String name;
@@ -97,7 +98,7 @@ public class Store {
             // sets the product back in hash map
             // incrementing quantity available in the store by the amount specified
             this.productsList.put(product.getProductID(), productQuantity + quantity);
-            return ("Quanity (" + quantity + ") of the " + product.getName() + " has been added.");
+            return ("Quantity (" + quantity + ") of the " + product.getName() + " has been added.");
         } else {
             this.productsList.put(product.getProductID(), quantity);
             return ("This product has been added to your store. ");
