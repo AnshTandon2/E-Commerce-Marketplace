@@ -117,15 +117,11 @@ public class Store {
         return false;
     }
 
-    public static boolean checkQuantityAvailable(Store store, Product product, int quantity) {
-        if(store.productsList.containsKey(product.getProductID())) {
+    public static boolean checkQuantityAvailable(Store store, int productID, int quantity) {
+        if (store.productsList.containsKey(productID)) {
             // checks whether the given quantity exceeds the quantity
             // of the product that the store currently has
-            if (quantity < store.productsList.get(product.getProductID())) {
-                return true;
-            } else {
-                return false;
-            }
+            return quantity < store.productsList.get(productID);
         }
         return false;
     }

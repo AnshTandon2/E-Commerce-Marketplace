@@ -1,5 +1,7 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Customer Class
@@ -18,30 +20,59 @@ import java.util.*;
  * @version November 11, 2023
  */
 public class Customer extends User {
-    private Scanner s = new Scanner(System.in);
-    private final File customerHistory; //file that holds the purchase history and shopping cart
-    private final HashMap<Product, Integer> purchaseHistory; //hashmap with products purchased and quantity
-    private final HashMap<Product, Integer> shoppingCart; //hashmap with products in cart and the quantity
+    private final HashMap<Integer, Integer> purchaseHistory; //hashmap with products purchased and quantity
+    private final HashMap<Integer, Integer> shoppingCart; //hashmap with products in cart and the quantity
+    private String fileNotation;
 
     public Customer(String name, String email, String password) {
         super(name, email, password);
-        super.addUser(this);
         // the purchase history file of every Customer will follow this notation
-        String fileNotation = ("/data/" + email + "-CustomerHistory.txt");
-        this.customerHistory = new File(fileNotation);
         this.purchaseHistory = new HashMap<>();
         this.shoppingCart = new HashMap<>();
+        this.fileNotation = ("/data/" + getEmail() + "-CustomerHistory.txt");
+        addUser(this);
+    }
+
+    public void updateCustomerHistory(int productID, int quantity) {
+        try {
+            File customerHistory = new File(getFileNotation());
+            FileReader fr = new FileReader(customerHistory);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            ArrayList<String> list = new ArrayList<>();
+            while (line != null) {
+                list.add(line);
+                line = bfr.readLine();
+            }
+            bfr.close();
+            fr.close();
+            FileWriter fw = new FileWriter(customerHistory, false);
+            BufferedWriter bfw = new BufferedWriter(fw);
+            bfw.write(list.get(0));
+            bfw.write(list.get(1));
+            bfw.write(list.get(2));
+            bfw.write(list.get(3) + ";" + productID);
+            bfw.write(list.get(4) + ";" + quantity);
+            bfw.flush();
+            bfw.close();
+            fw.close();
+        } catch (IOException ignored) {
+        }
+    }
+
+    public void populateCustomerHistory() {
+        File customerHistory = new File(getFileNotation());
         if (!customerHistory.exists()) { //if the file doesn't exist (Customer is new)
             try {
-                FileWriter fw = new FileWriter(this.customerHistory, false);
+                FileWriter fw = new FileWriter(customerHistory, false);
                 BufferedWriter bfw = new BufferedWriter(fw);
                 //First Line: [example@.email.com;John Doe]
-                bfw.write(String.format(this.getEmail() + ";" + this.getName() + "\n"));
+                bfw.write(String.format(getName() + "\n" + getEmail() + "\n" + getPassword() + "\n"));
             } catch (IOException ignored) {
             }
         } else { //file exists, reading from it
             try {
-                FileReader fr = new FileReader(this.customerHistory);
+                FileReader fr = new FileReader(customerHistory);
                 BufferedReader bfr = new BufferedReader(fr);
                 String line = bfr.readLine();
                 ArrayList<String> list = new ArrayList<>();
@@ -49,34 +80,29 @@ public class Customer extends User {
                     list.add(line);
                     line = bfr.readLine();
                 }
-                list.remove(0); //throw the email and name line, unneeded
-                boolean shoppingCartEntries = false;
-                for (String s : list) {
-                    if (s.startsWith("Shopping Cart:")) { //if the data in the txt pertains to Shopping Cart
-                        shoppingCartEntries = true; //start writing the following data to shoppingCart HashMap
-                        continue; //from next iteration write only to shopping cart
-                    }
-                    //Ex. Product<productName;Price;Description>;Quantity
-                    // split at semicolon, then drop the Product< in the beginning, and when adding description drop
-                    // the closing '>' using substring
-                    String[] split = s.substring(8).split(";");
-                    if (shoppingCartEntries) {
-                        shoppingCart.put(new Product(split[0], Double.parseDouble(split[1]), split[2].substring(0,
-                                split[2].length() - 1)), Integer.parseInt(split[3]));
-                    } else {
-                        purchaseHistory.put(new Product(split[0], Double.parseDouble(split[1]),
-                                split[2].substring(0, split[2].length() - 1)), Integer.parseInt(split[3]));
-                    }
+                //super.setName();
+                //list.remove(0);
+                //list.remove(1);
+                //list.remove(2);//throws the name, email, and password lines away
+                String[] productPurchasedHistoryRaw = list.get(3).split(";");
+                String[] quantityPurchasedHistoryRaw = list.get(4).split(";");
+                for (int i = 0; i < productPurchasedHistoryRaw.length; i++) {
+                    purchaseHistory.put(Integer.parseInt(productPurchasedHistoryRaw[i]),
+                            Integer.parseInt(quantityPurchasedHistoryRaw[i]));
                 }
+                String[] productShoppingCartRaw = list.get(3).split(";");
+                String[] quantityShoppingCartRaw = list.get(4).split(";");
+                for (int i = 0; i < productShoppingCartRaw.length; i++) {
+                    shoppingCart.put(Integer.parseInt(productShoppingCartRaw[i]),
+                            Integer.parseInt(quantityShoppingCartRaw[i]));
+                }
+                bfr.close();
+                fr.close();
             } catch (IOException ignored) {
             }
         }
     }
 
-
-    public HashMap<Product, Integer> getProductHistoryMap() {
-        return purchaseHistory;
-    }
 
     public void viewAllProducts() {
         ArrayList<Product> temp = getProducts(); //get all the information from product file
@@ -86,82 +112,39 @@ public class Customer extends User {
         }
     }
 
-    public void updatePurchaseHistoryFile() {
-        try {
-            FileWriter fw = new FileWriter(this.customerHistory, false);
-            BufferedWriter bfw = new BufferedWriter(fw);
-            String productInfo;
-            bfw.write(String.format(this.getEmail() + ";" + this.getName()) + "\n");
-            for (Map.Entry<Product, Integer> entry : purchaseHistory.entrySet()) {
-                bfw.write(entry.getKey().toString() + ";" + entry.getValue() + "\n");
-            }
-            bfw.write("Shopping Cart:\n");
-            for (Map.Entry<Product, Integer> entry : shoppingCart.entrySet()) {
-                Product product = entry.getKey();
-                Integer quantity = entry.getValue();
-                bfw.write(product + ";" + quantity + "\n");
-            }
-            bfw.flush();
-            bfw.close();
-        } catch (IOException ignored) {
-        }
-    }
-
-    public void modifyPurchaseHistoryFile(ArrayList<Product> list) {
-        // takes the existing purchase history file for the user
-        // and appends a new product purchase to the customer's purchase history
-        try {
-            FileWriter fw = new FileWriter(this.customerHistory, true);
-            BufferedWriter bfw = new BufferedWriter(fw);
-            int counter = 1;
-            for (Product p : list) {
-                if (!purchaseHistory.containsKey(p))
-                    bfw.write(p.toString() + "\n");
-            }
-        } catch (IOException ignored) {
-        }
-    }
-
-    public ArrayList<Product> getPurchaseHistory() { // get purchase history
-        return new ArrayList<>(purchaseHistory.keySet());
-    }
-
-    public HashMap<Product, Integer> getShoppingCart() {
-        return shoppingCart;
-    }
-
-    public void addProduct(Store store, Product product, int quantity) {
+    public boolean addProduct(Store store, int productID, int quantity) {
         boolean canAdd;
-        if (this.shoppingCart.containsKey(product)) {
+        if (this.shoppingCart.containsKey(productID)) {
             // if the product is already in the customer's shopping cart
             // gets the current quantity of the product
             // specified in the hash map
-            Integer productQuantity = shoppingCart.get(product);
-            canAdd = Store.checkQuantityAvailable(store, product, quantity);
-            if (canAdd) {
-                this.shoppingCart.put(product, productQuantity + quantity);
+            if (Store.checkQuantityAvailable(store, productID,
+                    shoppingCart.get(productID) + quantity)) {
+                this.shoppingCart.put(productID, shoppingCart.get(productID) + quantity);
+                return true;
             } else {
-                System.out.println("Can't add that quantity into the cart because it would exceed the quantity sold.");
+                return false;
             }
         } else {
-            canAdd = Store.checkQuantityAvailable(store, product, quantity);
-            if (canAdd) {
-                this.shoppingCart.put(product, quantity);
+            if (Store.checkQuantityAvailable(store, productID, quantity)) {
+                this.shoppingCart.put(productID, shoppingCart.get(productID) + quantity);
+                return true;
             } else {
-                System.out.println("Can't remove that quantity. ");
+                return false;
             }
         }
     }
 
-    public void removeProduct(Product product, int quantity) {
-        if (this.shoppingCart.containsKey(product)) {
-            Integer productQuantity = shoppingCart.get(product);
-            if (!(quantity > productQuantity)) {
-                this.shoppingCart.put(product, productQuantity - quantity);
+    public boolean removeProduct(Integer productID, int quantity) {
+        if (this.shoppingCart.containsKey(productID)) {
+            if (quantity <= shoppingCart.get(productID)) {
+                this.shoppingCart.put(productID, shoppingCart.get(productID) - quantity);
+                return true;
             } else {
-                System.out.println("Could not remove that quantity; quantity exceeded.");
+                return false;
             }
         }
+        return true;
     }
 
     public ArrayList<Product> getProducts() { //read the product file
@@ -193,12 +176,11 @@ public class Customer extends User {
     public void setProducts() { //set the products.txt
 
     }
-
-
     public void clearShoppingCart() {
-        this.shoppingCart.clear();
+        shoppingCart.clear();
     }
 
+    /* move to main method (no printing here), just call get shopping cart and do it there
     public void viewShoppingCart() {
         System.out.println("Current Shopping Cart: ");
         for (Product p : shoppingCart.keySet()) {
@@ -209,13 +191,14 @@ public class Customer extends User {
         System.out.println("------------------------------");
         System.out.println("Current Subtotal (no taxes): " + this.calculateCartTotal());
     }
+     */
 
     public double calculateCartTotal() {
         double total = 0;
-        for (Product p : this.shoppingCart.keySet()) {
+        for (Map.Entry<Integer, Integer> product : shoppingCart.entrySet()) {
             // adds the price of the product to the total
             // multiplies the price of the product by the quantity in the cart
-            total += (p.getPrice() * shoppingCart.get(p));
+            total += (Product.getProduct(product.getKey()).getPrice() * product.getValue());
         }
         return total;
     }
@@ -228,9 +211,8 @@ public class Customer extends User {
             fw.write(super.getName() + " Purchase History");
             fw.write("\n");
             fw.write("\n");
-
-            for (Product p : this.purchaseHistory.keySet()) {
-                fw.write("Product Name: " + p.getName() + " Quantity: " + purchaseHistory.get(p));
+            for (Integer p : this.purchaseHistory.keySet()) {
+                fw.write("Product ID: " + p + " Quantity: " + purchaseHistory.get(p));
                 fw.write("\n");
             }
             fw.flush();
@@ -238,5 +220,21 @@ public class Customer extends User {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public HashMap<Integer, Integer> getPurchaseHistory() {
+        return purchaseHistory;
+    }
+
+    public HashMap<Integer, Integer> getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public String getFileNotation() {
+        return fileNotation;
+    }
+
+    public void setFileNotation(String fileNotation) {
+        this.fileNotation = fileNotation;
     }
 }
