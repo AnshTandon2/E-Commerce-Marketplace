@@ -9,11 +9,10 @@ import java.util.*;
  * <p>
  * Creates a marketplace class with the main functionality of getting store information.
  *
- * @author Nirmal Senthilkumar, Ansh Tandon; CS 180 Black
+ * @author Nirmal Senthilkumar CS 180 Black
  * @version November 11, 2023
  */
 public class Marketplace {
-
     private static final ArrayList<String> productIDs = new ArrayList<>();
     private static final ArrayList<String> productNames = new ArrayList<>();
     private static final ArrayList<Double> priceList = new ArrayList<>();
@@ -46,6 +45,9 @@ public class Marketplace {
         }
     }
 
+    /**
+     * method to print the marketplace with all of the products
+     */
     public static void printMarketplace() {
         for (int index = 0; index < productIDs.size(); index++) {
             System.out.print(getProductInfo(index));
@@ -53,16 +55,21 @@ public class Marketplace {
         }
     }
 
+    /**
+     * Get the product info for a product given the index of it in the file
+     *
+     * @param index the index of it in the file (from order)
+     * @return the product info of a product
+     */
     public static String getProductInfo(int index) {
         String info = "";
-        info += String.format("%d;%s;%.2f;%s", index, productNames.get(index), priceList.get(index),
+        info += String.format("%d ; %s ; %.2f ; %s ; ", index, productNames.get(index), priceList.get(index),
                 storeNames.get(index));
         if (quantityList.get(index) == 0) {
             // there is no stock of the product available
-            info += String.format("%s is out of stock.\n", productNames.get(index));
+            info += String.format("OUT OF STOCK\n", productNames.get(index));
         } else {
-            info += String.format("There is a quantity of %d of %s\n", quantityList.get(index),
-                    productNames.get(index));
+            info += String.format("Quantity: %d\n", quantityList.get(index));
         }
         return info;
     }
@@ -122,7 +129,11 @@ public class Marketplace {
         return sortedProductIds;
     }
 
-
+    /**
+     * method to remove from cart (unfinished)
+     * @param productName product to be removed
+     * @param userName customer's cart to remove from
+     */
     public static void removeFromCart(String productName, String userName) {
         File f = new File("shoppingCart.txt");
         String toRemove = "";
@@ -165,9 +176,10 @@ public class Marketplace {
 
     }
 
-
     /**
-     * Seller and Customer function
+     * Display the shopping cart of the given customer
+     * @param userName the customer's cart to retrieve
+     * @return ArrayList of Strings of the product and the quantity seperated by " : "
      */
     public static ArrayList<String> displayCart(String userName) {
         File f = new File("shoppingCart.txt");
