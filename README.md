@@ -152,7 +152,8 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | searchProduct() | String keyword | ArrayList<String> | public static | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
 | productDetail() | int index | String | public static | Creates a String that contains a formatted version of information about products the format is such: ""\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" + "\nDescription: %s". If the stock is unavailable then the format will be: "\nProduct Name: %s" + "\nProduct Price: %.2f" +
 "\nStore: %s" + "\nQuantity: Out of Stock" |
-| listProductsByQuantity() | boolean ASCENDING | String | public | This method gets the quantity of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different format in the String list. The output will be returned as a String list which has the name of products and quantity |
+| sortMarket() | String orderMethod, String sortBy | ArrayList<String> | public static | This method gets the productID of a list of products and uses the values to compare a pair of products and based on the price or quantity of values and their order(ascending/descending). The output is an array list of products IDs that are either ascending or descending by quantity or price.|
+| removeFromCart()
 
 ## Product
 

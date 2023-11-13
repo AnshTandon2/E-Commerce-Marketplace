@@ -123,17 +123,45 @@ public class Marketplace {
 
     
     public static void removeFromCart(String productName, String userName) {
-        File f = new File("shoppingCart.txt");
+        File f = new File("/data/shoppingCart.txt");
+        String toRemove = "";
         try {
             Scanner scan = new Scanner(f);
             FileWriter fw = new FileWriter(f);
             while (scan.hasNextLine()) {
-                String[] data = scan.nextLine().split(";");
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[3].equals(productName) && data[0].equals(userName)) {
+                    toRemove = initialData;
+                }
                 
             }
+            scan.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (!toRemove.equals("")) {
+            String input = null;
+            String fileContents = "";
+            try {
+                Scanner scan = new Scanner(f);
+                StringBuffer sb = new StringBuffer();
+                while (scan.hasNextLine()) {
+                    input = scan.nextLine();
+                    sb.append(input);
+                }
+                fileContents = sb.toString();
+                fileContents = fileContents.replaceAll(toRemove + "\n", "");
+                PrintWriter writer = new PrintWriter(f);
+                writer.append(fileContents);
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
