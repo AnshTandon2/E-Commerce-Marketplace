@@ -130,7 +130,8 @@ public class StartingApplication {
             } else {
                 // the user is a Customer type
                 System.out.println("Customer Main Menu\n1. View Marketplace\n2. View Shopping Cart\n3. Search for " +
-                        "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export Shopping History\n7. " +
+                        "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export/Import Shopping " +
+                        "History\n7. " +
                         "View" +
                         " Store Statistics\n8. Log Out");
                 String MMChoice = s.nextLine();
@@ -223,7 +224,7 @@ public class StartingApplication {
                 } else if (MMChoice.equals("5")) { //view shopping history
 //                    Marketplace.viewShoppingHistory();
                     //need to implement logic for this
-                } else if (MMChoice.equals("6")) {  //export shopping history
+                } else if (MMChoice.equals("6")) {  //export/import shopping history
 //                    Marketplace.exportShoppingHistory();
                     //need to implement logic for this
 
