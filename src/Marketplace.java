@@ -1,5 +1,5 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 /**
  * Marketplace Class
@@ -10,19 +10,20 @@ import java.io.*;
  */
 public class Marketplace {
 
-    private static ArrayList<String> productIDs = new ArrayList<>();
-    private static ArrayList<String> productNames = new ArrayList<>();
-    private static ArrayList<Double> priceList = new ArrayList<>();
-    private static ArrayList<String> storeNames = new ArrayList<>();
-    private static ArrayList<Integer> quantityList = new ArrayList<>();
-    private static ArrayList<String> descriptionList = new ArrayList<>();
+    private static final ArrayList<String> productIDs = new ArrayList<>();
+    private static final ArrayList<String> productNames = new ArrayList<>();
+    private static final ArrayList<Double> priceList = new ArrayList<>();
+    private static final ArrayList<String> storeNames = new ArrayList<>();
+    private static final ArrayList<Integer> quantityList = new ArrayList<>();
+    private static final ArrayList<String> descriptionList = new ArrayList<>();
 
     /**
      * Reads the market.txt file and appends
      * Values to their corresponding ArrayLists;
      */
     public static void initializeMarketplace() {
-        File file = new File("market.txt");
+        File file = new File("data/market.txt");
+        int counter = 0;
         try {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
@@ -32,7 +33,8 @@ public class Marketplace {
                 storeNames.add(data[2]);
                 quantityList.add(Integer.parseInt(data[3]));
                 descriptionList.add(data[4]);
-                productIDs.add(data[5]);
+                productIDs.add(Integer.toString(counter));
+                counter++;
                 // maybe will need to add a unique product id
             }
         } catch (IOException e){
@@ -60,6 +62,7 @@ public class Marketplace {
         return info;
     }
 
+    //TODO Flag for Review
     public static ArrayList<String> searchProduct(String keyword) {
         ArrayList<String> matchedProducts = new ArrayList<String>();
         for(int index = 0; index < productIDs.size(); index++) {
@@ -95,53 +98,70 @@ public class Marketplace {
         }
     }
 
-    /** Sort the Market by Price and Quantity
-     * User chooses whether they want sort in ascending and descending order
-     * @param orderMethod is "asc" or "desc"
+    /** Nirmal can do this as he did it with initial code
+     * *
      * @param sortBy is "price" or "quantity"
+     * @param ASCENDING how to sort
      *
-     * @author Nirmal, Justin
-     * @version November 12
      */
-    public static ArrayList<String> sortMarket(String orderMethod, String sortBy) {
-        ArrayList<String> sortedProductIds = new ArrayList<>();
+    public static ArrayList<String> sortMarket(String sortBy, boolean ASCENDING) {
+        ArrayList<String> sortedProductIds = new ArrayList<>(productIDs);
 
         if (sortBy.equalsIgnoreCase("price")) {
-            ArrayList<Double> tempPrices = priceList;
-            Collections.sort(tempPrices);
-            if (orderMethod.equalsIgnoreCase("asc")) {
-                sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
-            } else if (orderMethod.equalsIgnoreCase("dsc")) {
-                sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
+            sortedProductIds.sort(Comparator.comparing(o -> (priceList.get(productIDs.indexOf(o)))));
+            if (!ASCENDING) {
                 Collections.reverse(sortedProductIds);
             }
         } else if (sortBy.equalsIgnoreCase("quantity")) {
-            ArrayList<Integer> tempQuantity = quantityList;
-            Collections.sort(tempQuantity);
-            if (orderMethod.equalsIgnoreCase("asc")) {
-                sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
-            } else if (orderMethod.equals("dsc")) {
-                sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
+            sortedProductIds.sort(Comparator.comparing(o -> (quantityList.get(productIDs.indexOf(o)))));
+            if (!ASCENDING) {
                 Collections.reverse(sortedProductIds);
             }
-            // neither price or quantity is given
         }
         return sortedProductIds;
     }
 
     
     public static void removeFromCart(String productName, String userName) {
-        File f = new File("shoppingCart.txt");
+        File f = new File("data/shoppingCart.txt");
+        String toRemove = "";
         try {
             Scanner scan = new Scanner(f);
             FileWriter fw = new FileWriter(f);
             while (scan.hasNextLine()) {
-                String[] data = scan.nextLine().split(";");
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[3].equals(productName) && data[0].equals(userName)) {
+                    toRemove = initialData;
+                }
                 
             }
+            scan.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (!toRemove.equals("")) {
+            String input = null;
+            String fileContents = "";
+            try {
+                Scanner scan = new Scanner(f);
+                StringBuffer sb = new StringBuffer();
+                while (scan.hasNextLine()) {
+                    input = scan.nextLine();
+                    sb.append(input);
+                }
+                fileContents = sb.toString();
+                fileContents = fileContents.replaceAll(toRemove + "\n", "");
+                PrintWriter writer = new PrintWriter(f);
+                writer.append(fileContents);
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
@@ -156,9 +176,7 @@ public class Marketplace {
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(";");
                 if (data[0].equals(userName)) {
-                    for (int i = 3; i < data.length; i++) {
-                        shoppingCart.add(data[i]);
-                    }
+                    shoppingCart.addAll(Arrays.asList(data).subList(3, data.length));
                 }
             }
             ArrayList<String> returnList = new ArrayList<>();
@@ -176,10 +194,10 @@ public class Marketplace {
 
     /** Combine this code to displayCart()*/
     public void printCart(String customerName) {
-        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingcart.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingCart.txt"))) {
             String line = bfr.readLine();
             while (line != null) {
-                String product[] = line.split(",");
+                String[] product = line.split(",");
                 if (product[0].equalsIgnoreCase(customerName)) {
                     System.out.printf("Product Name: %s\nProduct Price: %.2f\n" +
                                     "Quantity: %d\nTotal Cost: %.2f\nStore: %s\n\n",

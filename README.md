@@ -136,55 +136,26 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 #### Fields
 | Name | Type | Modifier |
 | --- | --- | --- |
-| stores | ArrayList<Store>  | private final |
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| Marketplace | ArrayList<Store> stores | public | Initiates a Marketplace object with a list of stores |
-
-#### Methods
-| Name | Parameters | Return Type | Modifier | Description |
-| --- | --- | --- | --- | --- |
-| CustomerDashboard() | Customer c | String | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
-| sortHashMap() | HashMap<Product, Integer> hashMap, boolean ASCENDING | HashMap<Product, Integer>  | public static | Modifies the existing hashmap list for better organization in other classes |
-| sortStores() | ArrayList<Store> stores,boolean ASCENDING | ArrayList<Store> | public static | Modifies list of stores based on quantity sold, so customers who interact with list can better analyze stores list |
-| findProductsByName() | String name | ArrayList<Product> | public | Uses the product name string to identify products in product list that contains that name and return the list |
-| findProductsByStore() | String storeName | ArrayList<Product> | public | Uses the store name string to identify store in store list and retrieve list of products available at specified store |
-| findProductsByDescription() | String descriptionKey | ArrayList<Product> | public | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
-| totalProductList() | None | ArrayList<Product> | public | Takes all store objects from store list and retrieves their products lists and adds them into one product list |
-| listProductsByPrice() | boolean ASCENDING | String | public | This method gets the price of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different way. The output will be returned as a String list which has the name of products and price |
-| listProductsByQuantity() | boolean ASCENDING | String | public | This method gets the quantity of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different format in the String list. The output will be returned as a String list which has the name of products and quantity |
-
-## Product
-
-#### Fields
-| Name | Type | Modifier |
-| --- | --- | --- |
-| ProductIDCounter | int | private static |
-| name | String | private |
-| price | double | private |
-| description | String | private |
-| ProductID | int | private |
-| products | ArrayList<Product> | private static |
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| Product | String name, double price, String productDescription | public | Assigns values of parameters to a new Product object. Assigns an unique ProductID to the Product. Increments the ProductID value to create unique ID for each product |
-| Product | int productID, String name, double price, String productDescription | public | Assigns values of parameters to a new Product object. |
+| productIDs | ArrayList<String>  | private static |
+| productNames | ArrayList<String>  | private static |
+| priceList | ArrayList<Double> | private static |
+| storeNames | ArrayList<String>  | private static |
+| quantityList | ArrayList<Integer>  | private static |
+| descriptionList | ArrayList<String>  | private static |
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
-| getName() | None | String | public | Returns the name of the product |
-| getPrice() | None | double | public | Returns the price of the product |
-| getDescription() | None | String | public | Returns the description of the product |
-| setName() | String name | String | public | Sets the name of the product to given name |
-| setDescription() | String description | String | public | Sets the description of the product to given description|
-| setPrice() | double price | double | public | Sets the price of the product to given price|
-| toString() | None | String | public | Returns the information about a product in a "Product<name; price; description>" format |
-| populateProductList() | None | void | public | 
+| initializeMarketplace()| None | void | public static | Initializes a file for market info and splits info by ";" and uses different indexes of the split string to add into the different characteristic arrays (productIDs, productNames, priceList, storeNames, quantityList, descriptionList)|
+| printMarketplace() | None | void | public static | Modifies the existing hashmap list for better organization in other classes | Prints the array list of product info by calling the getProductInfo method and separating each row by a line |
+| getProductInfo() | int index | String | public static | Returns a string that provides the index, product name, price, and store name when given an index of a product. In addition, the product's quantity is checked through an if statement, and then based of its availability it is displayed as out of stock or the quantity presently available. |
+| searchProduct() | String keyword | ArrayList<String> | public static | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
+| productDetail() | int index | String | public static | Creates a String that contains a formatted version of information about products the format is such: ""\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" + "\nDescription: %s". If the stock is unavailable then the format will be: "\nProduct Name: %s" + "\nProduct Price: %.2f" +
+"\nStore: %s" + "\nQuantity: Out of Stock" |
+| sortMarket() | String orderMethod, String sortBy | ArrayList<String> | public static | This method gets the productID of a list of products and uses the values to compare a pair of products and based on the price or quantity of values and their order(ascending/descending). The output is an array list of products IDs that are either ascending or descending by quantity or price.|
+| removeFromCart() | String productName, String userName | void | public static | Removes a product from the made cart by checking if its instance exists and then deleting |
+| displayCart() | String userName | ArrayList<String> | public static | Creates an array list out of the shopping cart file and then returns the list of the shopping cart contents |
+| printCart() | String customerName | void | public | Creates a cart list : "Product Name: %s\nProduct Price: %.2f\n" +"Quantity: %d\nTotal Cost: %.2f\nStore: %s\n\n"|
 
 ## Starting Application
 
@@ -194,12 +165,7 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | main() | String[] args | void | public static | First welcomes the user to the application and shows them the sign in, sign up, or exit options. If sign in option is selected, user will be prompted to enter username and password. Then their input will be tested to see if their account exists. If it does pass the test, they will be confirmed as logged in and pushed to the main menu. If tests don't pass, then print an error message. If sign up option is selected, user will be prompted to enter their name, email, and password. Then they will be asked to give their user status(Seller or Buyer). Their account will be checked to see if it already exists. If it does not, then based on the status given the user information will be either added to the Seller or shoppingCart(stores buyers and their shopping carts) files. Once account is successfully made, user is redirected back to sign in page and follows those steps again until either error or main menu. Lastly if exit option is selected, the system will print a thank you message and stop running. |
 | signUp() | String email, String password | boolean | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
 | accountExists() | String email, String password | String | public static | Takes in the email and password parameters and checks for any instances of those variables in the Seller and shoppingCart files by iterating through the files using a filereader. |
-| findProductsByName() | String name | ArrayList<Product> | public | Uses the product name string to identify products in product list that contains that name and return the list |
-| findProductsByStore() | String storeName | ArrayList<Product> | public | Uses the store name string to identify store in store list and retrieve list of products available at specified store |
-| findProductsByDescription() | String descriptionKey | ArrayList<Product> | public | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
-| totalProductList() | None | ArrayList<Product> | public | Takes all store objects from store list and retrieves their products lists and adds them into one product list |
-| listProductsByPrice() | boolean ASCENDING | String | public | This method gets the price of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different way. The output will be returned as a String list which has the name of products and price |
-| listProductsByQuantity() | boolean ASCENDING | String | public | This method gets the quantity of a list of products and uses the values to compare a pair of products and based on the results the boolean value will be true or false. If the boolean value is true then the order of products will be ordered in a different format in the String list. The output will be returned as a String list which has the name of products and quantity |
+
 
 
 
