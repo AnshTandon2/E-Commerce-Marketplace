@@ -136,22 +136,22 @@ public class StartingApplication {
                     System.out.println("1. Sort by Ascending Price\n2. Sort by Descending price\n3. Sort by ascending quantity\n4. Sort by Descending Quantity\n(Anything else.) exit");
                     String sortChoice = s.nextLine();
                     if (sortChoice.equals("1")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "price", "asc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "asc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
                     } else if (sortChoice.equals("2")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "price", "dsc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("price", "dsc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
                     } else if (sortChoice.equals("3")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "quantity", "asc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", "asc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
                     } else if (sortChoice.equals("4")) {
-                        ArrayList<String> sortedIndexes = Marketplace.sortMarket(null, "quantity", "dsc");
+                        ArrayList<String> sortedIndexes = Marketplace.sortMarket("quantity", "dsc");
                         for (String str : sortedIndexes) {
                             System.out.println(Marketplace.getProductInfo(Integer.parseInt(str)));
                         }
@@ -159,9 +159,20 @@ public class StartingApplication {
                         System.out.println("try again");
                     }
                 } else if (MMChoice.equals("2")) {
-                    ArrayList<String> shoppingCart = Marketplace.displayShoppingCart(username);
+                    ArrayList<String> shoppingCart = Marketplace.displayCart(username);
                     for (String str : shoppingCart) {
                         System.out.println(str + "\n");
+                    }
+                    System.out.println("1. Remove Cart Item\n2. buy cart items\n(Anything else.) exit");
+                    String cartChoice = s.nextLine();
+                    if (cartChoice.equals("1")) {
+                        System.out.println("Enter cart item name to be removed");
+                        String removeChoice = s.nextLine();
+                        Marketplace.removeFromCart(removeChoice, username);
+                    } else if (cartChoice.equals("2")) {
+
+                    } else {
+
                     }
                 } else if (MMChoice.equals("3")) {
                     System.out.println("Enter your search term: ");

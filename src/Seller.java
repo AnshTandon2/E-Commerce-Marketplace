@@ -147,6 +147,45 @@ public class Seller {
 
     }
 
+    public void exportStoreInformation(String merchantName, String storeName) {
+        File readingFile = new File("/data/market.txt");
+        File exportFile = new File("exportFile.csv");
+        try {
+            exportFile.createNewFile();
+            Scanner scan = new Scanner(readingFile);
+            FileWriter fw = new FileWriter(exportFile);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(";");
+                if (data[2].equals(storeName) && data[5].equals(merchantName)) {
+                    fw.write("Store:" + data[2] + "Item:" + data[0] + "Price:" + data[1]);
+                    fw.write("\n");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void importStoreInformation(String pathname) throws FileNotFoundException, IOException {
+        File f = new File(pathname);
+        File writeToFile = new File("/data/market.txt");
+        if (!f.exists()) {
+            throw new FileNotFoundException();
+        } else {
+            Scanner scan = new Scanner(f);
+            FileWriter fw = new FileWriter(writeToFile);
+            //Same format as the market.txt
+            while (scan.hasNextLine()) {
+                String data = scan.nextLine();
+                fw.write(data);
+                fw.write("\n");
+                fw.flush();
+
+            }
+            fw.close();
+        }
+    }
+
     public void createProduct() {
 
     }
