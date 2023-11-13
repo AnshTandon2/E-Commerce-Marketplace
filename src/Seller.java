@@ -12,18 +12,6 @@ import java.io.*;
  * @version November 13, 2023
  */
 public class Seller {
-    private String username;
-
-    public Seller(String username) {
-        this.username = username;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     /** List Products Method
      * Lists the products associated with the given Seller username
@@ -37,7 +25,7 @@ public class Seller {
         // methods lists all of the products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
         ArrayList<String[]> marketplaceList = new ArrayList<>();
-        File f = new File("data/market.txt");
+        File f = new File("market.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
@@ -67,36 +55,51 @@ public class Seller {
         }
     }
 
-
     /** Remove Product
      * Sellers can remove products from the current product line
+     * Given the productName and the Store name
      *
-     * @param
+     * @param productName
+     * @param storeName
+     *
+     * @author Lalitha Chandolu
+     * @version November 13, 2023
      */
-    public void removeProduct(String productName, String customerUsername) {
-        StringBuilder productList = new StringBuilder();
-        try (BufferedReader bfr = new BufferedReader(new FileReader("data/market.txt"))) {
+    public static String removeProduct(String productName, String storeName) {
+        // can edit product, price, store, quantity, or description
+        // go through market.txt and add lines to String[] ArrayList
+        ArrayList<String[]> marketplaceList = new ArrayList<>();
+        File f = new File("market.txt");
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
             while (line != null) {
-                String []product = line.split(";");
-                if (product[0].equalsIgnoreCase(customerUsername)) {
-                    // nothing happens then
-                } else {
-                    productList.append(line).append("\n");
-                }
+                marketplaceList.add(line.split(";"));
+                line = bfr.readLine();
             }
             bfr.close();
-        } catch (Exception e) {
+
+            // go through the ArrayList and if the product index matches then change that line
+            // Example line in market.txt file
+            //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
+            for (String[] productInfo: marketplaceList) {
+                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
+                    marketplaceList.remove(productInfo);
+                }
+            }
+
+            f.delete();
+            f = new File("market.txt");
+            // now write contents of ArrayList containing product info to ArrayList
+            BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
+            for (String[] productInfo: marketplaceList) {
+                String lineContents = String.join(";", productInfo);
+                bfw.write(lineContents + "\n");
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/market.txt"))) {
-            writer.write(productList.toString());
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        return "Product doesn't exist in this store.\n";
     }
 
 
@@ -155,12 +158,13 @@ public class Seller {
      * @param newValue
      *
      * @author Lalitha Chandolu
+     * @version November 13, 2023
      */
     public static String editProduct(String productName, String storeName, String changeField, String newValue) {
         // can edit product, price, store, quantity, or description
         // go through market.txt and add lines to String[] ArrayList
         ArrayList<String[]> marketplaceList = new ArrayList<>();
-        File f = new File("data/market.txt");
+        File f = new File("market.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
@@ -188,7 +192,7 @@ public class Seller {
             // clear the existing file
             // remake the market.txt file
             f.delete();
-            f = new File("data/market.txt");
+            f = new File("market.txt");
             // now write contents of ArrayList containing product info to ArrayList
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
             for (String[] productInfo: marketplaceList) {
@@ -222,7 +226,7 @@ public class Seller {
 
     public void importStoreInformation(String pathname) throws FileNotFoundException, IOException {
         File f = new File(pathname);
-        File writeToFile = new File("data/market.txt");
+        File writeToFile = new File("market.txt");
         if (!f.exists()) {
             throw new FileNotFoundException();
         } else {

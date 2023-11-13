@@ -62,7 +62,7 @@ public class StartingApplication {
                     // they don't have an existing account - so they can make an account
                     if (userRole == null) {
                         // they want to have the role of a seller
-                        File f = new File("data/users.txt");
+                        File f = new File("users.txt");
                         try {
                             FileWriter fw = new FileWriter(f, true);
                             BufferedWriter bfw = new BufferedWriter(fw);
@@ -278,7 +278,7 @@ public class StartingApplication {
                     //need to implement logic for this
 
                 } else if (MMChoice.equals("7")) { //view store statistics
-//                    Marketplace.viewStatistics();
+                    Customer.viewStoreStatistics(username);
                     //need to implement logic for this
                 } else if (MMChoice.equals("8")) { //log out
                     loggedOut = true;
