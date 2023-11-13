@@ -51,7 +51,7 @@ public class User {
             for (User user : userList) {
                 if (user instanceof Customer) {
                     fw.write(user.getEmail() + "," + user.getName() + "," + user.getPassword() + ",c");
-                } else {
+                } else if (user instanceof Seller) {
                     fw.write(user.getEmail() + "," + user.getName() + "," + user.getPassword() + ",s");
                 }
             }

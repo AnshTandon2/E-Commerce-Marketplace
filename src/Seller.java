@@ -125,11 +125,38 @@ public class Seller extends User {
                 fw.write("\n");
                 fw.write("---------------------------");
                 fw.write("\n");
+                scan2.close();
             }
+            scan.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         
+    }
+
+    public void importStoreFile(String pathName) {
+        File f = new File(pathName);
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) { 
+                //format: [StoreName],[NewProductName],[NewProductQuantity],[NewProductPrice],[NewProductDescription];
+                String[] data = scan.nextLine().split(",");
+                for (Store s : stores) {
+                    if (data[0].equals(s.getName())) {
+                        s.addProduct(new Product(data[1], Double.parseDouble(data[3]), data[4]));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewStore(Store s) {
+        stores.add(s);
     }
 
     // be able to view total sales by their store
