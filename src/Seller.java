@@ -65,6 +65,11 @@ public class Seller {
      * @author Lalitha Chandolu
      * @version November 13, 2023
      */
+<<<<<<< HEAD
+    public void removeProduct(String productName, String customerUsername) {
+        StringBuilder productList = new StringBuilder();
+        try (BufferedReader bfr = new BufferedReader(new FileReader("market.txt"))) {
+=======
     public static String removeProduct(String productName, String storeName) {
         // can edit product, price, store, quantity, or description
         // go through market.txt and add lines to String[] ArrayList
@@ -72,6 +77,7 @@ public class Seller {
         File f = new File("market.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
+>>>>>>> 2f4e5ea5059f5bb3f2fcd26ba4b9348bc592ae54
             String line = bfr.readLine();
             while (line != null) {
                 marketplaceList.add(line.split(";"));
@@ -99,7 +105,18 @@ public class Seller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("market.txt"))) {
+            writer.write(productList.toString());
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+=======
         return "Product doesn't exist in this store.\n";
+>>>>>>> 2f4e5ea5059f5bb3f2fcd26ba4b9348bc592ae54
     }
 
 
@@ -206,7 +223,7 @@ public class Seller {
     }
 
     public void exportStoreInformation(String merchantName, String storeName) {
-        File readingFile = new File("data/market.txt");
+        File readingFile = new File("market.txt");
         File exportFile = new File("exportFile.csv");
         try {
             exportFile.createNewFile();
