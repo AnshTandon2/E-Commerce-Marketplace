@@ -17,6 +17,10 @@ public class Marketplace {
     private static ArrayList<Integer> quantityList = new ArrayList<>();
     private static ArrayList<String> descriptionList = new ArrayList<>();
 
+    /**
+     * Reads the market.txt file and appends
+     * Values to their corresponding ArrayLists;
+     */
     public static void initializeMarketplace() {
         File file = new File("/data/market.txt");
         try {
@@ -43,14 +47,6 @@ public class Marketplace {
         }
     }
 
-    public static ArrayList<String> searchProduct(String keyword) {
-        ArrayList<String> matchedProducts = new ArrayList<String>();
-        for(int index = 0; index < productIDs.size(); index++) {
-            matchedProducts.add(getProductInfo(index));
-        }
-        return matchedProducts;
-    }
-
     public static String getProductInfo(int index) {
         String info = "";
         info += String.format("%d;%s;%.2f;%s", index, productNames.get(index),
@@ -63,6 +59,15 @@ public class Marketplace {
         }
         return info;
     }
+
+    public static ArrayList<String> searchProduct(String keyword) {
+        ArrayList<String> matchedProducts = new ArrayList<String>();
+        for(int index = 0; index < productIDs.size(); index++) {
+            matchedProducts.add(getProductInfo(index));
+        }
+        return matchedProducts;
+    }
+
 
     public static String productDetail(int index) {
         // index is decremented because when user enter index 1
@@ -150,18 +155,11 @@ public class Marketplace {
         return sortedProductIds;
     }
 
-    /**
-     * Customer function
-     */
-    public static void addToCart() {
-
-    }
-
 
     /**
      * Seller and Customer function
      */
-    public static ArrayList<String> displayShoppingCart(String userName) {
+    public ArrayList<String> displayCart(String userName) {
         File f = new File("/data/shoppingCart.txt");
         ArrayList<String> shoppingCart = new ArrayList<>();
         try {
@@ -187,28 +185,21 @@ public class Marketplace {
         return null;
     }
 
-    /** Seller Function */
-    public static void removeProduct() {
-
-
+    /** Combine this code to displayCart()*/
+    public void printCart(String customerName) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("shoppingcart.txt"))) {
+            String line = bfr.readLine();
+            while (line != null) {
+                String product[] = line.split(",");
+                if (product[0].equalsIgnoreCase(customerName)) {
+                    System.out.printf("Product Name: %s\nProduct Price: %.2f\n" +
+                                    "Quantity: %d\nTotal Cost: %.2f\nStore: %s\n\n",
+                            product[1], Double.parseDouble(product[2]), Integer.parseInt(product[4]),
+                            Double.parseDouble(product[2]) * Integer.parseInt(product[4]), product[3]);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    /** Seller Function */
-    public static void addProduct() {
-
-
-    }
-
-    /** Seller Function */
-    public static void editProduct() {
-
-
-    }
-
-    /** Customer Function*/
-    public static void buyShoppingCartItems() {
-
-    }
-
-
-
 }
