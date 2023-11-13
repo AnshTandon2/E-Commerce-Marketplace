@@ -175,7 +175,8 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 #### Constructors
 | Name | Parameters | Modifier | Description |
 | --- | --- | --- | --- |
-| Product | String name, double price, String productDescription | public | Assigns values of parameters to a new Product object and increments the ProductID value to create unique ID for each product |
+| Product | String name, double price, String productDescription | public | Assigns values of parameters to a new Product object. Assigns an unique ProductID to the Product. Increments the ProductID value to create unique ID for each product |
+| Product | int productID, String name, double price, String productDescription | public | Assigns values of parameters to a new Product object. |
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
