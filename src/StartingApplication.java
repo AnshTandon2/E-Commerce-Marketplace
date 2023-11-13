@@ -3,7 +3,7 @@ import java.io.*;
 
 /** Starting Application Class
  * Serves as the Login/Sign up system for a user
- * Verifies that they use an @purdue.edu email and
+ * Verifies that they use a @purdue.edu email and
  * whether they are a buyer or seller
  * The class redirects them to the corresponding menu
  *

@@ -5,6 +5,7 @@ import java.util.Map;
  * Store Class
  * <p>
  * Initiates a new store for the marketplace
+ * Owned and modifiable by a Seller user
  * Store has an id, name, products list, and a count of total sales
  *
  * @author Lalitha Chandolu, Nirmal Senthilkumar; CS 180 Black
@@ -12,22 +13,35 @@ import java.util.Map;
  */
 
 public class Store {
+
+    private static int StoreIDCounter = 1;
+
     private double totalSales;
     private int quantitySold;
     private String name;
-
+    private int StoreID;
     private HashMap<Integer, Integer> productsList;
+    // Products list hash map structure <Product ID, Quantity in Store>
+
+    private HashMap<String, HashMap<Integer, Integer>> customerHistories;
+    // customer histories hash map structure <email, <Product ID, Quantity Bought>>
 
     public Store() {
         this.name = "";
         this.totalSales = 0;
+        this.quantitySold = 0;
         this.productsList = new HashMap<Integer, Integer>();
+        this.StoreID = StoreIDCounter;
+        StoreIDCounter++;
     }
 
     public Store(String name, HashMap<Integer, Integer> productsList, double sales) {
         this.name = name;
         this.totalSales = sales;
         this.productsList = productsList;
+        this.StoreID = StoreIDCounter;
+        StoreIDCounter++;
+        this.customerHistories = new HashMap<String, HashMap<Integer, Integer>>();
     }
 
     public int getQuantitySold() {
@@ -50,19 +64,23 @@ public class Store {
         return productsList;
     }
 
-    public void setProductsList(HashMap<Integer, Integer> productsList) {
-        this.productsList = productsList;
-    }
-
-    public HashMap<Integer, Integer> getProducts() {
-        return this.productsList;
-    }
-
     public void setProducts(HashMap<Integer, Integer> list) {
         this.productsList = list;
     }
 
-    public String addProduct(Product product, int quantity) {
+    public void setProductsList(HashMap<Integer, Integer> productsList) {
+        this.productsList = productsList;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String addProduct(Product product, Integer quantity) {
         if (this.productsList.containsKey(product.getProductID())) {
             int productQuantity = productsList.get(product.getProductID());
             // sets the product back in hash map
@@ -70,14 +88,17 @@ public class Store {
             this.productsList.put(product.getProductID(), productQuantity + quantity);
             return ("Quanity (" + quantity + ") of the " + product.getName() + " has been added.");
         } else {
-            this.productsList.put(product.getProductID(), 1);
+            this.productsList.put(product.getProductID(), quantity);
             return ("This product has been added to your store. ");
         }
     }
 
-    public void addProduct(Product product) {
-        if (!this.productsList.containsKey(product)) {
+    public String addProduct(Product product) {
+        if (!this.productsList.containsKey(product.getProductID())) {
             this.productsList.put(product.getProductID(), 0);
+            return ("This product has been added to your store, but there is no current stock. ");
+        } else {
+            return ("This product already exists in your store. ");
         }
     }
 
@@ -88,25 +109,21 @@ public class Store {
             int productQuantity = productsList.get(product.getProductID());
             if (productQuantity - quantity > 0) {
                 this.productsList.put(product.getProductID(), productQuantity - quantity);
-                return ("Quanity (" + quantity + ") of the " + product.getName() + " has been removed.");
+                return ("Quantity (" + quantity + ") of the " + product.getName() + " has been removed.");
             } else {
-                return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your " +
-                        "store. ");
+                return ("The quantity specified of " + product.getName() + " exceeds the quantity available in your store." +
+                        "\n This quantity can't be removed");
             }
         }
         return ("This product is not in your store. ");
     }
 
-    public void removeProduct(Product product) {
-        this.productsList.remove(product.getProductID());
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String removeProduct(Product product) {
+        if (this.productsList.containsKey(product.getProductID())) {
+            this.productsList.remove(product.getProductID());
+            return ("This product has been removed from your store. ");
+        }
+        return ("This product is not in your store. ");
     }
 
     public boolean hasProductInStock(Product product) {
@@ -130,19 +147,21 @@ public class Store {
         return false;
     }
 
-    public String makeASale(Product product, int quantity) {
+    public boolean makeAPurchase(Product product, int quantity) {
         if (this.productsList.containsKey(product.getProductID())) {
             Integer productQuantity = productsList.get(product.getProductID());
-            // enough quantity available for sale
             if (productQuantity - quantity > 0) {
                 this.productsList.put(product.getProductID(), productQuantity - quantity);
                 this.totalSales += quantity * product.getPrice();
-                return ("Sale Made:\nProduct:" + product.getName() + "\nQuantity: " + quantity);
+                // purchase went through properly
+                return true;
             } else {
-                return ("Can't make this sale because quantity specified exceeds quantity available. ");
+                // the quantity demanded exceeds the quantity the store has
+                return false;
             }
         } else {
-            return ("This product is currently unavailable in this store");
+            // this store does not sell that product
+            return false;
         }
     }
 
@@ -155,7 +174,5 @@ public class Store {
         returnString.append("\nTotalSales: ").append(getTotalSales()).append("\n");
         return returnString.toString();
     }
-
-    // add the functionality that sellers have on their customers and their sales invoices tmr (11/12)
 
 }
