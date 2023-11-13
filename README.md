@@ -153,37 +153,9 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | productDetail() | int index | String | public static | Creates a String that contains a formatted version of information about products the format is such: ""\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" + "\nDescription: %s". If the stock is unavailable then the format will be: "\nProduct Name: %s" + "\nProduct Price: %.2f" +
 "\nStore: %s" + "\nQuantity: Out of Stock" |
 | sortMarket() | String orderMethod, String sortBy | ArrayList<String> | public static | This method gets the productID of a list of products and uses the values to compare a pair of products and based on the price or quantity of values and their order(ascending/descending). The output is an array list of products IDs that are either ascending or descending by quantity or price.|
-| removeFromCart()
-
-## Product
-
-#### Fields
-| Name | Type | Modifier |
-| --- | --- | --- |
-| ProductIDCounter | int | private static |
-| name | String | private |
-| price | double | private |
-| description | String | private |
-| ProductID | int | private |
-| products | ArrayList<Product> | private static |
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| Product | String name, double price, String productDescription | public | Assigns values of parameters to a new Product object. Assigns an unique ProductID to the Product. Increments the ProductID value to create unique ID for each product |
-| Product | int productID, String name, double price, String productDescription | public | Assigns values of parameters to a new Product object. |
-
-#### Methods
-| Name | Parameters | Return Type | Modifier | Description |
-| --- | --- | --- | --- | --- |
-| getName() | None | String | public | Returns the name of the product |
-| getPrice() | None | double | public | Returns the price of the product |
-| getDescription() | None | String | public | Returns the description of the product |
-| setName() | String name | String | public | Sets the name of the product to given name |
-| setDescription() | String description | String | public | Sets the description of the product to given description|
-| setPrice() | double price | double | public | Sets the price of the product to given price|
-| toString() | None | String | public | Returns the information about a product in a "Product<name; price; description>" format |
-| populateProductList() | None | void | public | 
+| removeFromCart() | String productName, String userName | void | public static | Removes a product from the made cart by checking if its instance exists and then deleting |
+| displayCart() | String userName | ArrayList<String> | public static | Creates an array list out of the shopping cart file and then returns the list of the shopping cart contents |
+| printCart() | String customerName | void | public | Creates a cart list : "Product Name: %s\nProduct Price: %.2f\n" +"Quantity: %d\nTotal Cost: %.2f\nStore: %s\n\n"|
 
 ## Starting Application
 
