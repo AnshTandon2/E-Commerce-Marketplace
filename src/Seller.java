@@ -263,7 +263,7 @@ public class Seller {
      * @author Justin, Lalitha
      * @version November 14, 2023
      */
-    public boolean exportStoreInformation(String merchantName, String storeName) {
+    public static boolean exportStoreInformation(String merchantName, String storeName) {
         // reads the market.txt file
         File readingFile = new File("market.txt");
         // makes the new file to be exported
@@ -301,7 +301,7 @@ public class Seller {
      * @author Justin
      * @version November 13, 2023
      */
-    public boolean importStoreInformation(String pathname) {
+    public static boolean importStoreInformation(String pathname) {
         // main method asks Seller for the file path as a command
         File f = new File(pathname);
         boolean imported = false;

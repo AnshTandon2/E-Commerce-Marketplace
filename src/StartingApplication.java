@@ -342,11 +342,15 @@ public class StartingApplication {
                                     int quantity = Integer.parseInt(s.nextLine());
                                     System.out.println("Please enter store you'd like to buy at: ");
                                     String storeName = s.nextLine();
-                                    int price = 0;
-                                    System.out.println("Please enter your password for authentication");
-                                    String pass = s.nextLine();
-                                    Customer.addToCart(product, quantity, storeName, username, pass);
-                                    System.out.println("Added to cart!");
+                                    String price = Marketplace.getProductPrice(product, storeName); 
+                                    if (price == null) {
+                                        System.out.println("This item does not exist");
+                                    } else {
+                                        System.out.println("Please enter your password for authentication");
+                                        String pass = s.nextLine();
+                                        Customer.addToCart(product, quantity, storeName, username, pass, price);
+                                        System.out.println("Added to cart!");
+                                    }
                                     //TODO: Implement add cart product method
                                 }
 
