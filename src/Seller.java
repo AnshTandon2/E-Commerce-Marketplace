@@ -17,6 +17,7 @@ public class Seller {
      * Remove Product
      * Sellers can remove products from the current product line
      * Given the productName and the Store name
+     * Only if the product exists; if not, no change occurs
      *
      * @param productName name of product to be removed
      * @param storeName name of store product to be removed from
@@ -77,8 +78,11 @@ public class Seller {
         ArrayList<String[]> marketplaceList = new ArrayList<>();
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
+            // reads the market.txt file
             String line = bfr.readLine();
             while (line != null) {
+                // adds a new String[] list for each product in marketplace
+                // split at each semi-colon
                 marketplaceList.add(line.split(";"));
                 line = bfr.readLine();
             }
@@ -110,11 +114,11 @@ public class Seller {
     public static String addProduct(String productName, double price, String storeName, int quantity,
                                     String description, String sellerUserName) {
         // Creates a new product and adds it to the market.txt file
-
         File f = new File("market.txt");
         ArrayList<String[]> marketplaceList = new ArrayList<>();
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
+            // reads the current marketplace file
             String line = bfr.readLine();
             while (line != null) {
                 marketplaceList.add(line.split(";"));
@@ -130,8 +134,11 @@ public class Seller {
                 }
             }
             if (!exists) {
+                // since the product doesn't exist - seller can add the product to their specified store
+                //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
                 String newProduct = String.format("%s;%.2f;%s;%d;%s;%s\n", productName, price, storeName, quantity,
                         description, sellerUserName);
+                // writes the new product to the file
                 bfw.write(newProduct);
                 bfw.flush();
                 bfw.close();
@@ -206,12 +213,12 @@ public class Seller {
      * List Products Method
      * Lists the products associated with the given Seller username
      *
-     * @param username
+     * @param  username (username of the seller)
      * @return String (product names list)
      * @author Lalitha Chandolu
      */
     public String listProducts(String username) {
-        // methods lists all of the products sold by this Seller
+        // methods lists all products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
         ArrayList<String[]> marketplaceList = new ArrayList<>();
         File f = new File("market.txt");
@@ -255,17 +262,20 @@ public class Seller {
      * @author Justin
      * @version November 13, 2023
      */
-    public void exportStoreInformation(String merchantName, String storeName) {
+    public boolean exportStoreInformation(String merchantName, String storeName) {
         File readingFile = new File("market.txt");
         File exportFile = new File("exportFile.csv");
+        boolean exported = false;
         try {
             exportFile.createNewFile();
             Scanner scan = new Scanner(readingFile);
             FileWriter fw = new FileWriter(exportFile);
+            fw.write("Store,Item,Price");
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(";");
+                //Book;60.00;claraStore;5;A nice book;clarank
                 if (data[2].equals(storeName) && data[5].equals(merchantName)) {
-                    fw.write("Store:" + data[2] + "Item:" + data[0] + "Price:" + data[1]);
+                    fw.write( data[2] + "," + data[0] + "," + data[1]);
                     fw.write("\n");
                 }
             }
@@ -276,34 +286,52 @@ public class Seller {
 
     /**
      * Import Store Information
-     * Takes a pathname from the seller and
+     * Takes a pathname from the seller and imports the store information
+     * to the market.txt file
      *
      * @param pathname
      * @throws FileNotFoundException
      * @throws IOException
+     * @return boolean (true if import occured; false otherwise)
      * @author Justin
      * @version November 13, 2023
      */
-    public void importStoreInformation(String pathname) throws FileNotFoundException, IOException {
+    public boolean importStoreInformation(String pathname) {
         // main method asks Seller for the file path as a command
         File f = new File(pathname);
-        File writeToFile = new File("market.txt");
-        if (!f.exists()) {
-            // file doesn't exist
-            // trying to import a non-existing file
-            throw new FileNotFoundException();
-        } else {
-            // writes the contents of the file into market.txt file
-            Scanner scan = new Scanner(f);
-            FileWriter fw = new FileWriter(writeToFile);
-            //Same format as the market.txt
-            while (scan.hasNextLine()) {
-                String data = scan.nextLine();
-                fw.write(data);
-                fw.write("\n");
-                fw.flush();
+        boolean imported = false;
+        // File should be in the format:
+        // SellerUserName, StoreName, ProductName, Price, Quantity, Description
+
+        try {
+            File writeToFile = new File("market.txt");
+            if (!f.exists()) {
+                imported = false;
+                // file doesn't exist
+                // trying to import a non-existing file
+            } else {
+                // writes the contents of the file into market.txt file
+                Scanner scan = new Scanner(f);
+                FileWriter fw = new FileWriter(writeToFile);
+                imported = true;
+                //Same format as the market.txt
+                while (scan.hasNextLine()) {
+                    // takes each line in the file they gave
+                    // writes it to the market.txt file
+                    String data = scan.nextLine();
+                    String[] tokens = data.split(",");
+                    //Book;60.00;claraStore;5;A nice book;clarank
+                    String newProductLine = tokens[2] + ";" + tokens[3] + ";" +
+                            tokens[1] + ";" + tokens[4] + ";" +
+                            tokens[5] + ";" + tokens[0];
+                    fw.write(newProductLine);
+                    fw.write("\n");
+                    fw.flush();
+                }
+                fw.close();
             }
-            fw.close();
+        } catch (IOException e) {
         }
+        return imported;
     }
 }
