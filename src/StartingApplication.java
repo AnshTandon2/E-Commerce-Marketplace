@@ -113,7 +113,7 @@ public class StartingApplication {
                 System.out.println(
                         "Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a " + "Product\n" +
                                 "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. " +
-                                "Import/Export Products\n8. View Customer Shopping Carts for my Stores\n 9. Log Out");
+                                "Import/Export Products\n8. View Customer Shopping Carts for my Stores\n9. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
@@ -239,8 +239,8 @@ public class StartingApplication {
                     case "6" -> { //view store statistics
                         System.out.println(
                                 "How would you like to sort your Statistics Dashboard (type 1 or 2):\n" + "1. Sort by" +
-                                        " List of Customers" + "2. Sort by Products Bought");
-                        String tempChoice = s.next();
+                                        " List of Customers\n" + "2. Sort by Products Bought");
+                        String tempChoice = s.nextLine();
                         int sortChoice = Integer.parseInt(tempChoice);
                         System.out.println(Seller.viewStoreStatistics(username, sortChoice));
                     }
@@ -249,7 +249,7 @@ public class StartingApplication {
                         System.out.println(
                                 "Would you like to import or export a CSV:\n" + "1. Import Products to be " + "added " +
                                         "to my stores\n" + "2. Export the Products from my Stores");
-                        String csvChoice = s.next();
+                        String csvChoice = s.nextLine();
                         if (csvChoice.equals("1")) {
                             System.out.println(
                                     "Provide a pathname (ex: importingProducts.txt)\n" + "It should be in " + "this " +
