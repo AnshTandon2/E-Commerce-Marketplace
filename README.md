@@ -4,7 +4,7 @@
 ###
 By: Ansh, Nirmal, Lalitha, Ankita, and Justin, Lab 02
 
-#### Code submitted on Vocareum by Nirmal; \| Ansh Submitted Project Report
+#### Code submitted on Vocareum by Nirmal \| Ansh Submitted Project Report
 
 ## Overview:
 Boilermaker Bazaar is an application where Purdue students can buy and sell their Purdue merchandise (apparel, textbooks, game tickets, etc) to one another through their individual stores. Customers can view products to buy by store, description, or name, and sellers can create stores and list their products they would like to sell. The target market for this application is specifically for Purdue students who enjoy buying and selling, want to make some money, or find vintage or unique pieces of Purdue merchandise.
