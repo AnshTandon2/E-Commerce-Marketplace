@@ -237,7 +237,7 @@ public class StartingApplication {
                                 + "2. Sort by Products Bought");
                         String tempChoice = s.next();
                         int sortChoice = Integer.parseInt(tempChoice);
-                        Seller.viewStoreStatistics(username, sortChoice);
+                        System.out.println(Seller.viewStoreStatistics(username, sortChoice));
                     }
 
                     case "7" -> {//import or exports for product
