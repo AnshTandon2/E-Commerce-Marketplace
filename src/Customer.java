@@ -128,10 +128,6 @@ public class Customer {
             returnString.append("Your purchase history is empty.");
             return returnString.toString();
         }
-        for (String product : storesBoughtFrom) {
-            String[] data = product.split(";");
-
-        }
         if (sortBy.equalsIgnoreCase("price")) { //the amount spent bt the customer
             storesBoughtFrom.sort(Comparator.comparing(o -> ((Double.parseDouble(o.split(";")[1]) * Double.parseDouble(o.split(";")[3])))));
         } else if (sortBy.equalsIgnoreCase("quantity")) { //the amount of products the customer bought
@@ -176,7 +172,7 @@ public class Customer {
 
     }
 
-    public void addToCart(String productName, int quantity, String storeName, String client, String password,
+    public static void addToCart(String productName, int quantity, String storeName, String client, String password,
                           String price) {
 
         File marketFile = new File("market.txt");
@@ -229,7 +225,7 @@ public class Customer {
 
     }
 
-    public void removeFromCart(String customerUsername, String productName) {
+    public static void removeFromCart(String customerUsername, String productName) {
 
         File f = new File("shoppingCart.txt");
         try {
@@ -265,7 +261,7 @@ public class Customer {
     /**
      * Still being implemented
      */
-    public void buyShoppingCartItems(String customerName) {
+    public static void buyShoppingCartItems(String customerName) {
 
         File f = new File("shoppingCart.txt");
         try {
@@ -298,6 +294,36 @@ public class Customer {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * displayCart for customer to see all products in their cart
+     *
+     * @param userName the username of the customer
+     * @return the arrayList of products in the cart
+     * @author Nirmal Senthilkumar
+     */
+    public static ArrayList<String> displayCart(String userName) {
+        File f = new File("shoppingCart.txt");
+        ArrayList<String[]> shoppingCart = new ArrayList<>();
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String temp = scan.nextLine();
+                String[] data = temp.split(";");
+                if (data[0].equals(userName)) {
+                    shoppingCart.add(data);
+                }
+            }
+            ArrayList<String> returnList = new ArrayList<>();
+            for (int i = 0; i < shoppingCart.size(); i++) {
+
+            }
+            return returnList;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
