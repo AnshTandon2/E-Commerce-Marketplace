@@ -158,7 +158,7 @@ public class StartingApplication {
                             default -> System.out.println("Please go back and try again!");
                         }
                     }
-                    case "2" -> { // view sales by store
+                    case "2" -> { // view information by store
                         System.out.println(Seller.listInformationByStore(username));
                     }
                     case "3" -> { //add product
