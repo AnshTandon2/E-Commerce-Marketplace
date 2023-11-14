@@ -46,9 +46,9 @@ public class Seller {
             // go through the ArrayList and if the product index matches then change that line
             // Example line in market.txt file
             //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
-            for (String[] productInfo : marketplaceList) {
-                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
-                    marketplaceList.remove(productInfo);
+            for (int i = 0; i < marketplaceList.size(); i++) {
+                if ((marketplaceList.get(i)[0].equals(productName)) && (marketplaceList.get(i)[2].equals(storeName))) {
+                    marketplaceList.remove(i);
                     returnString = "Product removed.";
                     break;
                 }

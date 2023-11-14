@@ -75,8 +75,9 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | addToCart() | String productName, int quantity, String storeName | void | public | Adds anothe rproduct to the cart file |
 | removeFromCart() | String customerUsername, String productName, String productId | void | public | Takes in a file with shopping cart information and splits different customers by product and cumtomer name. |
 | buyShoppingCartItems() | String customerName | void | public | Empties shopping cart on the basis of buying and then adds those purchases to the purchase history list. |
-| buyItem() | String customerName,String productId, int quantity | boolean | public static | Adds an instance of customer or seller to user list |
-
+| exportPurchaseHistory() | String userName | void | public static | Exports all the information on the files of purchase history and writes them to a file in a list format. |
+| viewShoppingHistory() | String userName, String sortBy, boolean ASCENDING | String | public static | Reads the purchase file and looks for instance of username given in the file. Then the information is extracted and put into a stringbuilder to return a string telling the customer what their file consists of. |
+| displayCart() | String userName | ArrayList<String> | public static | Reads through the shopping cart file using the username and adds the items correlated with the user given to an array list and returns the list.  |
 
 ## Seller
 
