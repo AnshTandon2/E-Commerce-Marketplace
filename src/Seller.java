@@ -84,6 +84,7 @@ public class Seller {
         }
         return null;
     }
+
     /**
      * @param productName product name to be checked if it exists
      * @param storeName   store name to be checked if product exists in it
