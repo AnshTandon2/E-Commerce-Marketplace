@@ -81,29 +81,17 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 
 ## Seller
 
-#### Fields
-| Name | Type | Modifier |
-| --- | --- | --- |
-| stores | ArrayList<Store> | private |
-| StoreHistory | File | private |
-
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| Seller | String info, ArrayList<Stores> storeList | public | Reads the info files with all the information about stores and searches for instances of seller and adds those stores into an array list for seller |
-| Seller | String name, String email, String password | public | Calls User constructor and sends the name, email, and password into it while creating a seller object |
-
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
-| initiatePurchaseHistoryFile() | None | void | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
-| modifyPurchaseHistoryFile() | ArrayList<Product> list | void | public | Modifies the existing purchase history file for the user by adding a new product purchase to the customer's purchase history |
-| exportPurchaseHistory() | None | void | public | Returns the customer Purchase History |
-| getCustomerPurchaseHistory() | String name, int userId | File | public static | Retrieves a purchase history file when given the customer's name and unique userId |
-| addToShoppingCart() | String product | void | public | Adds an item to the customer's shopping cart |
-| removeFromShoppingCart() | String product | void | public | Removes an item from the customer's shopping cart |
-| viewShoppingCart() | None | void | public | Allows customer view of what is in their shopping cart and data persistence permits user access even after logging out |
+| removeProduct() | String productName, String storeName | String | public | Allows seller to remove products from the current product line by checking the given productName and the Store name. If the instance of both exist then it will be removed or error will occur |
+| productExists() | String productName, String storeName | boolean | public | Returns a boolean if the product exists in the specified Seller's store |
+| addProduct() | String productName, double price, String storeName, int quantity, String description, String sellerUserName | String | public | Allows seller to take the product info and add it to their store.  |
+| editProduct() | String productName, String storeName, String changeField, String newValue | String | public | Modifies the existing product value in the market file and adds the new parameters in for that product |
+| ListPurchaseHistoryByStore() | String username | String | public static | Sellers can view a list of their sales by store, including customer information and revenues from the sale. |
+| exportStoreInformation() | String merchantName, String storeName | boolean | public static | Allows a seller to export a csv file of the information of their store and CSV contains rows of products sold in the store. Each csv contains information for one of their unique stores |
+| importStoreInformation() | String userName, String pathname | boolean | public static | Imports information to the market file by checking for the user and pathname instance and then adding the store information to those users in the file |
+| viewStoreStatistics() | String userName, int userChoice | String | public | Seller can view a dashboard of their store statistics. The data includes a list of customers with the number of items that they have purchased or a list of products with the number of sales made depending on the sortChoice that the sellers choose on their dashboard in their menu |
 
 ## Market Place
 
@@ -121,23 +109,19 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
 | initializeMarketplace()| None | void | public static | Initializes a file for market info and splits info by ";" and uses different indexes of the split string to add into the different characteristic arrays (productIDs, productNames, priceList, storeNames, quantityList, descriptionList)|
+| updateMarketplace()| None | void | public static | Modifies the market file when changes are being made to the product information stored by traversing through the array lists and chaning the data points|
 | printMarketplace() | None | void | public static | Modifies the existing hashmap list for better organization in other classes | Prints the array list of product info by calling the getProductInfo method and separating each row by a line |
-| getProductInfo() | int index | String | public static | Returns a string that provides the index, product name, price, and store name when given an index of a product. In addition, the product's quantity is checked through an if statement, and then based of its availability it is displayed as out of stock or the quantity presently available. |
+| getProductPrice() | String productName, String productSeller | String | public static | Returns a string that provides the product price when given the name of a product.|
 | searchProduct() | String keyword | ArrayList<String> | public static | Uses the description key string to identify products in product list with specified and retrieve list of products available that contain specifed description |
-| productDetail() | int index | String | public static | Creates a String that contains a formatted version of information about products the format is such: ""\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" + "\nDescription: %s". If the stock is unavailable then the format will be: "\nProduct Name: %s" + "\nProduct Price: %.2f" +
-"\nStore: %s" + "\nQuantity: Out of Stock" |
+| productDetail() | int index | String | public static | Creates a String that contains a formatted version of information about products the format is such: ""\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" + "\nDescription: %s". If the stock is unavailable then the format will be: "\nProduct Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of Stock" |
 | sortMarket() | String orderMethod, String sortBy | ArrayList<String> | public static | This method gets the productID of a list of products and uses the values to compare a pair of products and based on the price or quantity of values and their order(ascending/descending). The output is an array list of products IDs that are either ascending or descending by quantity or price.|
-| removeFromCart() | String productName, String userName | void | public static | Removes a product from the made cart by checking if its instance exists and then deleting |
-| displayCart() | String userName | ArrayList<String> | public static | Creates an array list out of the shopping cart file and then returns the list of the shopping cart contents |
-| printCart() | String customerName | void | public | Creates a cart list : "Product Name: %s\nProduct Price: %.2f\n" +"Quantity: %d\nTotal Cost: %.2f\nStore: %s\n\n"|
 
 ## Starting Application
 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
-| main() | String[] args | void | public static | First welcomes the user to the application and shows them the sign in, sign up, or exit options. If sign in option is selected, user will be prompted to enter username and password. Then their input will be tested to see if their account exists. If it does pass the test, they will be confirmed as logged in and pushed to the main menu. If tests don't pass, then print an error message. If sign up option is selected, user will be prompted to enter their name, email, and password. Then they will be asked to give their user status(Seller or Buyer). Their account will be checked to see if it already exists. If it does not, then based on the status given the user information will be either added to the Seller or shoppingCart(stores buyers and their shopping carts) files. Once account is successfully made, user is redirected back to sign in page and follows those steps again until either error or main menu. Lastly if exit option is selected, the system will print a thank you message and stop running. |
-| signUp() | String email, String password | boolean | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
+| main() | String[] args | void | public static | First welcomes the user to the application and shows them the sign in, sign up, or exit options. If sign in option is selected, user will be prompted to enter username and password. Then their input will be tested to see if their account exists. If it does pass the test, they will be confirmed as logged in and pushed to the main menu. If tests don't pass, then print an error message. If sign up option is selected, user will be prompted to enter their name, email, and password. Then they will be asked to give their user status(Seller or Buyer). Their account will be checked to see if it already exists. If it does not, then based on the status given the user information will be either added to the Seller or shoppingCart(stores buyers and their shopping carts) files. Once account is successfully made, user is redirected back to sign in page and follows those steps again until either error or main menu. Lastly if exit option is selected, the system will print a thank you message and stop running. Once past login user will be prompted to either a menu for seller or customer based on their role. The customer has acces to shoppingcart and other purchase history and list of stores. The seller is provided with the function of managing stores and products and viewing customer and statistics.  |
 | accountExists() | String email, String password | String | public static | Takes in the email and password parameters and checks for any instances of those variables in the Seller and shoppingCart files by iterating through the files using a filereader. |
 
 
