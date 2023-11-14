@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -21,7 +23,6 @@ public class Seller {
      * @param productName name of product to be removed
      * @param storeName name of store product to be removed from
      * @author Lalitha Chandolu, Nirmal Senthilkumar
-     * @version November 13, 2023
      */
     public static String removeProduct(String productName, String storeName) {
         // can edit product, price, store, quantity, or description
@@ -229,7 +230,7 @@ public class Seller {
      * @return String (product names list)
      * @author Lalitha Chandolu
      */
-    public String listProducts(String username) {
+    public static String listProductsByStore(String username) {
         // methods lists all of the products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
         ArrayList<String[]> marketplaceList = new ArrayList<>();
@@ -242,22 +243,27 @@ public class Seller {
                 line = bfr.readLine();
             }
             bfr.close();
-            // Remove all products from ArrayList that don't belong to this seller
+            ArrayList<String[]> sellerProducts = new ArrayList<>();
             for (String[] productLine : marketplaceList) {
                 //productLine[5] represents the username of the Seller associated with the product
-                if (!productLine[5].equals(username)) {
-                    marketplaceList.remove(productLine);
-                }
-            }
-
-            String sellerProductList = "List of Products:\n";
-            // Go through ArrayList and add the products that this seller owns to the string
-            for (String[] productLine : marketplaceList) {
                 if (productLine[5].equals(username)) {
-                    sellerProductList += (String.join(",", productLine) + "\n");
+                    sellerProducts.add(productLine);
                 }
             }
-            return sellerProductList;
+            sellerProducts.sort(Comparator.comparing(o -> (o[2])));
+            Collections.reverse(sellerProducts);
+            StringBuilder sellerProductList = new StringBuilder("List of Products by Store:\n");
+            // Go through ArrayList and add the products that this seller owns to the string
+            String store = sellerProducts.get(0)[2];
+            sellerProductList.append(store).append(": \n");
+            for (String[] productLine : sellerProducts) {
+                if (!productLine[2].equals(store)) {
+                    store = productLine[2];
+                    sellerProductList.append(store).append(": \n");
+                }
+                sellerProductList.append(String.join(";", productLine)).append("\n");
+            }
+            return sellerProductList.toString();
         } catch (IOException e) {
             return null;
         }

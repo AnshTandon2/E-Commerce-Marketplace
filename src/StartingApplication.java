@@ -158,8 +158,8 @@ public class StartingApplication {
                             default -> System.out.println("Please go back and try again!");
                         }
                     }
-                    case "2" -> {   //view sales by store
-
+                    case "2" -> { //list stores that the seller is associated with and the products in it
+                        System.out.println(Seller.listProductsByStore(username));
                     }
                     case "3" -> { //add product
                         System.out.println("Enter a Product Name: ");
@@ -231,6 +231,7 @@ public class StartingApplication {
                     }
 
                     case "6" -> { //view store statistics
+
                     }
                     case "7" -> {//import or exports for product
                         //justin's part
@@ -409,7 +410,7 @@ public class StartingApplication {
                         }
                     }
 
-//                    Marketplace.purchaseProduct();
+                    //Marketplace.purchaseProduct();
                     //need to implement logic for this
                     case "5" ->  //view shopping history
                             Customer.viewHistory(username);
@@ -417,7 +418,6 @@ public class StartingApplication {
                             Customer.exportPurchaseHistory(username);
                     case "7" ->  //view store statistics
                             Customer.viewStoreStatistics(username);
-
                     //need to implement logic for this
                     case "8" -> {  //log out
                         System.out.println("Thank you for using marketplace!");
