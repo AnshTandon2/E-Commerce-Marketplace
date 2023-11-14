@@ -1,5 +1,8 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * Seller Class
@@ -19,7 +22,7 @@ public class Seller {
      * Only if the product exists; if not, no change occurs
      *
      * @param productName name of product to be removed
-     * @param storeName name of store product to be removed from
+     * @param storeName   name of store product to be removed from
      * @return String (whether product was removed)
      * @author Lalitha Chandolu, Nirmal Senthilkumar
      * @version November 13, 2023
@@ -103,11 +106,11 @@ public class Seller {
      * Seller can add a new product to their specified store
      * if the product doesn't currently exist
      *
-     * @param productName productName field to be added
-     * @param price price field to be added
-     * @param storeName storeName field to be added
-     * @param quantity quantity field to be added
-     * @param description description field to be added
+     * @param productName    productName field to be added
+     * @param price          price field to be added
+     * @param storeName      storeName field to be added
+     * @param quantity       quantity field to be added
+     * @param description    description field to be added
      * @param sellerUserName sellerUserName field to be added
      * @author Lalitha Chandolu, Nirmal Senthilkumar
      */
@@ -213,15 +216,52 @@ public class Seller {
      * List Information By Store
      * Sellers can view a list of their sales by store, including customer information
      * and revenues from the sale.
-     *
+     * <p>
      * STILL NEEDS TO BE IMPLEMENTED
      *
-     * @param  username (username of the seller)
+     * @param username (username of the seller)
      * @return String (Store Information)
      * @author Nirmal
      */
-    public static String listInformationByStore(String username) {
-        return "";
+    public static String ListPurchaseHistoryByStore(String username) {
+        // methods lists all products sold by this Seller
+        // go through market.txt and add lines to String[] ArrayList1
+        ArrayList<String[]> storeList = new ArrayList<>();
+        File f = new File("purchases.txt");
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] data = line.split(";");
+                if (data[5].equals(username)) {
+                    storeList.add(data);
+                }
+                line = bfr.readLine();
+            }
+            bfr.close();
+            storeList.sort(Comparator.comparing(o -> ((o[2]))));
+            if (storeList.isEmpty())
+                return "No Recorded Sales";
+            // Go through ArrayList and add the products that this seller owns to the string
+            StringBuilder returnString = new StringBuilder("List of Stores and all transactions\n");
+            String store = storeList.get(0)[2];
+            returnString.append("\nStore: ").append(store).append("\n");
+            double total = 0;
+            for (String[] productLine : storeList) {
+                if (!productLine[2].equals(store)) {
+                    returnString.append(String.format("Store Total Revenue: $%.2f\n", total));
+                    total = 0;
+                    store = productLine[2];
+                    returnString.append("\nStore: ").append(store).append("\n");
+                }
+                returnString.append(productLine[4]).append(" purchased ").append(productLine[3]).append(" ").append(productLine[1]).append("(s) from ").append(productLine[2]).append(" for $").append(productLine[1]).append(String.format(" for a " + "total of $%.2f.\n", Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1])));
+                total += Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1]);
+            }
+            returnString.append(String.format("Store Total Revenue: $%.2f\n", total));
+            return returnString.toString();
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     /**
@@ -251,7 +291,7 @@ public class Seller {
                 String[] data = scan.nextLine().split(";");
                 //Book;60.00;claraStore;5;A nice book;clarank
                 if (data[2].equals(storeName) && data[5].equals(merchantName)) {
-                    fw.write( data[2] + "," + data[0] + "," + data[1]);
+                    fw.write(data[2] + "," + data[0] + "," + data[1]);
                     fw.write("\n");
                     exported = true;
                 }
@@ -267,9 +307,9 @@ public class Seller {
      * to the market.txt file
      *
      * @param pathname
+     * @return boolean (true if import occured; false otherwise)
      * @throws FileNotFoundException
      * @throws IOException
-     * @return boolean (true if import occured; false otherwise)
      * @author Justin
      * @version November 13, 2023
      */
@@ -301,9 +341,9 @@ public class Seller {
                         String data = scan.nextLine();
                         String[] tokens = data.split(",");
                         //Book;60.00;claraStore;5;A nice book;clarank
-                        String newProductLine = tokens[2] + ";" + tokens[3] + ";" +
-                                tokens[1] + ";" + tokens[4] + ";" +
-                                tokens[5] + ";" + tokens[0];
+                        String newProductLine =
+                                tokens[2] + ";" + tokens[3] + ";" + tokens[1] + ";" + tokens[4] + ";" + tokens[5] +
+                                        ";" + tokens[0];
                         fw.write(newProductLine);
                         fw.write("\n");
                         fw.flush();
@@ -324,7 +364,7 @@ public class Seller {
      * Or a list of products with the number of sales made
      * Depending on the sortChoice that the sellers choose on their dashboard in their menu
      *
-     * @param username (seller username)
+     * @param username   (seller username)
      * @param sortChoice (sort by which type)
      * @author Ansh Tandon, Lalitha Chandolu
      */
@@ -355,11 +395,11 @@ public class Seller {
         String storeStatistics = "";
         if (sortChoice == 1) { // sort by list of customers
             HashMap<String, Integer> customerPurchases = new HashMap<String, Integer>();
-            for (String purchase: purchasesInSellerStores) {
+            for (String purchase : purchasesInSellerStores) {
                 // Example of String Purchase:
                 // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
                 String[] purchaseInfo = purchase.split(";");
-                if (customerPurchases.keySet().contains(purchaseInfo[4])) {
+                if (customerPurchases.containsKey(purchaseInfo[4])) {
                     // finds the number of purchases that that Customer made
                     int quantity = customerPurchases.get(purchaseInfo[4]);
                     customerPurchases.put(purchaseInfo[4], quantity + Integer.parseInt(purchaseInfo[3]));
@@ -369,19 +409,20 @@ public class Seller {
                 }
             }
             storeStatistics += ("Sorted by List of Customers and their purchases:\n ");
-            for (String customer: customerPurchases.keySet()) {
-                storeStatistics += String.format("%s has purchased %d items from your stores.\n", customer, customerPurchases.get(customer));
+            for (String customer : customerPurchases.keySet()) {
+                storeStatistics += String.format("%s has purchased %d items from your stores.\n", customer,
+                        customerPurchases.get(customer));
             }
 
         } else if (sortChoice == 2) { // sort by products sold
             HashMap<String, Integer> productsPurchased = new HashMap<String, Integer>();
-            for (String store: purchasesInSellerStores) {
+            for (String store : purchasesInSellerStores) {
                 HashMap<String, Integer> productsBought = new HashMap<String, Integer>();
                 for (String purchase : purchasesInSellerStores) {
                     // Example of String Purchase:
                     // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
                     String[] purchaseInfo = purchase.split(";");
-                    if (productsPurchased.keySet().contains(purchaseInfo[0])) {
+                    if (productsPurchased.containsKey(purchaseInfo[0])) {
                         int quantitySold = productsPurchased.get(purchaseInfo[0]);
                         productsPurchased.put(purchaseInfo[0], quantitySold + Integer.parseInt(purchaseInfo[3]));
                     } else {
@@ -390,8 +431,9 @@ public class Seller {
                 }
             }
             storeStatistics += ("Sorted by List of Products Purchased with number of Sales:\n ");
-            for (String product: productsPurchased.keySet()) {
-                storeStatistics += String.format("%s has been purchased a total of %d times from your stores.\n", product, productsPurchased.get(product));
+            for (String product : productsPurchased.keySet()) {
+                storeStatistics += String.format("%s has been purchased a total of %d times from your stores.\n",
+                        product, productsPurchased.get(product));
             }
         }
         return storeStatistics;
