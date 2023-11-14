@@ -23,6 +23,9 @@ public class Test {
         Seller.editProduct("newProduct!", "newStore!", "quantity", "9"); //should update
         Seller.editProduct("nonoexistentProduct", "nonexistentstore", "description", "Hello World"); //should return prouduct not found
         Seller.exportStoreInformation("dylanK", "dylanStore"); //should export file containing dylanStore products
+        //format:
+        //Store,item,price
+
         Seller.exportStoreInformation("noneexistentSeller", "dylanStore"); //should not export anything
         Seller.importStoreInformation("dylank","testImportFile.txt");
         Seller.viewStoreStatistics("davidkj", 1);
@@ -31,24 +34,22 @@ public class Test {
         /* End of Seller Class Testing */
 
         /* Customer Class Testing */
-        try {
-            Customer.buyItem("tandon39", "Purdue Laptop Bag", 3); //should buy properly
-            Customer.buyItem("tandon39", "Purdue Laptop Bag", 493857689); //should return saying not enough stock
-            //Customer.buyItem("tandon39", "nonexistentproduct", 3);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         Customer.exportPurchaseHistory("tandon39");
+        //should create a csv file in root dir containing the purchases of this person 
+        //format:
+        //productName;price;storeName;quantity;customer-userame;seller-username
         Customer.viewShoppingHistory("tandon39", "price", false);
         Customer.viewShoppingHistory("tandon39", "price", true);
         Customer.viewShoppingHistory("tandon39", "quantity", false);
         Customer.viewShoppingHistory("tandon39", "quantity", true);
         Customer.addToCart("Purdue Hoodie", "sandyStore", 4, "tandon39"); //should be sucessful
         Customer.addToCart("Purdue Hat", "sandyStore", 4, "tandon39"); //should say out of stock
-        Customer.buyShoppingCartItems("tandon39"); // should buy things
+        Customer.buyShoppingCartItems("tandon39"); // should buy things and update purchases.txt to reflect the things brought 
+        //as well as if brought properly, should decrease the stock by number of things brought 
         Customer.removeFromCart("tandon39", "Purdue Overalls"); //should remove from shoppingcart
         Customer.removeFromCart("tandon39", "Noneexistentthing"); //should display error
+        //should delete the entire line from shoppingCart.txt
 
 
         /* End customer class testing */
