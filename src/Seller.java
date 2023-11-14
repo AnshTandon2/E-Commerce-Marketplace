@@ -263,7 +263,7 @@ public class Seller {
      * @author Justin, Lalitha
      * @version November 14, 2023
      */
-    public boolean exportStoreInformation(String merchantName, String storeName) {
+    public static boolean exportStoreInformation(String merchantName, String storeName) {
         // reads the market.txt file
         File readingFile = new File("market.txt");
         // makes the new file to be exported
@@ -301,7 +301,7 @@ public class Seller {
      * @author Justin
      * @version November 13, 2023
      */
-    public boolean importStoreInformation(String pathname) {
+    public static boolean importStoreInformation(String username, String pathname) {
         // main method asks Seller for the file path as a command
         File f = new File(pathname);
         boolean imported = false;
@@ -355,69 +355,58 @@ public class Seller {
      *
      * @param username (seller username)
      * @param sortChoice (sort by which type)
-     * @author Ansh, Lalitha
+     * @author Ansh Tandon, Lalitha Chandolu
      */
     public static String viewStoreStatistics(String username, int sortChoice) {
-        Map<String, Map<String, Integer>> storeStats = new HashMap<>();
-        Map<String, Map<String, Integer>> productStatistics = new HashMap<>();
-        File f = new File("purchases.txt");
-        // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+        // Example line in Purchases.txt
+        //Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+        File purchases = new File("purchases.txt");
+        ArrayList<String> purchasesInSellerStores = new ArrayList<>();
         try {
-            BufferedReader bfr = new BufferedReader(new FileReader(f));
-            String line = bfr.readLine();
-            while (line != null) {
-                String[] data = line.split(",");
-                String productName = data[0];
-                double priceItem = Double.parseDouble(data[1]);
-                String storeName = data[2];
-                int quantityPurchased = Integer.parseInt(data[3]);
-                String customerName = data[4];
-                line = bfr.readLine();
-
-                // Sort Types
-                // 1. Sort by List of Customers
-                // 2. Sort by Products Bought
-
+            Scanner fileReader = new Scanner(purchases);
+            while (fileReader.hasNextLine()) {
+                // reads through all the lines in purchases.txt
+                String initialData = fileReader.nextLine();
+                String[] data = initialData.split(";");
+                // store belongs to the specified user (Seller)
                 if (data[5].equals(username)) {
-                    // If the store's statistics don't exist already, create them
-                    Map<String, Integer> storeData = storeStats.computeIfAbsent(storeName, k -> new HashMap<>());
-                    storeData.put(customerName, storeData.getOrDefault(customerName, 0) + 1);
-                    Map<String, Integer> productStats = productStatistics.computeIfAbsent(storeName, k ->
-                            new HashMap<>());
-                    int updatedQuantity = productStats.getOrDefault(productName, 0) + quantityPurchased;
-                    productStats.put(productName, updatedQuantity);
+                    purchasesInSellerStores.add(initialData);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            fileReader.close();
+        } catch (IOException e) {
+            // e.printStackTrace();
         }
-        StringBuilder statisticBuilder = new StringBuilder();
-        // For every store
-        for (Map.Entry<String, Map<String, Integer>> entry : storeStats.entrySet()) {
-            String storeName = entry.getKey();
-            if (sortChoice == 1) {
-                Map<String, Integer> storeStatistics = entry.getValue();
-                statisticBuilder.append(storeName).append(":\n");
-                // Print each customer and how many transactions they've made
-                for (Map.Entry<String, Integer> customerEntry : storeStatistics.entrySet()) {
-                    String customerName = customerEntry.getKey();
-                    int transactionCount = customerEntry.getValue();
-                    statisticBuilder.append(customerName).append(" has made ")
-                            .append(transactionCount).append(" transaction(s).\n");
-                }
-            } else if (sortChoice == 2) {
-                // Now, for every product sold in a store, print the quantity that has been sold
-                if (productStatistics.containsKey(storeName)) {
-                    for (Map.Entry<String, Integer> productEntry : productStatistics.get(storeName).entrySet()) {
-                        String productName = productEntry.getKey();
-                        int productSales = productEntry.getValue();
-                        statisticBuilder.append(productName).append(" has had a total quantity of ").append(productSales)
-                                .append(" sold.\n");
-                    }
+        // Sort Types
+        // 1. Sort by List of Customers
+        // 2. Sort by Products Bought
+
+        if (sortChoice == 1) { // sort by list of products
+            HashMap<String, Integer> customerPurchases = new HashMap<String, Integer>();
+            for (String purchase: purchasesInSellerStores) {
+                // Example of String Purchase:
+                // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+                String[] purchaseInfo = purchase.split(";");
+                System.out.println("Store: " + purchaseInfo[2]);
+                if (customerPurchases.keySet().contains(purchaseInfo[4])) {
+                    // finds the number of purchases that that Customer made
+                    int quantity = customerPurchases.get(purchaseInfo[4]);
+                    customerPurchases.put(purchaseInfo[4], quantity + Integer.parseInt(purchaseInfo[3]));
+                } else {
+                    // sets a new key, value pair for the customer
+                    customerPurchases.put(purchaseInfo[4], Integer.parseInt(purchaseInfo[3]));
                 }
             }
+            for (String customer: customerPurchases.keySet()) {
+
+            }
+
+        } else if (sortChoice == 2) {
+            for (String store: purchasesInSellerStores) {
+
+            }
+
         }
-        return statisticBuilder.toString();
     }
 
 }
