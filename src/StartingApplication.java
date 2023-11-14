@@ -207,7 +207,7 @@ public class StartingApplication {
                                 case 4 -> fieldChoice = "quantity";
                                 case 5 -> fieldChoice = "description";
                             }
-                            System.out.println(Seller.editProduct(productName, storeName, changeField, newValue);
+                            // System.out.println(Seller.editProduct(productName, storeName, changeField, newValue);
                         } else if (modifyProductChoice == 3) {
 
                         } else if (modifyProductChoice == 3) {
