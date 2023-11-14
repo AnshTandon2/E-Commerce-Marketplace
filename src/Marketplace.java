@@ -1,4 +1,7 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +26,8 @@ public class Marketplace {
     /**
      * Reads the market.txt file and appends
      * Values to their corresponding ArrayLists;
+     *
+     * @author Lalitha Chandolu
      */
     public static void initializeMarketplace() {
         File file = new File("market.txt");
@@ -78,7 +83,9 @@ public class Marketplace {
     }
 
     /**
-     * method to print the marketplace with all of the products
+     * method to print the marketplace with all the products
+     *
+     * @author Lalitha Chandolu
      */
     public static void printMarketplace() {
         for (int index = 0; index < productIDs.size(); index++) {
@@ -88,34 +95,31 @@ public class Marketplace {
     }
 
     /**
-     * Get the product info for a product given the index of it in the file
+     * find a product using a keyword, checking the name, store, and description to see if they contain the keyword
      *
-     * @param index the index of it in the file (from order)
-     * @return the product info of a product
+     * @param keyword the keyword to search by
+     * @return an arraylist of strings of productDetails that contain the keyword
+     * @author Nirmal Senthilkumar
      */
-    public static String getProductInfo(int index) {
-        String info = "";
-        info += String.format("%d ; %s ; %.2f ; %s ; ", index, productNames.get(index), priceList.get(index),
-                storeNames.get(index));
-        if (quantityList.get(index) == 0) {
-            // there is no stock of the product available
-            info += String.format("OUT OF STOCK\n", productNames.get(index));
-        } else {
-            info += String.format("Quantity: %d\n", quantityList.get(index));
-        }
-        return info;
-    }
-
     public static ArrayList<String> searchProduct(String keyword) {
-        ArrayList<String> matchedProducts = new ArrayList<String>();
+        ArrayList<String> matchedProducts = new ArrayList<>();
         for (int i = 0; i < productIDs.size(); i++) {
-            if (productNames.get(i).toLowerCase().contains(keyword.toLowerCase()) || storeNames.get(i).toLowerCase().contains(keyword.toLowerCase()) || descriptionList.get(i).toLowerCase().contains(keyword.toLowerCase())) {
+            if (productNames.get(i).toLowerCase().contains(keyword.toLowerCase()) ||
+                    storeNames.get(i).toLowerCase().contains(keyword.toLowerCase()) ||
+                    descriptionList.get(i).toLowerCase().contains(keyword.toLowerCase())) {
                 matchedProducts.add(productDetail(i));
             }
         }
         return matchedProducts;
     }
 
+    /**
+     * Get the product's price from specifying the name and seller
+     *
+     * @param productName   name of the product
+     * @param productSeller seller of the product
+     * @return
+     */
     public static String getProductPrice(String productName, String productSeller) {
         String returnStr = null;
         File f = new File("market.txt");
@@ -135,12 +139,17 @@ public class Marketplace {
         return returnStr;
     }
 
-
+    /**
+     * Retrieve the details of the product as a string
+     *
+     * @param index the index of it in the file (the line number)
+     * @return the string with all the product details including description
+     */
     public static String productDetail(int index) {
         // index is decremented because when user enter index 1
         // they mean the first line - which is index 0 in Java
         if (quantityList.get(index) > 0) {
-            // the quantity available of the product is greather than 0
+            // the quantity available of the product is greater than 0
             // return the detailed description of the product along with the other info
             return String.format("Product Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: %d" +
                             "\nDescription: %s\n", productNames.get(index), priceList.get(index), storeNames.get(index),
@@ -150,16 +159,18 @@ public class Marketplace {
         } else {
             // there is no stock available of the product
             // return the product name, price, store, and quantity (specify it's out of stock)
-            return String.format("Product Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of" + " Stock\n", productNames.get(index), priceList.get(index), storeNames.get(index), quantityList.get(index));
+            return String.format("Product Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of" +
+                            " Stock\n", productNames.get(index), priceList.get(index), storeNames.get(index),
+                    quantityList.get(index));
         }
     }
 
     /**
-     * Nirmal can do this as he did it with initial code
-     * *
+     * sort the marketplace by price or quantity
      *
      * @param sortBy    is "price" or "quantity"
      * @param ASCENDING how to sort
+     * @author Nirmal Senthilkumar, Justin
      */
     public static ArrayList<String> sortMarket(String sortBy, boolean ASCENDING) {
         ArrayList<String> sortedProductIds = new ArrayList<>(productIDs);
@@ -177,60 +188,4 @@ public class Marketplace {
         }
         return sortedProductIds;
     }
-
-    /**
-     * method to remove from cart
-     *
-     * @param productName product to be removed
-     * @param userName    customer's cart to remove from
-     */
-    public static void removeFromCart(String productName, String userName) {
-        //TODO: NEED TO FIX THIS
-        File f = new File("shoppingCart.txt");
-        String toRemove = "";
-        try {
-            Scanner scan = new Scanner(f);
-            FileWriter fw = new FileWriter(f);
-            while (scan.hasNextLine()) {
-                String initialData = scan.nextLine();
-                String[] data = initialData.split(";");
-                if (data[3].equals(productName) && data[0].equals(userName)) {
-                    toRemove = initialData;
-                }
-
-            }
-            scan.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (!toRemove.equals("")) {
-            String input = null;
-            String fileContents = "";
-            try {
-                Scanner scan = new Scanner(f);
-                StringBuffer sb = new StringBuffer();
-                while (scan.hasNextLine()) {
-                    input = scan.nextLine();
-                    sb.append(input);
-                }
-                fileContents = sb.toString();
-                fileContents = fileContents.replaceAll(toRemove + "\n", "");
-                PrintWriter writer = new PrintWriter(f);
-                writer.append(fileContents);
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Display the shopping cart of the given customer
-     *
-     * @param userName the customer's cart to retrieve
-     * @return ArrayList of Strings of the product and the quantity seperated by " : "
-     */
-
 }
