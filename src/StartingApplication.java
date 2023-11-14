@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class StartingApplication {
     /**
      * This is the main method that generates the menu to go through the entire application.
+     * It accepts user input from the terminal using a scanner, and outputs the results to the terminal.
      */
     public static void main(String[] args) {
         System.out.println("Welcome to the Boilermaker Bazaar! ");
@@ -462,6 +463,9 @@ public class StartingApplication {
 
     /**
      * A method to check if an account exists based no the given username and password.
+     * @param username username of the user
+     * @param password password of the user
+     * @return "s" or "c" if they are a customer or seller, null if they are not in our users.txt database
      */
     public static String accountExists(String username, String password) {
         // parses the file of all of the existing user in the marketplace
