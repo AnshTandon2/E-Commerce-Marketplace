@@ -1,7 +1,6 @@
 import java.io.*;
-import java.util.*;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Seller Class
@@ -236,7 +235,7 @@ public class Seller {
      * @return String (product names list)
      * @author Lalitha Chandolu
      */
-    public String listProducts(String username) {
+    public static String listProducts(String username) {
         // methods lists all products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
         ArrayList<String[]> marketplaceList = new ArrayList<>();

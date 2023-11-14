@@ -176,7 +176,7 @@ public class Customer {
 
     }
 
-    public void addToCart(String productName, int quantity, String storeName, String client, String password,
+    public static void addToCart(String productName, int quantity, String storeName, String client, String password,
                           String price) {
 
         File marketFile = new File("market.txt");
@@ -265,7 +265,7 @@ public class Customer {
     /**
      * Still being implemented
      */
-    public void buyShoppingCartItems(String customerName) {
+    public static void buyShoppingCartItems(String customerName) {
 
         File f = new File("shoppingCart.txt");
         try {
