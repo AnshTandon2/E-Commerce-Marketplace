@@ -32,7 +32,9 @@ public class StartingApplication {
         do {
             try {
                 int value;
-                System.out.println("Please select one of the three options: " + "\n1. Login to Application" + "\n2. " + "Sign Up with a New Account" + "\n3. Exit");
+                System.out.println(
+                        "Please select one of the three options:\n" + "1. Login to Application\n" + "2. Sign Up with " +
+                                "a New Account\n" + "3. Exit");
                 value = Integer.parseInt(s.nextLine());
                 if (value == 1) {
                     //  the user has an existing account and would like to log in to the marketplace
@@ -108,15 +110,17 @@ public class StartingApplication {
         Marketplace.initializeMarketplace();
         while (!loggedOut) {
             if (userRole.equalsIgnoreCase("s")) { //if he is a seller
-                System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a " +
-                        "Product\n" + "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. " +
-                        "Import/Export Products\n" + "8. View Customer Shopping Carts for my Stores\n 9. Log Out");
+                System.out.println(
+                        "Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a " + "Product\n" +
+                                "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. " +
+                                "Import/Export Products\n8. View Customer Shopping Carts for my Stores\n 9. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
-                        System.out.println("1. View Dashboard\n2. Sort by Ascending Price\n3. Sort by Descending " +
-                                "price\n4. Sort by " + "Ascending Quantity\n5. Sort by Descending Quantity\n" +
-                                "(Default) Exit");
+                        System.out.println(
+                                "1. View Dashboard\n2. Sort by Ascending Price\n3. Sort by Descending " + "price\n4. "
+                                        + "Sort by " + "Ascending Quantity\n5. Sort by Descending Quantity\n" +
+                                        "(Default) Exit");
                         String sortChoice = s.nextLine();
                         switch (sortChoice) {
                             case "1" -> Marketplace.printMarketplace();
@@ -174,8 +178,8 @@ public class StartingApplication {
                         s.nextLine();
                         System.out.println("Enter a description: ");
                         String description = s.nextLine();
-                        System.out.println(Seller.addProduct(productName, price, storeName, quantity, description,
-                                username));
+                        System.out.println(
+                                Seller.addProduct(productName, price, storeName, quantity, description, username));
                         Marketplace.updateMarketplace();
                     }
 
@@ -186,8 +190,9 @@ public class StartingApplication {
                         String store = s.nextLine();
                         if (Seller.productExists(product, store)) {
                             System.out.println("Which part of the product would you like to edit?");
-                            System.out.println("1. Product Name\n2. Product Price\n3. Store Name of Product\n4. " +
-                                    "Quantity " + "of Product\n5. Description of the product\n6. Exit");
+                            System.out.println(
+                                    "1. Product Name\n2. Product Price\n3. Store Name of Product\n4. " + "Quantity " +
+                                            "of Product\n5. Description of the product\n6. Exit");
                             String part = s.nextLine();
                             switch (part) {
                                 case "1" -> { //change name
@@ -232,26 +237,30 @@ public class StartingApplication {
                     }
 
                     case "6" -> { //view store statistics
-                        System.out.println("How would you like to sort your Statistics Dashboard (type 1 or 2):\n" +
-                                "1. Sort by List of Customers" + "2. Sort by Products Bought");
+                        System.out.println(
+                                "How would you like to sort your Statistics Dashboard (type 1 or 2):\n" + "1. Sort by" +
+                                        " List of Customers" + "2. Sort by Products Bought");
                         String tempChoice = s.next();
                         int sortChoice = Integer.parseInt(tempChoice);
                         System.out.println(Seller.viewStoreStatistics(username, sortChoice));
                     }
 
                     case "7" -> {//import or exports for product
-                        System.out.println("Would you like to import or export a CSV:\n" + "1. Import Products to be " +
-                                "added to my stores\n" + "2. Export the Products from my Stores");
+                        System.out.println(
+                                "Would you like to import or export a CSV:\n" + "1. Import Products to be " + "added " +
+                                        "to my stores\n" + "2. Export the Products from my Stores");
                         String csvChoice = s.next();
                         if (csvChoice.equals("1")) {
-                            System.out.println("Provide a pathname (ex: importingProducts.txt)\n" + "It should be in " +
-                                    "this format:\n" + "SellerUsername, StoreName, ProductName, Price, Quantity, " +
-                                    "Description\n");
+                            System.out.println(
+                                    "Provide a pathname (ex: importingProducts.txt)\n" + "It should be in " + "this " +
+                                            "format:\n" + "SellerUsername, StoreName, ProductName, Price, Quantity, " +
+                                            "Description\n");
                             String pathName = s.nextLine();
                             boolean result = Seller.importStoreInformation(username, pathName);
                             if (result) {
-                                System.out.println("Information from the file has been imported to Marketplace " +
-                                        "successfully. ");
+                                System.out.println(
+                                        "Information from the file has been imported to Marketplace " + "successfully" +
+                                                ". ");
                             } else {
                                 System.out.println("Information in the file could not be imported. ");
                             }
@@ -283,17 +292,19 @@ public class StartingApplication {
                 }
             } else {
                 // the user is a Customer type
-                System.out.println("Customer Main Menu\n1. View Dashboard\n2. Shopping Cart\n" + "3. Search for " +
-                        "Product\n4. View Shopping History" + "\n5. Export Shopping Cart History" + "\n6. Log Out");
+                System.out.println(
+                        "Customer Main Menu\n1. View Dashboard\n2. Shopping Cart\n" + "3. Search for " + "Product\n4."
+                                + " View Shopping History" + "\n5. Export Shopping Cart History" + "\n6. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
                         String sortChoice;
                         boolean endLoop = false;
                         do {
-                            System.out.println("1. View Marketplace\n2. Sort by Ascending Price\n3. Sort by " +
-                                    "Descending " + "price\n4. Sort by ascending quantity\n5. Sort by Descending " +
-                                    "Quantity\n6. Exit");
+                            System.out.println(
+                                    "1. View Marketplace\n2. Sort by Ascending Price\n3. Sort by " + "Descending " +
+                                            "price\n4. Sort by ascending quantity\n5. Sort by Descending " +
+                                            "Quantity\n6. Exit");
                             sortChoice = s.nextLine();
                             switch (sortChoice) {
                                 case "1" -> Marketplace.printMarketplace();
@@ -348,8 +359,8 @@ public class StartingApplication {
                         }
                         String cartChoice;
                         do {
-                            System.out.println("1. Add Product to Cart\n2. Remove Product from Cart\n3. Checkout" +
-                                    "\n4. Exit");
+                            System.out.println(
+                                    "1. Add Product to Cart\n2. Remove Product from Cart\n3. Checkout" + "\n4. Exit");
                             cartChoice = s.nextLine();
                             switch (cartChoice) {
                                 case "1" -> {
@@ -366,8 +377,8 @@ public class StartingApplication {
                                         if (Customer.addToCart(product, storeName, quantity, username)) {
                                             System.out.println("Added to cart!");
                                         } else {
-                                            System.out.println("Error adding to cart. Quantity exceeds available " +
-                                                    "stock");
+                                            System.out.println(
+                                                    "Error adding to cart. Quantity exceeds available " + "stock");
                                         }
                                     }
                                 }
@@ -421,8 +432,10 @@ public class StartingApplication {
                     case "4" -> { //view shopping history
                         boolean exit = false;
                         while (!exit) {
-                            System.out.println("1. Sort by amount spent ascending.\n2. Sort by amount spent " +
-                                    "descending.\n3. Sort by items purchased ascending.\n4. Sort by items purchased " + "descending.\n5. Exit");
+                            System.out.println(
+                                    "1. Sort by amount spent ascending.\n2. Sort by amount spent " + "descending.\n3." +
+                                            " Sort by items purchased ascending.\n4. Sort by items purchased " +
+                                            "descending.\n5. Exit");
                             String smallMenuChoice = s.nextLine();
                             switch (smallMenuChoice) {
                                 case "1" -> {
@@ -467,7 +480,7 @@ public class StartingApplication {
      * @return "s" or "c" if they are a customer or seller, null if they are not in our users.txt database
      */
     public static String accountExists(String username, String password) {
-        // parses the file of all of the existing user in the marketplace
+        // parses the file of all the existing user in the marketplace
         File f = new File("users.txt");
         try {
             FileReader fr = new FileReader(f);
