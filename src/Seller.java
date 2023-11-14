@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Seller Class
  * <p>
  * Seller class manages the seller's ability to add a product,
- * remove a product, or edit a product (any of its fields)
+ * remove a product, or edit a product (any of it's fields)
  *
  * @author Lalitha Chandolu, Nirmal Senthilkumar; Justin CS 180 Black
  * @version November 13, 2023
@@ -65,9 +65,28 @@ public class Seller {
         return returnString;
     }
 
-    /** Product Exists Method
-     * Returns a boolean if the product exists in the specified Seller's store
-     *
+    public static String[] getProduct(String productName, String storeName) {
+        File f = new File("market.txt");
+        ArrayList<String[]> marketplaceList = new ArrayList<>();
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                marketplaceList.add(line.split(";"));
+                line = bfr.readLine();
+            }
+            bfr.close();
+            for (String[] productInfo : marketplaceList) {
+                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
+                    return productInfo;
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
+
+    /**
      * @param productName product name to be checked if it exists
      * @param storeName   store name to be checked if product exists in it
      * @return true if it exists, false if it doesn't
@@ -281,6 +300,63 @@ public class Seller {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    /** Seller Function*/
+    public static void viewStoreStatistics(String userName) {
+        File purchases = new File("purchases.txt");
+        ArrayList<String> storesBroughtFrom = new ArrayList<>();
+        try {
+            Scanner scan = new Scanner(purchases);
+            while (scan.hasNextLine()) {
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[4].equals(userName)) {
+                    storesBroughtFrom.add(initialData);
+                }
+            }
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String s : storesBroughtFrom) {
+            String[] recordedData = s.split(";");
+            System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
+        }
+
+        Scanner userScan = new Scanner(System.in);
+
+        System.out.println("1. Sort by amount spent\n2. Sort by items brought\n(Anything else. ) exit");
+        String sortChoice = userScan.nextLine();
+        if (sortChoice.equals("1")) {
+            int counter = 0;
+            int index = 0;
+            for (int i = 0; i < storesBroughtFrom.size(); i++) {
+                for (int j = 0; j < storesBroughtFrom.size(); j++) {
+                    String[] data = storesBroughtFrom.get(j).split(";");
+                    if (Double.parseDouble(data[1]) * Double.parseDouble(data[3]) > counter) {
+                        index = j;
+                    }
+                }
+                String[] recordedData = storesBroughtFrom.get(index).split(";");
+                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
+                storesBroughtFrom.remove(index);
+            }
+        } else if (sortChoice.equals("2")) {
+            int counter = 0;
+            int index = 0;
+            for (int i = 0; i < storesBroughtFrom.size(); i++) {
+                for (int j = 0; j < storesBroughtFrom.size(); j++) {
+                    String[] data = storesBroughtFrom.get(j).split(";");
+                    if (Double.parseDouble(data[3]) > counter) {
+                        index = j;
+                    }
+                }
+                String[] recordedData = storesBroughtFrom.get(index).split(";");
+                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
+                storesBroughtFrom.remove(index);
+            }
         }
     }
 
