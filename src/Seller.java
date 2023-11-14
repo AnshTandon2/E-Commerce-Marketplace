@@ -214,44 +214,14 @@ public class Seller {
      * Sellers can view a list of their sales by store, including customer information
      * and revenues from the sale.
      *
-     * STILL NEEDS TO BE DONE
+     * STILL NEEDS TO BE IMPLEMENTED
      *
      * @param  username (username of the seller)
      * @return String (Store Information)
      * @author Nirmal
      */
     public static String listInformationByStore(String username) {
-        // methods lists all products sold by this Seller
-        // go through market.txt and add lines to String[] ArrayList1
-        ArrayList<String[]> marketplaceList = new ArrayList<>();
-        File f = new File("market.txt");
-        try {
-            BufferedReader bfr = new BufferedReader(new FileReader(f));
-            String line = bfr.readLine();
-            while (line != null) {
-                marketplaceList.add(line.split(";"));
-                line = bfr.readLine();
-            }
-            bfr.close();
-            // Remove all products from ArrayList that don't belong to this seller
-            for (String[] productLine : marketplaceList) {
-                //productLine[5] represents the username of the Seller associated with the product
-                if (!productLine[5].equals(username)) {
-                    marketplaceList.remove(productLine);
-                }
-            }
-
-            String sellerProductList = "List of Products:\n";
-            // Go through ArrayList and add the products that this seller owns to the string
-            for (String[] productLine : marketplaceList) {
-                if (productLine[5].equals(username)) {
-                    sellerProductList += (String.join(",", productLine) + "\n");
-                }
-            }
-            return sellerProductList;
-        } catch (IOException e) {
-            return null;
-        }
+        return "";
     }
 
     /**
