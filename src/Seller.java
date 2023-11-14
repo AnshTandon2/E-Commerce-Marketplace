@@ -1,13 +1,11 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Seller Class
  * <p>
  * Seller class manages the seller's ability to add a product,
- * remove a product, or edit a product (any of it's fields)
+ * remove a product, or edit a product (any of its fields)
  *
  * @author Lalitha Chandolu, Nirmal Senthilkumar; Justin CS 180 Black
  * @version November 13, 2023
@@ -22,12 +20,14 @@ public class Seller {
      *
      * @param productName name of product to be removed
      * @param storeName name of store product to be removed from
+     * @return String (whether product was removed)
      * @author Lalitha Chandolu, Nirmal Senthilkumar
      */
     public static String removeProduct(String productName, String storeName) {
         // can edit product, price, store, quantity, or description
         // go through market.txt and add lines to String[] ArrayList
         String returnString = "Product doesn't exist in this store, cannot be removed.";
+        // stores the products in the market.txt file
         ArrayList<String[]> marketplaceList = new ArrayList<>();
         File f = new File("market.txt");
         try {
@@ -42,14 +42,12 @@ public class Seller {
             // go through the ArrayList and if the product index matches then change that line
             // Example line in market.txt file
             //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
-            ArrayList<String[]> removeProductList = new ArrayList<>();
             for (String[] productInfo : marketplaceList) {
                 if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
-                    removeProductList.add(productInfo);
+                    marketplaceList.remove(productInfo);
                     returnString = "Product removed.";
                 }
             }
-            marketplaceList.removeAll(removeProductList);
             f = new File("market.txt");
             // now write contents of ArrayList containing product info to ArrayList
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
@@ -65,28 +63,10 @@ public class Seller {
         return returnString;
     }
 
-    public static String[] getProduct(String productName, String storeName) {
-        File f = new File("market.txt");
-        ArrayList<String[]> marketplaceList = new ArrayList<>();
-        try {
-            BufferedReader bfr = new BufferedReader(new FileReader(f));
-            String line = bfr.readLine();
-            while (line != null) {
-                marketplaceList.add(line.split(";"));
-                line = bfr.readLine();
-            }
-            bfr.close();
-            for (String[] productInfo : marketplaceList) {
-                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
-                    return productInfo;
-                }
-            }
-        } catch (IOException ignored) {
-        }
-        return null;
-    }
-
     /**
+     * Product Exists Method
+     * Returns a boolean if the product exists in the specified Seller's store
+     *
      * @param productName product name to be checked if it exists
      * @param storeName   store name to be checked if product exists in it
      * @return true if it exists, false if it doesn't
@@ -229,8 +209,8 @@ public class Seller {
     }
 
     /**
-     * List Products Method
-     * Lists the products associated with the given Seller username
+     * List Products By Store Method
+     * List the sales for each store the Seller owns
      *
      * @param  username (username of the seller)
      * @return String (product names list)
@@ -287,89 +267,33 @@ public class Seller {
      *
      * @param merchantName
      * @param storeName
-     * @author Justin
+     * @author Justin, Lalitha
      * @version November 13, 2023
      */
-    public boolean exportStoreInformation(String merchantName, String storeName) {
+    public static boolean exportStoreInformation(String merchantName, String storeName) {
+        // reads the market.txt file
         File readingFile = new File("market.txt");
+        // makes the new file to be exported
         File exportFile = new File("exportFile.csv");
         boolean exported = false;
         try {
             exportFile.createNewFile();
             Scanner scan = new Scanner(readingFile);
             FileWriter fw = new FileWriter(exportFile);
-            fw.write("Store,Item,Price");
+            // header for the csv file
+            fw.write("Store,Item,Price\n");
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(";");
                 //Book;60.00;claraStore;5;A nice book;clarank
                 if (data[2].equals(storeName) && data[5].equals(merchantName)) {
                     fw.write( data[2] + "," + data[0] + "," + data[1]);
                     fw.write("\n");
+                    exported = true;
                 }
             }
-            return true;
         } catch (IOException e) {
-            e.printStackTrace();
         }
-        return false;
-    }
-
-    /** Seller Function*/
-    public static void viewStoreStatistics(String userName) {
-        File purchases = new File("purchases.txt");
-        ArrayList<String> storesBroughtFrom = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(purchases);
-            while (scan.hasNextLine()) {
-                String initialData = scan.nextLine();
-                String[] data = initialData.split(";");
-                if (data[4].equals(userName)) {
-                    storesBroughtFrom.add(initialData);
-                }
-            }
-            scan.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (String s : storesBroughtFrom) {
-            String[] recordedData = s.split(";");
-            System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
-        }
-
-        Scanner userScan = new Scanner(System.in);
-
-        System.out.println("1. Sort by amount spent\n2. Sort by items brought\n(Anything else. ) exit");
-        String sortChoice = userScan.nextLine();
-        if (sortChoice.equals("1")) {
-            int counter = 0;
-            int index = 0;
-            for (int i = 0; i < storesBroughtFrom.size(); i++) {
-                for (int j = 0; j < storesBroughtFrom.size(); j++) {
-                    String[] data = storesBroughtFrom.get(j).split(";");
-                    if (Double.parseDouble(data[1]) * Double.parseDouble(data[3]) > counter) {
-                        index = j;
-                    }
-                }
-                String[] recordedData = storesBroughtFrom.get(index).split(";");
-                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
-                storesBroughtFrom.remove(index);
-            }
-        } else if (sortChoice.equals("2")) {
-            int counter = 0;
-            int index = 0;
-            for (int i = 0; i < storesBroughtFrom.size(); i++) {
-                for (int j = 0; j < storesBroughtFrom.size(); j++) {
-                    String[] data = storesBroughtFrom.get(j).split(";");
-                    if (Double.parseDouble(data[3]) > counter) {
-                        index = j;
-                    }
-                }
-                String[] recordedData = storesBroughtFrom.get(index).split(";");
-                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
-                storesBroughtFrom.remove(index);
-            }
-        }
+        return exported;
     }
 
     /**
@@ -384,7 +308,7 @@ public class Seller {
      * @author Justin
      * @version November 13, 2023
      */
-    public boolean importStoreInformation(String pathname) {
+    public static boolean importStoreInformation(String pathname) {
         // main method asks Seller for the file path as a command
         File f = new File(pathname);
         boolean imported = false;
@@ -403,23 +327,104 @@ public class Seller {
                 FileWriter fw = new FileWriter(writeToFile);
                 imported = true;
                 //Same format as the market.txt
-                while (scan.hasNextLine()) {
-                    // takes each line in the file they gave
-                    // writes it to the market.txt file
-                    String data = scan.nextLine();
-                    String[] tokens = data.split(",");
-                    //Book;60.00;claraStore;5;A nice book;clarank
-                    String newProductLine = tokens[2] + ";" + tokens[3] + ";" +
-                            tokens[1] + ";" + tokens[4] + ";" +
-                            tokens[5] + ";" + tokens[0];
-                    fw.write(newProductLine);
-                    fw.write("\n");
-                    fw.flush();
+                if (scan.hasNextLine()) {
+                    // should delete header of csv
+                    scan.nextLine();
+                    while (scan.hasNextLine()) {
+                        // takes each line in the file they gave
+                        // writes it to the market.txt file
+                        String data = scan.nextLine();
+                        String[] tokens = data.split(",");
+                        //Book;60.00;claraStore;5;A nice book;clarank
+                        String newProductLine = tokens[2] + ";" + tokens[3] + ";" +
+                                tokens[1] + ";" + tokens[4] + ";" +
+                                tokens[5] + ";" + tokens[0];
+                        fw.write(newProductLine);
+                        fw.write("\n");
+                        fw.flush();
+                    }
                 }
                 fw.close();
             }
         } catch (IOException e) {
+            // e.printStackTrace();
         }
         return imported;
     }
+
+    /**
+     * View Store Statistics
+     * Sellers can view a dashboard that lists statistics for each of their stores.
+     * Data will include a list of customers with the number of items that they have purchased
+     * and a list of products with the number of sales.
+     * Sellers can choose to sort the dashboard.
+     * Will also display revenue per store
+     *
+     * @param username (seller username)
+     * @param sortChoice (sort by which type)
+     * @author Ansh, Lalitha
+     */
+    public static String viewStoreStatistics(String username, int sortChoice) {
+        Map<String, Map<String, Integer>> storeStats = new HashMap<>();
+        Map<String, Map<String, Integer>> productStatistics = new HashMap<>();
+        File f = new File("purchases.txt");
+        // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] data = line.split(",");
+                String productName = data[0];
+                double priceItem = Double.parseDouble(data[1]);
+                String storeName = data[2];
+                int quantityPurchased = Integer.parseInt(data[3]);
+                String customerName = data[4];
+                line = bfr.readLine();
+
+                // Sort Types
+                // 1. Sort by List of Customers
+                // 2. Sort by Products Bought
+
+                if (data[5].equals(username)) {
+                    // If the store's statistics don't exist already, create them
+                    Map<String, Integer> storeData = storeStats.computeIfAbsent(storeName, k -> new HashMap<>());
+                    storeData.put(customerName, storeData.getOrDefault(customerName, 0) + 1);
+                    Map<String, Integer> productStats = productStatistics.computeIfAbsent(storeName, k ->
+                            new HashMap<>());
+                    int updatedQuantity = productStats.getOrDefault(productName, 0) + quantityPurchased;
+                    productStats.put(productName, updatedQuantity);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        StringBuilder statisticBuilder = new StringBuilder();
+        // For every store
+        for (Map.Entry<String, Map<String, Integer>> entry : storeStats.entrySet()) {
+            String storeName = entry.getKey();
+            if (sortChoice == 1) {
+                Map<String, Integer> storeStatistics = entry.getValue();
+                statisticBuilder.append(storeName).append(":\n");
+                // Print each customer and how many transactions they've made
+                for (Map.Entry<String, Integer> customerEntry : storeStatistics.entrySet()) {
+                    String customerName = customerEntry.getKey();
+                    int transactionCount = customerEntry.getValue();
+                    statisticBuilder.append(customerName).append(" has made ")
+                            .append(transactionCount).append(" transaction(s).\n");
+                }
+            } else if (sortChoice == 2) {
+                // Now, for every product sold in a store, print the quantity that has been sold
+                if (productStatistics.containsKey(storeName)) {
+                    for (Map.Entry<String, Integer> productEntry : productStatistics.get(storeName).entrySet()) {
+                        String productName = productEntry.getKey();
+                        int productSales = productEntry.getValue();
+                        statisticBuilder.append(productName).append(" has had a total quantity of ").append(productSales)
+                                .append(" sold.\n");
+                    }
+                }
+            }
+        }
+        return statisticBuilder.toString();
+    }
+
 }

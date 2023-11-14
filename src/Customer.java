@@ -229,7 +229,7 @@ public class Customer {
 
     }
 
-    public void removeFromCart(String customerUsername, String productName) {
+    public static void removeFromCart(String customerUsername, String productName) {
 
         File f = new File("shoppingCart.txt");
         try {

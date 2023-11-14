@@ -113,6 +113,25 @@ public class Marketplace {
         return matchedProducts;
     }
 
+    public static String getProductPrice(String productName, String productSeller) {
+        String returnStr = null;
+        File f = new File("market.txt");
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[0].equals(productName) && data[2].equals(productSeller)) {
+                    returnStr = data[1];
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
+
+        return returnStr;
+    }
+
 
     public static String productDetail(int index) {
         // index is decremented because when user enter index 1

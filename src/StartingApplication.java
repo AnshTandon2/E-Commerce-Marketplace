@@ -116,7 +116,7 @@ public class StartingApplication {
                     case "1" -> {
                         System.out.println("1. View Dashboard\n2. Sort by Ascending Price\n3. Sort by Descending " +
                                 "price\n4. Sort by " + "Ascending Quantity\n5. Sort by Descending Quantity\n" +
-                                "(Anything" + " else.) exit");
+                                "(Default) Exit");
                         String sortChoice = s.nextLine();
                         switch (sortChoice) {
                             case "1" -> Marketplace.printMarketplace();
@@ -232,16 +232,21 @@ public class StartingApplication {
                     }
 
                     case "6" -> { //view store statistics
-                        Seller.viewStoreStatistics(username);
-                        //TODO: Get view store statistics
+                        System.out.println("How would you like to sort your Statistics Dashboard (type 1 or 2):\n"
+                                            + "1. Sort by List of Customers"
+                                            + "2. Sort by Products Bought");
+                        String tempChoice = s.next();
+                        int sortChoice = Integer.parseInt(tempChoice);
+                        Seller.viewStoreStatistics(username, sortChoice);
                     }
                     case "7" -> {//import or exports for product
 
-                        //TODO: Import justin's part
+
 
                     }
                     case "8" ->  //logged out
                             loggedOut = true;
+
                     default -> System.out.println("Please try again with valid input!");
                 }
             } else {
@@ -336,11 +341,15 @@ public class StartingApplication {
                                     int quantity = Integer.parseInt(s.nextLine());
                                     System.out.println("Please enter store you'd like to buy at: ");
                                     String storeName = s.nextLine();
-                                    int price = 0;
-                                    System.out.println("Please enter your password for authentication");
-                                    String pass = s.nextLine();
-                                    //Customer.addToCart(product, quantity, storeName, username, pass);
-                                    System.out.println("Added to cart!");
+                                    String price = Marketplace.getProductPrice(product, storeName);
+                                    if (price == null) {
+                                        System.out.println("This item does not exist");
+                                    } else {
+                                        System.out.println("Please enter your password for authentication");
+                                        String pass = s.nextLine();
+                                        Customer.addToCart(product, quantity, storeName, username, pass, price);
+                                        System.out.println("Added to cart!");
+                                    }
                                     //TODO: Implement add cart product method
                                 }
 
