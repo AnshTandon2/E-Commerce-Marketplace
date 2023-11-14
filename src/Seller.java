@@ -84,7 +84,6 @@ public class Seller {
         }
         return null;
     }
-
     /**
      * @param productName product name to be checked if it exists
      * @param storeName   store name to be checked if product exists in it
@@ -290,6 +289,63 @@ public class Seller {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    /** Seller Function*/
+    public static void viewStoreStatistics(String userName) {
+        File purchases = new File("purchases.txt");
+        ArrayList<String> storesBroughtFrom = new ArrayList<>();
+        try {
+            Scanner scan = new Scanner(purchases);
+            while (scan.hasNextLine()) {
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[4].equals(userName)) {
+                    storesBroughtFrom.add(initialData);
+                }
+            }
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String s : storesBroughtFrom) {
+            String[] recordedData = s.split(";");
+            System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
+        }
+
+        Scanner userScan = new Scanner(System.in);
+
+        System.out.println("1. Sort by amount spent\n2. Sort by items brought\n(Anything else. ) exit");
+        String sortChoice = userScan.nextLine();
+        if (sortChoice.equals("1")) {
+            int counter = 0;
+            int index = 0;
+            for (int i = 0; i < storesBroughtFrom.size(); i++) {
+                for (int j = 0; j < storesBroughtFrom.size(); j++) {
+                    String[] data = storesBroughtFrom.get(j).split(";");
+                    if (Double.parseDouble(data[1]) * Double.parseDouble(data[3]) > counter) {
+                        index = j;
+                    }
+                }
+                String[] recordedData = storesBroughtFrom.get(index).split(";");
+                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
+                storesBroughtFrom.remove(index);
+            }
+        } else if (sortChoice.equals("2")) {
+            int counter = 0;
+            int index = 0;
+            for (int i = 0; i < storesBroughtFrom.size(); i++) {
+                for (int j = 0; j < storesBroughtFrom.size(); j++) {
+                    String[] data = storesBroughtFrom.get(j).split(";");
+                    if (Double.parseDouble(data[3]) > counter) {
+                        index = j;
+                    }
+                }
+                String[] recordedData = storesBroughtFrom.get(index).split(";");
+                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
+                storesBroughtFrom.remove(index);
+            }
         }
     }
 

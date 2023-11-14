@@ -115,7 +115,7 @@ public class StartingApplication {
                 switch (MMChoice) {
                     case "1" -> {
                         System.out.println("1. View Dashboard\n2. Sort by Ascending Price\n3. Sort by Descending " +
-                                "price\n4. Sort by " + "ascending quantity\n5. Sort by Descending Quantity\n" +
+                                "price\n4. Sort by " + "Ascending Quantity\n5. Sort by Descending Quantity\n" +
                                 "(Anything" + " else.) exit");
                         String sortChoice = s.nextLine();
                         switch (sortChoice) {
@@ -159,7 +159,7 @@ public class StartingApplication {
                         }
                     }
                     case "2" -> {   //view sales by store
-
+                        //nothing happens here??????
                     }
                     case "3" -> { //add product
                         System.out.println("Enter a Product Name: ");
@@ -231,9 +231,12 @@ public class StartingApplication {
                     }
 
                     case "6" -> { //view store statistics
+                        Seller.viewStoreStatistics(username);
+                        //TODO: Get view store statistics
                     }
                     case "7" -> {//import or exports for product
-                        //justin's part
+
+                        //TODO: Import justin's part
 
                     }
                     case "8" ->  //logged out
@@ -291,10 +294,20 @@ public class StartingApplication {
                         } while (!endLoop);
                     }
                     case "2" -> {  //display cart
-                        ArrayList<String> shoppingCart = Marketplace.displayCart(username); //error here
+                        ArrayList<String> shoppingCart = Marketplace.displayCart(username); //TODO: Fix error in display Cart
                         assert shoppingCart != null;
-                        for (String str : shoppingCart) {
-                            System.out.println(str + "\n");
+                        System.out.println("Shopping Cart for " + username);
+                        for (int i = 0; i < shoppingCart.size(); i++) {
+                            String[] arr = shoppingCart.get(i).split(";");
+                            for (int j = 2; j < arr.length; j++) {
+                                if (j == arr.length - 1) {
+                                    System.out.print(arr[j]);
+                                } else {
+                                    System.out.print(arr[j] + ", ");
+                                }
+                            }
+                            System.out.println("\n");
+//                            System.out.println(str + ",");
                         }
                         String cartChoice;
                         do {
@@ -302,16 +315,33 @@ public class StartingApplication {
                             cartChoice = s.nextLine();
                             switch (cartChoice) {
                                 case "1" -> {
+                                    //TODO: FIX THIS
                                     System.out.println("Enter cart item name to be removed");
                                     String removeChoice = s.nextLine();
-                                    //Marketplace.removeFromCart(removeChoice, username);
+                                    Marketplace.removeFromCart(removeChoice, username);
+                                    System.out.println("Item was removed!");
                                 }
                                 case "2" -> {
+                                    Customer.buyShoppingCartItems(username);
+                                    System.out.println("Bought all items from shopping cart based on your username!");
+                                    //TODO: Implement buy all products from cart method
                                 }
-                                //TODO: Implement buy all products from cart method
+
                                 case "3" -> {
+                                    System.out.println("Please enter product name: ");
+                                    String product = s.nextLine();
+                                    System.out.println("Please enter quantity you want: ");
+                                    int quantity = Integer.parseInt(s.nextLine());
+                                    System.out.println("Please enter store you'd like to buy at: ");
+                                    String storeName = s.nextLine();
+                                    int price = 0;
+                                    System.out.println("Please enter your password for authentication");
+                                    String pass = s.nextLine();
+                                    Customer.addToCart(product, quantity, storeName, username, pass);
+                                    System.out.println("Added to cart!");
+                                    //TODO: Implement add cart product method
                                 }
-                                //TODO: Implement add cart product method
+
                                 default -> System.out.println("Please enter valid cart choice!");
                             }
                         } while (!cartChoice.equals("1") && !cartChoice.equals("2") && !cartChoice.equals("3"));
@@ -412,11 +442,12 @@ public class StartingApplication {
 //                    Marketplace.purchaseProduct();
                     //need to implement logic for this
                     case "5" ->  //view shopping history
-                            Customer.viewHistory(username);
+                            Customer.viewHistory(username); //in the method need to check if displayed or not
                     case "6" ->   //export shopping history
                             Customer.exportPurchaseHistory(username);
                     case "7" ->  //view store statistics
-                            Customer.viewStoreStatistics(username);
+                            System.out.println("CHNANGE THIS AS CUSTOMERS CAnt view store staitsitcs");
+//                            Customer.viewStoreStatistics(username);
 
                     //need to implement logic for this
                     case "8" -> {  //log out

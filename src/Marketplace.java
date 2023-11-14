@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -160,11 +157,12 @@ public class Marketplace {
     }
 
     /**
-     * method to remove from cart (unfinished)
+     * method to remove from cart
      * @param productName product to be removed
      * @param userName customer's cart to remove from
      */
-    /*public static void removeFromCart(String productName, String userName) {
+    public static void removeFromCart(String productName, String userName) {
+        //TODO: NEED TO FIX THIS
         File f = new File("shoppingCart.txt");
         String toRemove = "";
         try {
@@ -203,8 +201,7 @@ public class Marketplace {
                 e.printStackTrace();
             }
         }
-
-    }*/
+    }
 
     /**
      * Display the shopping cart of the given customer
@@ -219,21 +216,26 @@ public class Marketplace {
         try {
             Scanner scan = new Scanner(f);
             while (scan.hasNextLine()) {
-                String[] data = scan.nextLine().split(";");
+                String temp = scan.nextLine();
+                String[] data = temp.split(";");
                 if (data[0].equals(userName)) {
-                    shoppingCart.addAll(Arrays.asList(data).subList(2, data.length));
+                    shoppingCart.add(temp);
+//                    shoppingCart.add(scan);
+//                    shoppingCart.addAll(Arrays.asList(data).subList(2, data.length));
                 }
             }
             ArrayList<String> returnList = new ArrayList<>();
-            for (int i = 0; i < shoppingCart.size() / 4; i++) {
-                int nameIndex = productNames.indexOf(shoppingCart.get(4 * i));
-                if (nameIndex != -1) {
-                    returnList.add(shoppingCart.get(4 * i) + " : " + (shoppingCart.get(4 + 3)));
-                } else {
-                    returnList.add("invalid product, out of stock");
-                }
-            }
-            return returnList;
+//            for (int i = 0; i < shoppingCart.size() / 4; i++) {
+//
+//                int nameIndex = productNames.indexOf(shoppingCart.get(4 * i));
+//                if (nameIndex != -1) {
+//                    returnList.add(shoppingCart.get(4 * i) + " : " + (shoppingCart.get(4 + 3)));
+//                } else {
+//                    returnList.add("invalid product, out of stock");
+//                }
+//            }
+//            return returnList;
+            return shoppingCart;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
