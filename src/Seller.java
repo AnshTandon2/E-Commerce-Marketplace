@@ -210,13 +210,15 @@ public class Seller {
     }
 
     /**
-     * List Products By Store Method
-     * List the sales for each store the Seller owns
+     * List Information By Store
+     * Sellers can view a list of their sales by store, including customer information
+     * and revenues from the sale.
      *
+     * STILL NEEDS TO BE DONE
      *
      * @param  username (username of the seller)
-     * @return String (product names list)
-     * @author Lalitha Chandolu
+     * @return String (Store Information)
+     * @author Nirmal
      */
     public static String listInformationByStore(String username) {
         // methods lists all products sold by this Seller
