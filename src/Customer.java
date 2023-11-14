@@ -15,16 +15,27 @@ import java.util.Scanner;
  * @version November 11, 2023
  */
 public class Customer {
-    private String name;
-    private String email;
-    private String password;
+    private final String name;
+    private final String email;
+    private final String password;
 
+    /**
+     * creates customer object (used intermally only)
+     *
+     * @param name     name of customer
+     * @param email    email of customer
+     * @param password password of custmer
+     */
     public Customer(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
+    /**
+     * export the purchase history as a csv
+     * @param userName the name of the customer to export a purchase history of
+     */
     public static void exportPurchaseHistory(String userName) {
         File exportFile = new File("purchaseHistoryExport.csv");
         File readingFile = new File("purchases.txt");
@@ -341,30 +352,5 @@ public class Customer {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void viewCustomerMenu() {
-        Scanner scan = new Scanner(System.in);
-
     }
 }
