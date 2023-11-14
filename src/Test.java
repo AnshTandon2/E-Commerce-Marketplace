@@ -44,8 +44,8 @@ public class Test {
         Customer.viewShoppingHistory("tandon39", "price", true);
         Customer.viewShoppingHistory("tandon39", "quantity", false);
         Customer.viewShoppingHistory("tandon39", "quantity", true);
-        Customer.addToCart("Purdue Hoodie", 4, "sandyStore", "tandon39", "firstSt", "74"); //should be sucessful
-        Customer.addToCart("Purdue Hat", 4, "sandyStore", "tandon39", "firstSt", "74"); //should say out of stock
+        Customer.addToCart("Purdue Hoodie", "sandyStore", 4, "tandon39"); //should be sucessful
+        Customer.addToCart("Purdue Hat", "sandyStore", 4, "tandon39"); //should say out of stock
         Customer.buyShoppingCartItems("tandon39"); // should buy things
         Customer.removeFromCart("tandon39", "Purdue Overalls"); //should remove from shoppingcart
         Customer.removeFromCart("tandon39", "Noneexistentthing"); //should display error
