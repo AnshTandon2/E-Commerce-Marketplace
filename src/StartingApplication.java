@@ -110,7 +110,7 @@ public class StartingApplication {
             if (userRole.equalsIgnoreCase("s")) { //if he is a seller
                 System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a " +
                         "Product\n" + "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. " +
-                        "Import/Export " + "Products\n" + "8. Log Out");
+                        "Import/Export Products\n" + "8. View Customer Shopping Carts for my Stores\n 9. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
@@ -237,16 +237,50 @@ public class StartingApplication {
                                 + "2. Sort by Products Bought");
                         String tempChoice = s.next();
                         int sortChoice = Integer.parseInt(tempChoice);
-                        Seller.viewStoreStatistics(username, sortChoice);
+                        System.out.println(Seller.viewStoreStatistics(username, sortChoice));
                     }
+
                     case "7" -> {//import or exports for product
+                        System.out.println("Would you like to import or export a CSV:\n" +
+                                "1. Import Products to be added to my stores\n" +
+                                "2. Export the Products from my Stores");
+                        String csvChoice = s.next();
+                        if (csvChoice.equals("1")) {
+                            System.out.println("Provide a pathname (ex: importingProducts.txt)\n" +
+                                    "It should be in this format:\n" +
+                                    "SellerUsername, StoreName, ProductName, Price, Quantity, Description\n");
+                            String pathName = s.nextLine();
+                            boolean result = Seller.importStoreInformation(username, pathName);
+                            if (result) {
+                                System.out.println("Information from the file has been imported to Marketplace successfully. ");
+                            } else {
+                                System.out.println("Information in the file could not be imported. ");
+                            }
+                        } else if (csvChoice.equals("2")) {
+                            System.out.println("Which store do you want to export products from? ");
+                            String storeName = s.nextLine();
+                            boolean result = Seller.exportStoreInformation(username, storeName);
+                            if (result) {
+                                System.out.println("File was exported successfully. ");
+                            } else {
+                                System.out.println("File could not be exported. ");
+                            }
+                        } else {
+                            System.out.println("Invalid information was provided");
+                        }
+                    }
 
+                    case "8" -> {// view customer shopping carts for my stores
+                        // call method name here
 
                     }
-                    case "8" ->  //logged out
-                            loggedOut = true;
+                    case "9" -> { //log out
+                        loggedOut = true;
 
-                    default -> System.out.println("Please try again with valid input!");
+                    }
+                    default -> {
+                        System.out.println("Please try again with valid input!");
+                    }
                 }
             } else {
                 // the user is a Customer type
@@ -460,5 +494,3 @@ public class StartingApplication {
         return null;
     }
 }
-
-

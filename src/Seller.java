@@ -22,6 +22,7 @@ public class Seller {
      * @param storeName name of store product to be removed from
      * @return String (whether product was removed)
      * @author Lalitha Chandolu, Nirmal Senthilkumar
+     * @version November 13, 2023
      */
     public static String removeProduct(String productName, String storeName) {
         // can edit product, price, store, quantity, or description
@@ -146,7 +147,7 @@ public class Seller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Error in adding the product.";
+        return ("Error in adding the product.");
     }
 
     /**
@@ -201,59 +202,53 @@ public class Seller {
             }
             bfw.flush();
             bfw.close();
-            return "Product was modified successfully.";
+            return ("Product was modified successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Product doesn't exist in this store.";
+        return ("Product doesn't exist in this store.");
     }
 
     /**
-     * List Products By Store Method
-     * List the sales for each store the Seller owns
+     * List Information By Store
+     * Sellers can view a list of their sales by store, including customer information
+     * and revenues from the sale.
+     *
+     * STILL NEEDS TO BE DONE
      *
      * @param  username (username of the seller)
-     * @return String (product names list)
-     * @author Lalitha Chandolu
+     * @return String (Store Information)
+     * @author Nirmal
      */
-    public static String listStoreHistory(String username) {
+    public static String listInformationByStore(String username) {
         // methods lists all products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
-        ArrayList<String[]> storeList = new ArrayList<>();
-        File f = new File("purchases.txt");
+        ArrayList<String[]> marketplaceList = new ArrayList<>();
+        File f = new File("market.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
             while (line != null) {
-                String[] data = line.split(";");
-                if (data[5].equals(username)) {
-                    storeList.add(data);
-                }
+                marketplaceList.add(line.split(";"));
                 line = bfr.readLine();
             }
             bfr.close();
-            storeList.sort(Comparator.comparing(o -> ((o[2]))));
-            if (storeList.isEmpty())
-                return "No Recorded Sales";
-            // Go through ArrayList and add the products that this seller owns to the string
-            StringBuilder returnString = new StringBuilder("List of Stores and all transactions\n");
-            String store = storeList.get(0)[2];
-            returnString.append("\nStore: ").append(store).append("\n");
-            double total = 0;
-            for (String[] productLine : storeList) {
-                if (!productLine[2].equals(store)) {
-                    returnString.append(String.format("Store Total Revenue: $%.2f\n", total));
-                    total = 0;
-                    store = productLine[2];
-                    returnString.append("\nStore: ").append(store).append("\n");
+            // Remove all products from ArrayList that don't belong to this seller
+            for (String[] productLine : marketplaceList) {
+                //productLine[5] represents the username of the Seller associated with the product
+                if (!productLine[5].equals(username)) {
+                    marketplaceList.remove(productLine);
                 }
-                returnString.append(productLine[4]).append(" purchased ").append(productLine[3]).append(" ").append(productLine[1]).append(
-                        "(s) from ").append(productLine[2]).append(" for $").append(productLine[1]).append(String.format(" for a " +
-                        "total of $%.2f.\n", Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1])));
-                total += Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1]);
             }
-            returnString.append(String.format("Store Total Revenue: $%.2f\n", total));
-            return returnString.toString();
+
+            String sellerProductList = "List of Products:\n";
+            // Go through ArrayList and add the products that this seller owns to the string
+            for (String[] productLine : marketplaceList) {
+                if (productLine[5].equals(username)) {
+                    sellerProductList += (String.join(",", productLine) + "\n");
+                }
+            }
+            return sellerProductList;
         } catch (IOException e) {
             return null;
         }
@@ -268,7 +263,7 @@ public class Seller {
      * @param merchantName
      * @param storeName
      * @author Justin, Lalitha
-     * @version November 13, 2023
+     * @version November 14, 2023
      */
     public static boolean exportStoreInformation(String merchantName, String storeName) {
         // reads the market.txt file
@@ -308,7 +303,7 @@ public class Seller {
      * @author Justin
      * @version November 13, 2023
      */
-    public static boolean importStoreInformation(String pathname) {
+    public static boolean importStoreInformation(String username, String pathname) {
         // main method asks Seller for the file path as a command
         File f = new File(pathname);
         boolean imported = false;
@@ -356,102 +351,80 @@ public class Seller {
      * View Store Statistics
      * Sellers can view a dashboard that lists statistics for each of their stores.
      * Data will include a list of customers with the number of items that they have purchased
-     * and a list of products with the number of sales.
-     * Sellers can choose to sort the dashboard.
-     * Will also display revenue per store
+     * Or a list of products with the number of sales made
+     * Depending on the sortChoice that the sellers choose on their dashboard in their menu
      *
      * @param username (seller username)
      * @param sortChoice (sort by which type)
-     * @author Ansh, Lalitha
+     * @author Ansh Tandon, Lalitha Chandolu
      */
     public static String viewStoreStatistics(String username, int sortChoice) {
-        Map<String, Map<String, Integer>> storeStats = new HashMap<>();
-        Map<String, Map<String, Integer>> productStatistics = new HashMap<>();
-        File f = new File("purchases.txt");
-        // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+        // Example line in Purchases.txt
+        //Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+        File purchases = new File("purchases.txt");
+        ArrayList<String> purchasesInSellerStores = new ArrayList<>();
         try {
-            BufferedReader bfr = new BufferedReader(new FileReader(f));
-            String line = bfr.readLine();
-            while (line != null) {
-                String[] data = line.split(",");
-                String productName = data[0];
-                double priceItem = Double.parseDouble(data[1]);
-                String storeName = data[2];
-                int quantityPurchased = Integer.parseInt(data[3]);
-                String customerName = data[4];
-                line = bfr.readLine();
-
-                // Sort Types
-                // 1. Sort by List of Customers
-                // 2. Sort by Products Bought
-
+            Scanner fileReader = new Scanner(purchases);
+            while (fileReader.hasNextLine()) {
+                // reads through all the lines in purchases.txt
+                String initialData = fileReader.nextLine();
+                String[] data = initialData.split(";");
+                // store belongs to the specified user (Seller)
                 if (data[5].equals(username)) {
-                    // If the store's statistics don't exist already, create them
-                    Map<String, Integer> storeData = storeStats.computeIfAbsent(storeName, k -> new HashMap<>());
-                    storeData.put(customerName, storeData.getOrDefault(customerName, 0) + 1);
-                    Map<String, Integer> productStats = productStatistics.computeIfAbsent(storeName, k ->
-                            new HashMap<>());
-                    int updatedQuantity = productStats.getOrDefault(productName, 0) + quantityPurchased;
-                    productStats.put(productName, updatedQuantity);
+                    purchasesInSellerStores.add(initialData);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            fileReader.close();
+        } catch (IOException e) {
+            // e.printStackTrace();
         }
-        StringBuilder statisticBuilder = new StringBuilder();
-        // For every store
-        for (Map.Entry<String, Map<String, Integer>> entry : storeStats.entrySet()) {
-            String storeName = entry.getKey();
-            if (sortChoice == 1) {
-                Map<String, Integer> storeStatistics = entry.getValue();
-                statisticBuilder.append(storeName).append(":\n");
-                // Print each customer and how many transactions they've made
-                for (Map.Entry<String, Integer> customerEntry : storeStatistics.entrySet()) {
-                    String customerName = customerEntry.getKey();
-                    int transactionCount = customerEntry.getValue();
-                    statisticBuilder.append(customerName).append(" has made ")
-                            .append(transactionCount).append(" transaction(s).\n");
+        // Sort Types
+        // 1. Sort by List of Customers
+        // 2. Sort by Products Bought
+
+        String storeStatistics = "";
+        if (sortChoice == 1) { // sort by list of customers
+            HashMap<String, Integer> customerPurchases = new HashMap<String, Integer>();
+            for (String purchase: purchasesInSellerStores) {
+                // Example of String Purchase:
+                // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+                String[] purchaseInfo = purchase.split(";");
+                if (customerPurchases.keySet().contains(purchaseInfo[4])) {
+                    // finds the number of purchases that that Customer made
+                    int quantity = customerPurchases.get(purchaseInfo[4]);
+                    customerPurchases.put(purchaseInfo[4], quantity + Integer.parseInt(purchaseInfo[3]));
+                } else {
+                    // sets a new key, value pair for the customer
+                    customerPurchases.put(purchaseInfo[4], Integer.parseInt(purchaseInfo[3]));
                 }
-            } else if (sortChoice == 2) {
-                // Now, for every product sold in a store, print the quantity that has been sold
-                if (productStatistics.containsKey(storeName)) {
-                    for (Map.Entry<String, Integer> productEntry : productStatistics.get(storeName).entrySet()) {
-                        String productName = productEntry.getKey();
-                        int productSales = productEntry.getValue();
-                        statisticBuilder.append(productName).append(" has had a total quantity of ").append(productSales)
-                                .append(" sold.\n");
+            }
+            storeStatistics += ("Sorted by List of Customers and their purchases:\n ");
+            for (String customer: customerPurchases.keySet()) {
+                storeStatistics += String.format("%s has purchased %d items from your stores.\n", customer, customerPurchases.get(customer));
+            }
+
+        } else if (sortChoice == 2) { // sort by products sold
+            HashMap<String, Integer> productsPurchased = new HashMap<String, Integer>();
+            for (String store: purchasesInSellerStores) {
+                HashMap<String, Integer> productsBought = new HashMap<String, Integer>();
+                for (String purchase : purchasesInSellerStores) {
+                    // Example of String Purchase:
+                    // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+                    String[] purchaseInfo = purchase.split(";");
+                    if (productsPurchased.keySet().contains(purchaseInfo[0])) {
+                        int quantitySold = productsPurchased.get(purchaseInfo[0]);
+                        productsPurchased.put(purchaseInfo[0], quantitySold + Integer.parseInt(purchaseInfo[3]));
+                    } else {
+                        productsPurchased.put(purchaseInfo[0], Integer.parseInt(purchaseInfo[3]));
                     }
                 }
             }
-        }
-        return statisticBuilder.toString();
-    }
-
-    /**
-     * displayCart for seller to see all products in seller carts that are from one of their stores
-     *
-     * @param userName the username of the seller
-     * @return the arrayList of products the seller is selling that is in shopping carts
-     * @author Nirmal Senthilkumar
-     */
-    public static ArrayList<String> displayCart(String userName) {
-        File f = new File("shoppingCart.txt");
-        ArrayList<String[]> shoppingCart = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(f);
-            while (scan.hasNextLine()) {
-                String temp = scan.nextLine();
-                String[] data = temp.split(";");
-                if (data[6].equals(userName)) {
-                    shoppingCart.add(data);
-                }
+            storeStatistics += ("Sorted by List of Products Purchased with number of Sales:\n ");
+            for (String product: productsPurchased.keySet()) {
+                storeStatistics += String.format("%s has been purchased a total of %d times from your stores.\n", product, productsPurchased.get(product));
             }
-            ArrayList<String> returnList = new ArrayList<>();
-            return returnList;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+        return storeStatistics;
     }
 
-}
+} // end of Seller Class
