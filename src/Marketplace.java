@@ -130,7 +130,7 @@ public class Marketplace {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
 
         return returnStr;
     }
@@ -180,8 +180,9 @@ public class Marketplace {
 
     /**
      * method to remove from cart
+     *
      * @param productName product to be removed
-     * @param userName customer's cart to remove from
+     * @param userName    customer's cart to remove from
      */
     public static void removeFromCart(String productName, String userName) {
         //TODO: NEED TO FIX THIS

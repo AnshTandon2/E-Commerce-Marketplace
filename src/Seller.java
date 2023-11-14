@@ -21,10 +21,10 @@ public class Seller {
      * Given the productName and the Store name
      * Only if the product exists; if not, no change occurs
      *
-     * @author Nirmal Senthilkumar
      * @param productName name of product to be removed
      * @param storeName   name of store product to be removed from
      * @return String (whether product was removed)
+     * @author Nirmal Senthilkumar
      * @author Lalitha Chandolu, Nirmal Senthilkumar
      */
     public static String removeProduct(String productName, String storeName) {

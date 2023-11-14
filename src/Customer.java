@@ -97,31 +97,6 @@ public class Customer {
         return returnString.toString();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void viewCustomerMenu() {
-        Scanner scan = new Scanner(System.in);
-
-    }
-
     /**
      * add a product to a customer's cart
      *
@@ -197,7 +172,7 @@ public class Customer {
      * removes a product from the cart
      *
      * @param customerUsername the name of customer's cart
-     * @param productName the product to be removed
+     * @param productName      the product to be removed
      * @return true if it was removed, false if it could not be removed
      * @author Nirmal Senthilkumar
      */
@@ -282,8 +257,7 @@ public class Customer {
             StringBuilder returnString = new StringBuilder("Success. You have purchased the following products:\n");
             double total = 0;
             for (String[] product : checkout) {
-                returnString.append(product[2]).append(",Price:").append(product[3]).append("Count").append(":").
-                        append(product[5]).append("\n");
+                returnString.append(product[2]).append(",Price:").append(product[3]).append("Count").append(":").append(product[5]).append("\n");
                 total += Double.parseDouble(product[3]) * Double.parseDouble(product[5]);
             }
             returnString.append(String.format("Total: $%.2f\n", total)).append("\n");
@@ -306,7 +280,7 @@ public class Customer {
     }
 
     /**
-     *  internally used to getPassword of a user
+     * internally used to getPassword of a user
      *
      * @param username the customer the password belongs to
      * @return password of user
@@ -364,5 +338,30 @@ public class Customer {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void viewCustomerMenu() {
+        Scanner scan = new Scanner(System.in);
+
     }
 }

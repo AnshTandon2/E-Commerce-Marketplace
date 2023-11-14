@@ -232,27 +232,26 @@ public class StartingApplication {
                     }
 
                     case "6" -> { //view store statistics
-                        System.out.println("How would you like to sort your Statistics Dashboard (type 1 or 2):\n"
-                                + "1. Sort by List of Customers"
-                                + "2. Sort by Products Bought");
+                        System.out.println("How would you like to sort your Statistics Dashboard (type 1 or 2):\n" +
+                                "1. Sort by List of Customers" + "2. Sort by Products Bought");
                         String tempChoice = s.next();
                         int sortChoice = Integer.parseInt(tempChoice);
                         System.out.println(Seller.viewStoreStatistics(username, sortChoice));
                     }
 
                     case "7" -> {//import or exports for product
-                        System.out.println("Would you like to import or export a CSV:\n" +
-                                "1. Import Products to be added to my stores\n" +
-                                "2. Export the Products from my Stores");
+                        System.out.println("Would you like to import or export a CSV:\n" + "1. Import Products to be " +
+                                "added to my stores\n" + "2. Export the Products from my Stores");
                         String csvChoice = s.next();
                         if (csvChoice.equals("1")) {
-                            System.out.println("Provide a pathname (ex: importingProducts.txt)\n" +
-                                    "It should be in this format:\n" +
-                                    "SellerUsername, StoreName, ProductName, Price, Quantity, Description\n");
+                            System.out.println("Provide a pathname (ex: importingProducts.txt)\n" + "It should be in " +
+                                    "this format:\n" + "SellerUsername, StoreName, ProductName, Price, Quantity, " +
+                                    "Description\n");
                             String pathName = s.nextLine();
                             boolean result = Seller.importStoreInformation(username, pathName);
                             if (result) {
-                                System.out.println("Information from the file has been imported to Marketplace successfully. ");
+                                System.out.println("Information from the file has been imported to Marketplace " +
+                                        "successfully. ");
                             } else {
                                 System.out.println("Information in the file could not be imported. ");
                             }
@@ -284,9 +283,8 @@ public class StartingApplication {
                 }
             } else {
                 // the user is a Customer type
-                System.out.println("Customer Main Menu\n1. View Dashboard\n2. Shopping Cart\n" +
-                        "3. Search for Product\n4. View Shopping History" + "\n5. Export Shopping Cart History" +
-                        "\n6. Log Out");
+                System.out.println("Customer Main Menu\n1. View Dashboard\n2. Shopping Cart\n" + "3. Search for " +
+                        "Product\n4. View Shopping History" + "\n5. Export Shopping Cart History" + "\n6. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
@@ -463,6 +461,7 @@ public class StartingApplication {
 
     /**
      * A method to check if an account exists based no the given username and password.
+     *
      * @param username username of the user
      * @param password password of the user
      * @return "s" or "c" if they are a customer or seller, null if they are not in our users.txt database
