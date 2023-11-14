@@ -336,11 +336,10 @@ public class StartingApplication {
                     System.out.println("Please try again with valid input!");
                 }
             }
-            }
         }
         System.out.println("Thank you for using marketplace!");
     }
-    
+
     public static String accountExists(String username, String password) {
         // parses the file of all of the existing user in the marketplace
         File f = new File("users.txt");
