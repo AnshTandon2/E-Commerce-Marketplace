@@ -1,6 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Seller Class
@@ -211,14 +210,15 @@ public class Seller {
     }
 
     /**
-     * List Products Method
-     * Lists the products associated with the given Seller username
+     * List Products By Store Method
+     * List the sales for each store the Seller owns
+     *
      *
      * @param  username (username of the seller)
      * @return String (product names list)
      * @author Lalitha Chandolu
      */
-    public String listProducts(String username) {
+    public static String listInformationByStore(String username) {
         // methods lists all products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
         ArrayList<String[]> marketplaceList = new ArrayList<>();
@@ -353,67 +353,71 @@ public class Seller {
      * Sellers can choose to sort the dashboard.
      * Will also display revenue per store
      *
-     * @param userName (seller username)
+     * @param username (seller username)
+     * @param sortChoice (sort by which type)
      * @author Ansh, Lalitha
      */
-    public static void viewStoreStatistics(String userName) {
-        // Example line in Purchases.txt
-        //Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
-        File purchases = new File("purchases.txt");
-        ArrayList<String> purchasesInSellerStores = new ArrayList<>();
+    public static String viewStoreStatistics(String username, int sortChoice) {
+        Map<String, Map<String, Integer>> storeStats = new HashMap<>();
+        Map<String, Map<String, Integer>> productStatistics = new HashMap<>();
+        File f = new File("purchases.txt");
+        // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
         try {
-            Scanner fileReader = new Scanner(purchases);
-            while (fileReader.hasNextLine()) {
-                String initialData = fileReader.nextLine();
-                String[] data = initialData.split(";");
-                // store belongs to the specified user (Seller)
-                if (data[4].equals(userName)) {
-                    purchasesInSellerStores.add(initialData);
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] data = line.split(",");
+                String productName = data[0];
+                double priceItem = Double.parseDouble(data[1]);
+                String storeName = data[2];
+                int quantityPurchased = Integer.parseInt(data[3]);
+                String customerName = data[4];
+                line = bfr.readLine();
+
+                // Sort Types
+                // 1. Sort by List of Customers
+                // 2. Sort by Products Bought
+
+                if (data[5].equals(username)) {
+                    // If the store's statistics don't exist already, create them
+                    Map<String, Integer> storeData = storeStats.computeIfAbsent(storeName, k -> new HashMap<>());
+                    storeData.put(customerName, storeData.getOrDefault(customerName, 0) + 1);
+                    Map<String, Integer> productStats = productStatistics.computeIfAbsent(storeName, k ->
+                            new HashMap<>());
+                    int updatedQuantity = productStats.getOrDefault(productName, 0) + quantityPurchased;
+                    productStats.put(productName, updatedQuantity);
                 }
             }
-            fileReader.close();
-        } catch (IOException e) {
-            // e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // for (String s : purchasesInSellerStore) {
-            // String[] recordedData = s.split(";");
-        // }
-
-        Scanner userScan = new Scanner(System.in);
-
-        System.out.println("1. Sort by List of Customers\n2. Sort by Products Bought\n3.Sort by Revenue Generated");
-        String sortChoice = userScan.nextLine();
-        if (sortChoice.equals("1")) {
-            int counter = 0;
-            int index = 0;
-            for (int i = 0; i < purchasesInSellerStores.size(); i++) {
-                for (int j = 0; j < purchasesInSellerStores.size(); j++) {
-                    String[] data = purchasesInSellerStores.get(j).split(";");
-                    //Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
-                    if (Double.parseDouble(data[1]) * Double.parseDouble(data[3]) > counter) {
-                        index = j;
+        StringBuilder statisticBuilder = new StringBuilder();
+        // For every store
+        for (Map.Entry<String, Map<String, Integer>> entry : storeStats.entrySet()) {
+            String storeName = entry.getKey();
+            if (sortChoice == 1) {
+                Map<String, Integer> storeStatistics = entry.getValue();
+                statisticBuilder.append(storeName).append(":\n");
+                // Print each customer and how many transactions they've made
+                for (Map.Entry<String, Integer> customerEntry : storeStatistics.entrySet()) {
+                    String customerName = customerEntry.getKey();
+                    int transactionCount = customerEntry.getValue();
+                    statisticBuilder.append(customerName).append(" has made ")
+                            .append(transactionCount).append(" transaction(s).\n");
+                }
+            } else if (sortChoice == 2) {
+                // Now, for every product sold in a store, print the quantity that has been sold
+                if (productStatistics.containsKey(storeName)) {
+                    for (Map.Entry<String, Integer> productEntry : productStatistics.get(storeName).entrySet()) {
+                        String productName = productEntry.getKey();
+                        int productSales = productEntry.getValue();
+                        statisticBuilder.append(productName).append(" has had a total quantity of ").append(productSales)
+                                .append(" sold.\n");
                     }
                 }
-                String[] recordedData = purchasesInSellerStores.get(index).split(";");
-                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
-                storesBroughtFrom.remove(index);
-            }
-        } else if (sortChoice.equals("2")) {
-            int counter = 0;
-            int index = 0;
-            for (int i = 0; i < storesBroughtFrom.size(); i++) {
-                for (int j = 0; j < storesBroughtFrom.size(); j++) {
-                    String[] data = storesBroughtFrom.get(j).split(";");
-                    if (Double.parseDouble(data[3]) > counter) {
-                        index = j;
-                    }
-                }
-                String[] recordedData = storesBroughtFrom.get(index).split(";");
-                System.out.println("You brought " + recordedData[3] + " " + recordedData[0] + " from " + recordedData[2] + " for " + recordedData[1]);
-                storesBroughtFrom.remove(index);
             }
         }
+        return statisticBuilder.toString();
     }
 
 }

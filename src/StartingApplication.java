@@ -116,7 +116,7 @@ public class StartingApplication {
                     case "1" -> {
                         System.out.println("1. View Dashboard\n2. Sort by Ascending Price\n3. Sort by Descending " +
                                 "price\n4. Sort by " + "Ascending Quantity\n5. Sort by Descending Quantity\n" +
-                                "(Anything" + " else.) exit");
+                                "(Default) Exit");
                         String sortChoice = s.nextLine();
                         switch (sortChoice) {
                             case "1" -> Marketplace.printMarketplace();
@@ -159,7 +159,9 @@ public class StartingApplication {
                         }
                     }
                     case "2" -> { //list stores that the seller is associated with and the products in it
-                        System.out.println(Seller.listProductsByStore(username));
+                        // should return a long list of customers per store
+                        // and sales per store
+                        System.out.println(Seller.listInformationByStore(username));
                     }
                     case "3" -> { //add product
                         System.out.println("Enter a Product Name: ");
@@ -232,16 +234,21 @@ public class StartingApplication {
                     }
 
                     case "6" -> { //view store statistics
-                        Seller.viewStoreStatistics(username);
-                        //TODO: Get view store statistics
+                        System.out.println("How would you like to sort your Statistics Dashboard (type 1 or 2):\n"
+                                            + "1. Sort by List of Customers"
+                                            + "2. Sort by Products Bought");
+                        String tempChoice = s.next();
+                        int sortChoice = Integer.parseInt(tempChoice);
+                        Seller.viewStoreStatistics(username, sortChoice);
                     }
                     case "7" -> {//import or exports for product
 
-                        //TODO: Import justin's part
+
 
                     }
                     case "8" ->  //logged out
                             loggedOut = true;
+
                     default -> System.out.println("Please try again with valid input!");
                 }
             } else {
