@@ -121,6 +121,8 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 ### Connections between classes:
 Starting Application is known as the main class. This class deals with the front end that provides the login and sign up options for the user. Once the user has logged onto the application the Starting Application class starts using the methods from MarketPlace, Customer, and Seller to help users with completing functions. The cart functions and purchasehistory functions are primarily initialized in the Customer class. On the other hand, Seller class deals primarily with product info and store info. All of which is made available through the Starting Application.
 
+## Testing
 
+In order to test the file, we have a Test.java file that provides our test cases. Within the actual file, you will be able to see comments that indicate what the correct output should be. Each of the methods in the test file are commented and they can be uncommented with ctrl + / to be run as a test case. We have implemented all of this to the main method of that file. 
 
 
