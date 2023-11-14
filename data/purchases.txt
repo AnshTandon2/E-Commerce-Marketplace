@@ -1,3 +1,0 @@
-Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
-Purdue hoodie;74.00;sandyStore;2;lchandol;sandryuk
-Purdue Overalls;100.00;dylanStoreTwo;1;majumda;dylank
