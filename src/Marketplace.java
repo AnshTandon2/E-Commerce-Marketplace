@@ -1,5 +1,8 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
 
 /**
  * Marketplace Class
@@ -228,36 +231,5 @@ public class Marketplace {
      * @param userName the customer's cart to retrieve
      * @return ArrayList of Strings of the product and the quantity seperated by " : "
      */
-    public static ArrayList<String> displayCart(String userName) {
-        File f = new File("shoppingCart.txt");
-        ArrayList<String> shoppingCart = new ArrayList<>();
-        ArrayList<String> quantities = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(f);
-            while (scan.hasNextLine()) {
-                String temp = scan.nextLine();
-                String[] data = temp.split(";");
-                if (data[0].equals(userName)) {
-                    shoppingCart.add(temp);
-//                    shoppingCart.add(scan);
-//                    shoppingCart.addAll(Arrays.asList(data).subList(2, data.length));
-                }
-            }
-            ArrayList<String> returnList = new ArrayList<>();
-//            for (int i = 0; i < shoppingCart.size() / 4; i++) {
-//
-//                int nameIndex = productNames.indexOf(shoppingCart.get(4 * i));
-//                if (nameIndex != -1) {
-//                    returnList.add(shoppingCart.get(4 * i) + " : " + (shoppingCart.get(4 + 3)));
-//                } else {
-//                    returnList.add("invalid product, out of stock");
-//                }
-//            }
-//            return returnList;
-            return shoppingCart;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 }

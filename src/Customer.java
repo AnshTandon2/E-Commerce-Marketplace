@@ -128,10 +128,6 @@ public class Customer {
             returnString.append("Your purchase history is empty.");
             return returnString.toString();
         }
-        for (String product : storesBoughtFrom) {
-            String[] data = product.split(";");
-
-        }
         if (sortBy.equalsIgnoreCase("price")) { //the amount spent bt the customer
             storesBoughtFrom.sort(Comparator.comparing(o -> ((Double.parseDouble(o.split(";")[1]) * Double.parseDouble(o.split(";")[3])))));
         } else if (sortBy.equalsIgnoreCase("quantity")) { //the amount of products the customer bought
@@ -298,6 +294,29 @@ public class Customer {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<String> displayCart(String userName) {
+        File f = new File("shoppingCart.txt");
+        ArrayList<String[]> shoppingCart = new ArrayList<>();
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String temp = scan.nextLine();
+                String[] data = temp.split(";");
+                if (data[0].equals(userName)) {
+                    shoppingCart.add(data);
+                }
+            }
+            ArrayList<String> returnList = new ArrayList<>();
+            for (int i = 0; i < shoppingCart.size(); i++) {
+
+            }
+            return returnList;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
