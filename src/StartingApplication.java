@@ -233,14 +233,13 @@ public class StartingApplication {
 
                     case "6" -> { //view store statistics
                         System.out.println("How would you like to sort your Statistics Dashboard (type 1 or 2):\n"
-                                            + "1. Sort by List of Customers"
-                                            + "2. Sort by Products Bought");
+                                + "1. Sort by List of Customers"
+                                + "2. Sort by Products Bought");
                         String tempChoice = s.next();
                         int sortChoice = Integer.parseInt(tempChoice);
                         Seller.viewStoreStatistics(username, sortChoice);
                     }
                     case "7" -> {//import or exports for product
-
 
 
                     }
@@ -251,9 +250,9 @@ public class StartingApplication {
                 }
             } else {
                 // the user is a Customer type
-                System.out.println("Customer Main Menu\n1. View Dashboard\n2. View Shopping Cart\n" +
-                        "3. Search for Product\n4. Purchase a Product\n5. View Shopping History\n" +
-                        "6. Export Shopping Cart History\n7. Log Out");
+                System.out.println("Customer Main Menu\n1. View Dashboard\n2. Shopping Cart\n" +
+                        "3. Search for Product\n4. View Shopping History" + "\n5. Export Shopping Cart History" +
+                        "\n6. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
@@ -318,15 +317,18 @@ public class StartingApplication {
                         }
                         String cartChoice;
                         do {
-                            System.out.println("1. Remove Cart Product\n2. Buy All Cart Products\n3. Add Cart Product");
+                            System.out.println("1. Remove Product from Cart\n2. Buy All Cart Products\n3. Add " +
+                                    "Product to Cart\n4. Exit");
                             cartChoice = s.nextLine();
                             switch (cartChoice) {
                                 case "1" -> {
-                                    //TODO: FIX THIS
-                                    System.out.println("Enter cart item name to be removed");
+                                    System.out.println("Enter product name to be removed");
                                     String removeChoice = s.nextLine();
-                                    Marketplace.removeFromCart(removeChoice, username);
-                                    System.out.println("Item was removed!");
+                                    if (Customer.removeFromCart(username, removeChoice)) {
+                                        System.out.println("Item was removed!");
+                                    } else {
+                                        System.out.println("Item cannot be removed.");
+                                    }
                                 }
                                 case "2" -> {
                                     Customer.buyShoppingCartItems(username);
@@ -345,14 +347,17 @@ public class StartingApplication {
                                     if (price == null) {
                                         System.out.println("This item does not exist");
                                     } else {
-                                        System.out.println("Please enter your password for authentication");
-                                        String pass = s.nextLine();
-                                        Customer.addToCart(product, quantity, storeName, username, pass, price);
-                                        System.out.println("Added to cart!");
+                                        if (Customer.addToCart(product, storeName, quantity, username)) {
+                                            System.out.println("Added to cart!");
+                                        } else {
+                                            System.out.println("Error adding to cart. Quantity exceeds available " +
+                                                    "stock");
+                                        }
                                     }
-                                    //TODO: Implement add cart product method
                                 }
 
+                                case "4" -> {
+                                }
                                 default -> System.out.println("Please enter valid cart choice!");
                             }
                         } while (!cartChoice.equals("1") && !cartChoice.equals("2") && !cartChoice.equals("3"));
@@ -384,75 +389,10 @@ public class StartingApplication {
                             }
                         }
                     }
-                    case "4" -> {  //purchase a product
-                        boolean flag = false;
-                        System.out.println("Enter product name: ");
-                        String name = s.nextLine();
-                        System.out.println("Enter store name: ");
-                        String finalee = "";
-                        String store = s.nextLine();
-                        int quant = -1;
-
-                        //run through market.txt file
-                        try {
-                            File f = new File("market.txt");
-                            BufferedReader br = new BufferedReader(new FileReader(f));
-                            ArrayList<String> list = new ArrayList<>();
-                            String line;
-                            while ((line = br.readLine()) != null) {
-                                list.add(line);
-                            }
-                            for (int i = 0; i < list.size(); i++) {
-                                String[] arr = list.get(i).split(",");
-                                if (arr[0].equals(name) && arr[2].equals(store)) {
-                                    flag = true;
-                                    while (Integer.parseInt(arr[3]) - quant < 0) {
-                                        System.out.println("Enter valid quantity you want of " + arr[0] + " from " + arr[2]);
-                                        quant = s.nextInt();
-                                    }
-                                    int newQuantity = Integer.parseInt(arr[3]) - quant;
-                                    arr[3] = newQuantity + "";
-                                    StringBuilder formedString = new StringBuilder();
-                                    for (String string : arr) {
-                                        formedString.append(string);
-                                    }
-                                    list.set(i, formedString.toString());
-                                    finalee = list.get(i);
-
-                                }
-                            }
-                            br.close();
-                            if (flag) {
-                                BufferedWriter bw = new BufferedWriter(new FileWriter("market.txt", false));
-                                for (String a : list) {
-                                    bw.write(a);
-                                    bw.newLine();
-                                }
-                                bw.close();
-
-                                //now updating shopping cart to add that product'
-                                //finale is now the new product but with updated count
-                                //quant --> quantity they bought, so replace that in finalee
-                                String[] arr = finalee.split(",");
-                                arr[3] = quant + "";
-                                StringBuilder reformatedd = new StringBuilder();
-                                for (String a : arr) {
-                                    reformatedd.append(a);
-                                }
-
-                                BufferedWriter bww = new BufferedWriter(new FileWriter("shoppingCart.txt", true));
-                                bww.write(reformatedd.toString());
-                                bww.close();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
 
                     //Marketplace.purchaseProduct();
                     //need to implement logic for this
-                    case "5" -> { //view shopping history
+                    case "4" -> { //view shopping history
                         boolean exit = false;
                         while (!exit) {
                             System.out.println("1. Sort by amount spent ascending.\n2. Sort by amount spent " +
@@ -480,10 +420,10 @@ public class StartingApplication {
                             }
                         }
                     }
-                    case "6" ->   //export shopping history
+                    case "5" ->   //export shopping history
                             Customer.exportPurchaseHistory(username);
                     //need to implement logic for this
-                    case "7" -> {  //log out
+                    case "6" -> {  //log out
                         System.out.println("Thank you for using marketplace!");
                         loggedOut = true;
                     }
@@ -520,3 +460,5 @@ public class StartingApplication {
         return null;
     }
 }
+
+
