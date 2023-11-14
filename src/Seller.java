@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Seller Class
  * <p>
  * Seller class manages the seller's ability to add a product,
- * remove a product, or edit a product (any of it's fields)
+ * remove a product, or edit a product (any of its fields)
  *
  * @author Lalitha Chandolu, Nirmal Senthilkumar; Justin CS 180 Black
  * @version November 13, 2023
@@ -64,28 +64,9 @@ public class Seller {
         return returnString;
     }
 
-    public static String[] getProduct(String productName, String storeName) {
-        File f = new File("market.txt");
-        ArrayList<String[]> marketplaceList = new ArrayList<>();
-        try {
-            BufferedReader bfr = new BufferedReader(new FileReader(f));
-            String line = bfr.readLine();
-            while (line != null) {
-                marketplaceList.add(line.split(";"));
-                line = bfr.readLine();
-            }
-            bfr.close();
-            for (String[] productInfo : marketplaceList) {
-                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
-                    return productInfo;
-                }
-            }
-        } catch (IOException ignored) {
-        }
-        return null;
-    }
-
-    /**
+    /** Product Exists Method
+     * Returns a boolean if the product exists in the specified Seller's store
+     *
      * @param productName product name to be checked if it exists
      * @param storeName   store name to be checked if product exists in it
      * @return true if it exists, false if it doesn't

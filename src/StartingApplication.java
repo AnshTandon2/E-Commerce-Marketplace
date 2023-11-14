@@ -217,8 +217,9 @@ public class StartingApplication {
                                 }
                             }
                             Marketplace.updateMarketplace();
-                        } else
+                        } else {
                             System.out.println("Product doesn't exist and cannot be modified.");
+                        }
                     }
 
                     case "5" -> { //delete a product
