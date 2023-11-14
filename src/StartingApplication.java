@@ -158,8 +158,8 @@ public class StartingApplication {
                             default -> System.out.println("Please go back and try again!");
                         }
                     }
-                    case "2" -> {   //view sales by store
-                        //nothing happens here??????
+                    case "2" -> { //list stores that the seller is associated with and the products in it
+                        System.out.println(Seller.listProductsByStore(username));
                     }
                     case "3" -> { //add product
                         System.out.println("Enter a Product Name: ");
@@ -248,7 +248,7 @@ public class StartingApplication {
                 // the user is a Customer type
                 System.out.println("Customer Main Menu\n1. View Dashboard\n2. View Shopping Cart\n3. Search for " +
                         "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export Shopping Cart" +
-                        "History\n7. " + "View" + " Store Statistics\n8. Log Out");
+                        "History\n7. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
@@ -440,18 +440,40 @@ public class StartingApplication {
                         }
                     }
 
-//                    Marketplace.purchaseProduct();
+                    //Marketplace.purchaseProduct();
                     //need to implement logic for this
-                    case "5" ->  //view shopping history
-                            Customer.viewHistory(username); //in the method need to check if displayed or not
+                    case "5" -> { //view shopping history
+                        boolean exit = false;
+                        while (!exit) {
+                            System.out.println("1. Sort by amount spent ascending.\n2. Sort by amount spent " +
+                                    "descending.\n3. Sort by items purchased ascending.\n4. Sort by items purchased " + "descending.\n5. Exit");
+                            String smallMenuChoice = s.nextLine();
+                            switch (smallMenuChoice) {
+                                case "1" -> {
+                                    System.out.println(Customer.viewShoppingHistory(username, "price", true));
+                                    exit = true;
+                                }
+                                case "2" -> {
+                                    System.out.println(Customer.viewShoppingHistory(username, "price", false));
+                                    exit = true;
+                                }
+                                case "3" -> {
+                                    System.out.println(Customer.viewShoppingHistory(username, "quantity", true));
+                                    exit = true;
+                                }
+                                case "4" -> {
+                                    System.out.println(Customer.viewShoppingHistory(username, "quantity", false));
+                                    exit = true;
+                                }
+                                case "5" -> exit = true;
+                                default -> System.out.println("Please enter a valid input and try again.");
+                            }
+                        }
+                    }
                     case "6" ->   //export shopping history
                             Customer.exportPurchaseHistory(username);
-                    case "7" ->  //view store statistics
-                            System.out.println("CHNANGE THIS AS CUSTOMERS CAnt view store staitsitcs");
-//                            Customer.viewStoreStatistics(username);
-
                     //need to implement logic for this
-                    case "8" -> {  //log out
+                    case "7" -> {  //log out
                         System.out.println("Thank you for using marketplace!");
                         loggedOut = true;
                     }
