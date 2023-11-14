@@ -349,9 +349,8 @@ public class Seller {
      * View Store Statistics
      * Sellers can view a dashboard that lists statistics for each of their stores.
      * Data will include a list of customers with the number of items that they have purchased
-     * and a list of products with the number of sales.
-     * Sellers can choose to sort the dashboard.
-     * Will also display revenue per store
+     * Or a list of products with the number of sales made
+     * Depending on the sortChoice that the sellers choose on their dashboard in their menu
      *
      * @param username (seller username)
      * @param sortChoice (sort by which type)
@@ -381,13 +380,13 @@ public class Seller {
         // 1. Sort by List of Customers
         // 2. Sort by Products Bought
 
-        if (sortChoice == 1) { // sort by list of products
+        String storeStatistics = "";
+        if (sortChoice == 1) { // sort by list of customers
             HashMap<String, Integer> customerPurchases = new HashMap<String, Integer>();
             for (String purchase: purchasesInSellerStores) {
                 // Example of String Purchase:
                 // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
                 String[] purchaseInfo = purchase.split(";");
-                System.out.println("Store: " + purchaseInfo[2]);
                 if (customerPurchases.keySet().contains(purchaseInfo[4])) {
                     // finds the number of purchases that that Customer made
                     int quantity = customerPurchases.get(purchaseInfo[4]);
@@ -397,16 +396,33 @@ public class Seller {
                     customerPurchases.put(purchaseInfo[4], Integer.parseInt(purchaseInfo[3]));
                 }
             }
+            storeStatistics += ("Sorted by List of Customers and their purchases:\n ");
             for (String customer: customerPurchases.keySet()) {
-
+                storeStatistics += String.format("%s has purchased %d items from your stores.\n", customer, customerPurchases.get(customer));
             }
 
-        } else if (sortChoice == 2) {
+        } else if (sortChoice == 2) { // sort by products sold
+            HashMap<String, Integer> productsPurchased = new HashMap<String, Integer>();
             for (String store: purchasesInSellerStores) {
-
+                HashMap<String, Integer> productsBought = new HashMap<String, Integer>();
+                for (String purchase : purchasesInSellerStores) {
+                    // Example of String Purchase:
+                    // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+                    String[] purchaseInfo = purchase.split(";");
+                    if (productsPurchased.keySet().contains(purchaseInfo[0])) {
+                        int quantitySold = productsPurchased.get(purchaseInfo[0]);
+                        productsPurchased.put(purchaseInfo[0], quantitySold + Integer.parseInt(purchaseInfo[3]));
+                    } else {
+                        productsPurchased.put(purchaseInfo[0], Integer.parseInt(purchaseInfo[3]));
+                    }
+                }
             }
-
+            storeStatistics += ("Sorted by List of Products Purchased with number of Sales:\n ");
+            for (String product: productsPurchased.keySet()) {
+                storeStatistics += String.format("%s has been purchased a total of %d times from your stores.\n", product, productsPurchased.get(product));
+            }
         }
+        return storeStatistics;
     }
 
-}
+} // end of Seller Class
