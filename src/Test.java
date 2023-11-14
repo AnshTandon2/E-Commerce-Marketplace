@@ -23,19 +23,19 @@ public class Test {
         //boolean output = Seller.productExists("Purdue hoodie", "notAStore");//Should return false
         //boolean output = Seller.productExists("Purdue Half Zip", "dylanStore"); //should return true
         //String output = Seller.addProduct("newproduct!", 50.00, "newStore!", 7, "A new Test product", "newTestSeller"); //should add properly
-        String output = Seller.editProduct("newproduct!", "newStore!", "quantity", "999"); //should update
-        Marketplace.updateMarketplace();
-        System.out.println(output);
+        //String output = Seller.editProduct("newproduct!", "newStore!", "quantity", "999"); //should update
+        //TODO Editproducts still not working
         //Seller.editProduct("nonoexistentProduct", "nonexistentstore", "description", "Hello World"); //should return prouduct not found
-        //Seller.exportStoreInformation("dylanK", "dylanStore"); //should export file containing dylanStore products
+        //boolean output = Seller.exportStoreInformation("dylank", "dylanStore"); //should export file containing dylanStore products
         //format:
         //Store,item,price
 
-        //Seller.exportStoreInformation("noneexistentSeller", "dylanStore"); //should not export anything
-        //Seller.importStoreInformation("dylank","testImportFile.txt");
-        //Seller.viewStoreStatistics("davidkj", 1);
-        //Seller.viewStoreStatistics("davidkj", 2);
-        //Seller.viewStoreStatistics("nonExistentUser", 1);
+        //boolean output = Seller.exportStoreInformation("noneexistentSeller", "dylanStore"); //should not export anything
+        //boolean output = Seller.importStoreInformation("dylank","testImportFile.txt");
+        //String output = Seller.viewStoreStatistics("davidkj", 1);
+        //String output = Seller.viewStoreStatistics("davidkj", 2);
+        String output = Seller.viewStoreStatistics("dylank", 1);
+        System.out.println(output);
         /* End of Seller Class Testing */
 
         /* Customer Class Testing */
