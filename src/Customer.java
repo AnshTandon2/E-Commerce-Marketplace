@@ -297,6 +297,13 @@ public class Customer {
         }
     }
 
+    /**
+     * displayCart for customer to see all products in their cart
+     *
+     * @param userName the username of the customer
+     * @return the arrayList of products in the cart
+     * @author Nirmal Senthilkumar
+     */
     public static ArrayList<String> displayCart(String userName) {
         File f = new File("shoppingCart.txt");
         ArrayList<String[]> shoppingCart = new ArrayList<>();

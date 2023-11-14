@@ -427,4 +427,31 @@ public class Seller {
         return statisticBuilder.toString();
     }
 
+    /**
+     * displayCart for seller to see all products in seller carts that are from one of their stores
+     *
+     * @param userName the username of the seller
+     * @return the arrayList of products the seller is selling that is in shopping carts
+     * @author Nirmal Senthilkumar
+     */
+    public static ArrayList<String> displayCart(String userName) {
+        File f = new File("shoppingCart.txt");
+        ArrayList<String[]> shoppingCart = new ArrayList<>();
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) {
+                String temp = scan.nextLine();
+                String[] data = temp.split(";");
+                if (data[6].equals(userName)) {
+                    shoppingCart.add(data);
+                }
+            }
+            ArrayList<String> returnList = new ArrayList<>();
+            return returnList;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
