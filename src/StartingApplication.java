@@ -158,8 +158,8 @@ public class StartingApplication {
                             default -> System.out.println("Please go back and try again!");
                         }
                     }
-                    case "2" -> { //list stores that the seller is associated with and the products in it
-                        System.out.println(Seller.listStoreHistory(username));
+                    case "2" -> { // view sales by store
+                        System.out.println(Seller.listInformationByStore(username));
                     }
                     case "3" -> { //add product
                         System.out.println("Enter a Product Name: ");
