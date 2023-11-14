@@ -159,10 +159,6 @@ public class Customer {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -172,90 +168,103 @@ public class Customer {
 
     }
 
-    public static void addToCart(String productName, int quantity, String storeName, String client, String password,
-                          String price) {
-
+    public static boolean addToCart(String productName, String storeName, int quantity, String client) {
         File marketFile = new File("market.txt");
         String productStock = "";
         try {
             Scanner scan = new Scanner(marketFile);
+            String[] productToAdd = null;
             while (scan.hasNextLine()) {
                 String[] data = scan.nextLine().split(";");
                 if (data[0].equals(productName) && data[2].equals(storeName)) {
-                    productStock = data[3];
-                    if (quantity > Integer.parseInt(productStock)) {
-                        System.out.println("Cannot add to cart as quantity exceeds stock");
-                    } else {
-                        System.out.println("Added to Cart!");
-                        File cartFile = new File("shoppingCart.txt");
-                        Scanner cartFileScan = new Scanner(cartFile);
-                        boolean exists = false;
-                        while (cartFileScan.hasNextLine()) {
-                            String initialCartData = cartFileScan.nextLine();
-                            String[] cartData = initialCartData.split(";");
-                            if (cartData[2].equals(productName) && cartData[4].equals(storeName)) {
-                                String input = null;
-                                Scanner sc = new Scanner(new File("shoppingCart.txt"));
-                                StringBuffer sb = new StringBuffer();
-                                while (sc.hasNextLine()) {
-                                    input = sc.nextLine() + "\n";
-                                    sb.append(input);
-                                }
-                                String finalStr = sb.toString();
-                                String toReplace =
-                                        cartData[0] + ";" + cartData[1] + ";" + cartData[2] + ";" + cartData[3] + ";" + cartData[4] + (Integer.parseInt(cartData[5]) + quantity);
-                                finalStr = finalStr.replaceAll(initialCartData, toReplace);
-                                PrintWriter writer = new PrintWriter(cartFile);
-                                writer.append(finalStr);
-                                writer.flush();
-                                exists = true;
-                            }
-                        }
-                        if (!exists) {
-                            FileWriter writer = new FileWriter("shoppingCart.txt");
-                            writer.write(client + ";" + password + ";" + productName + ";" + price + ";" + storeName + ";" + quantity);
-                        }
-                    }
+                    productToAdd = data;
                 }
             }
+            if (productToAdd == null)
+                return false;
+            if (quantity > Integer.parseInt(productToAdd[3]))
+                return false;
+            scan.close();
+            File cartFile = new File("shoppingCart.txt");
+            scan = new Scanner(cartFile);
+            boolean exists = false;
+            ArrayList<String[]> shoppingCartOld = new ArrayList<>();
+            while (scan.hasNextLine()) {
+                String initialCartData = scan.nextLine();
+                String[] cartData = initialCartData.split(";");
+                shoppingCartOld.add(cartData);
+            }
+            ArrayList<String[]> shoppingCartNew = new ArrayList<>();
 
+            for (String[] product : shoppingCartOld) {
+                if (product[2].equals(productName) && product[4].equals(storeName)) {
+                    product[5] += quantity;
+                    exists = true;
+                }
+                shoppingCartNew.add(product);
+            }
+            if (!exists) {
+                String[] newProduct = new String[8];
+                newProduct[0] = client;
+                newProduct[1] = Customer.getPassword(client);
+                newProduct[2] = productToAdd[0];
+                newProduct[3] = productToAdd[1];
+                newProduct[4] = productToAdd[2];
+                newProduct[5] = productToAdd[3];
+                newProduct[6] = productToAdd[4];
+                newProduct[7] = productToAdd[5];
+                shoppingCartNew.add(newProduct);
+            }
+            FileWriter fr = new FileWriter(cartFile, true);
+            BufferedWriter bfr = new BufferedWriter(fr);
+            for (String[] product : shoppingCartNew) {
+                bfr.write(String.join(";", product) + "\n");
+            }
+            bfr.flush();
+            bfr.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return false;
     }
 
-    public static void removeFromCart(String customerUsername, String productName) {
+    public static boolean removeFromCart(String customerUsername, String productName) {
 
         File f = new File("shoppingCart.txt");
         try {
-            Scanner scan = new Scanner(f);
+            File cartFile = new File("shoppingCart.txt");
+            Scanner scan = new Scanner(cartFile);
+            boolean exists = false;
+            ArrayList<String[]> shoppingCart = new ArrayList<>();
+            ArrayList<String[]> newShoppingCart = new ArrayList<>();
             while (scan.hasNextLine()) {
-                String initialData = scan.nextLine();
-                String[] data = initialData.split(";");
-                if (data[0].equals(customerUsername) && data[2].equals(productName)) {
-                    String input = null;
-                    Scanner sc = new Scanner(f);
-                    StringBuffer sb = new StringBuffer();
-                    while (sc.hasNextLine()) {
-                        input = sc.nextLine() + "\n";
-                        sb.append(input);
-                    }
-                    String finalStr = sb.toString();
-                    finalStr = finalStr.replaceAll(initialData, "");
-                    PrintWriter writer = new PrintWriter(f);
-                    writer.append(finalStr);
-                    writer.flush();
-                    System.out.println("Removed!");
+                String initialCartData = scan.nextLine();
+                String[] cartData = initialCartData.split(";");
+                shoppingCart.add(cartData);
+            }
+            for (String[] product : shoppingCart) {
+                if (product[0].equals(customerUsername) && product[2].equals(productName)) {
+                    exists = true;
                 } else {
-                    System.out.println("Object doesn't exist in cart");
+                    newShoppingCart.add(product);
                 }
             }
-
+            if (!exists) {
+                return false;
+            }
+            FileWriter fr = new FileWriter(f, false);
+            BufferedWriter bfr = new BufferedWriter(fr);
+            for (String[] product : newShoppingCart) {
+                bfr.write(String.join(";", product) + "\n");
+            }
+            bfr.flush();
+            bfr.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return true;
     }
 
     /**
@@ -295,6 +304,30 @@ public class Customer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getPassword(String username) {
+        // parses the file of all of the existing user in the marketplace
+        File f = new File("users.txt");
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                // splits the line by the ";" token
+                String[] temp = line.split(";");
+                // email and password given match
+                if (temp[0].equals(username)) {
+                    // returns the userRole (s for Seller, c for Customer)
+                    return temp[1];
+                }
+                line = bfr.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // the info given doesn't match with an existing user
+        return null;
     }
 
     /**
