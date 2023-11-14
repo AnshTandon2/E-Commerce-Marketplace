@@ -1,7 +1,7 @@
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -38,10 +38,42 @@ public class Marketplace {
                 descriptionList.add(data[4]);
                 productIDs.add(Integer.toString(counter));
                 counter++;
-                // maybe will need to add a unique product id
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * updateMarketplace method to update the parallel arrayLists when the files are being changed
+     *
+     * @author Nirmal Senthilkumar
+     */
+    public static void updateMarketplace() {
+        productNames.clear();
+        priceList.clear();
+        storeNames.clear();
+        quantityList.clear();
+        descriptionList.clear();
+        productIDs.clear();
+        try {
+            int counter = 0;
+            File file = new File("market.txt");
+            FileReader fr = new FileReader(file);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] data = line.split(";");
+                productNames.add(data[0]);
+                priceList.add(Double.parseDouble(data[1]));
+                storeNames.add(data[2]);
+                quantityList.add(Integer.parseInt(data[3]));
+                descriptionList.add(data[4]);
+                productIDs.add(Integer.toString(counter));
+                counter++;
+                line = bfr.readLine();
+            }
+        } catch (IOException ignored) {
         }
     }
 
@@ -77,9 +109,7 @@ public class Marketplace {
     public static ArrayList<String> searchProduct(String keyword) {
         ArrayList<String> matchedProducts = new ArrayList<String>();
         for (int i = 0; i < productIDs.size(); i++) {
-            if (productNames.get(i).toLowerCase().contains(keyword.toLowerCase()) ||
-                    storeNames.get(i).toLowerCase().contains(keyword.toLowerCase()) ||
-                    descriptionList.get(i).toLowerCase().contains(keyword.toLowerCase())) {
+            if (productNames.get(i).toLowerCase().contains(keyword.toLowerCase()) || storeNames.get(i).toLowerCase().contains(keyword.toLowerCase()) || descriptionList.get(i).toLowerCase().contains(keyword.toLowerCase())) {
                 matchedProducts.add(productDetail(i));
             }
         }
@@ -101,9 +131,7 @@ public class Marketplace {
         } else {
             // there is no stock available of the product
             // return the product name, price, store, and quantity (specify it's out of stock)
-            return String.format("Product Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of" +
-                            " Stock\n", productNames.get(index), priceList.get(index), storeNames.get(index),
-                    quantityList.get(index));
+            return String.format("Product Name: %s" + "\nProduct Price: %.2f" + "\nStore: %s" + "\nQuantity: Out of" + " Stock\n", productNames.get(index), priceList.get(index), storeNames.get(index), quantityList.get(index));
         }
     }
 
@@ -180,6 +208,7 @@ public class Marketplace {
 
     /**
      * Display the shopping cart of the given customer
+     *
      * @param userName the customer's cart to retrieve
      * @return ArrayList of Strings of the product and the quantity seperated by " : "
      */

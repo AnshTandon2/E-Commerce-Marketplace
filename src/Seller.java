@@ -1,5 +1,6 @@
-import java.util.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Seller Class
@@ -12,61 +13,20 @@ import java.io.*;
  */
 public class Seller {
 
-    /** List Products Method
-     * Lists the products associated with the given Seller username
-     * @param username
-     * @return String (product names list)
-     *
-     * @author Lalitha Chandolu
-     * @version November 13, 2023
-     */
-    public String listProducts(String username) {
-        // methods lists all of the products sold by this Seller
-        // go through market.txt and add lines to String[] ArrayList1
-        ArrayList<String[]> marketplaceList = new ArrayList<>();
-        File f = new File("market.txt");
-        try {
-            BufferedReader bfr = new BufferedReader(new FileReader(f));
-            String line = bfr.readLine();
-            while (line != null) {
-                marketplaceList.add(line.split(";"));
-                line = bfr.readLine();
-            }
-            bfr.close();
-            // Remove all products from ArrayList that don't belong to this seller
-            for (String[] productLine: marketplaceList) {
-                //productLine[5] represents the username of the Seller associated with the product
-                if (!productLine[5].equals(username)) {
-                    marketplaceList.remove(productLine);
-                }
-            }
-
-            String sellerProductList = "List of Products:\n";
-            // Go through ArrayList and add the products that this seller owns to the string
-            for (String[]productLine: marketplaceList) {
-                if (productLine[5].equals(username)) {
-                    sellerProductList += (String.join(",", productLine) + "\n");
-                }
-            }
-            return sellerProductList;
-        } catch (IOException e){
-            return null;
-        }
-    }
-
-    /** Remove Product
+    /**
+     * Remove Product
      * Sellers can remove products from the current product line
      * Given the productName and the Store name
      *
-     * @param productName
-     * @param storeName
-     *
-     * @author Lalitha Chandolu
+     * @param productName name of product to be removed
+     * @param storeName name of store product to be removed from
+     * @author Lalitha Chandolu, Nirmal Senthilkumar
      * @version November 13, 2023
      */
     public static String removeProduct(String productName, String storeName) {
         // can edit product, price, store, quantity, or description
         // go through market.txt and add lines to String[] ArrayList
+        String returnString = "Product doesn't exist in this store, cannot be removed.";
         ArrayList<String[]> marketplaceList = new ArrayList<>();
         File f = new File("market.txt");
         try {
@@ -81,39 +41,90 @@ public class Seller {
             // go through the ArrayList and if the product index matches then change that line
             // Example line in market.txt file
             //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
-            for (String[] productInfo: marketplaceList) {
+            ArrayList<String[]> removeProductList = new ArrayList<>();
+            for (String[] productInfo : marketplaceList) {
                 if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
-                    marketplaceList.remove(productInfo);
+                    removeProductList.add(productInfo);
+                    returnString = "Product removed.";
                 }
             }
-            f.delete();
+            marketplaceList.removeAll(removeProductList);
             f = new File("market.txt");
             // now write contents of ArrayList containing product info to ArrayList
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
-            for (String[] productInfo: marketplaceList) {
+            for (String[] productInfo : marketplaceList) {
                 String lineContents = String.join(";", productInfo);
                 bfw.write(lineContents + "\n");
             }
+            bfw.flush();
+            bfw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Product doesn't exist in this store.\n";
+        return returnString;
     }
 
+    public static String[] getProduct(String productName, String storeName) {
+        File f = new File("market.txt");
+        ArrayList<String[]> marketplaceList = new ArrayList<>();
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                marketplaceList.add(line.split(";"));
+                line = bfr.readLine();
+            }
+            bfr.close();
+            for (String[] productInfo : marketplaceList) {
+                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
+                    return productInfo;
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
 
-    /** Add Product to Store
+    /**
+     * @param productName product name to be checked if it exists
+     * @param storeName   store name to be checked if product exists in it
+     * @return true if it exists, false if it doesn't
+     * @author Nirmal Senthilkumar
+     */
+    public static boolean productExists(String productName, String storeName) {
+        File f = new File("market.txt");
+        ArrayList<String[]> marketplaceList = new ArrayList<>();
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                marketplaceList.add(line.split(";"));
+                line = bfr.readLine();
+            }
+            bfr.close();
+            for (String[] productInfo : marketplaceList) {
+                System.out.println(productInfo[0] + " : " + productName + " and " + productInfo[2] + ":" + storeName);
+                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
+                    return true;
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return false;
+    }
+
+    /**
+     * Add Product to Store
      * Seller can add a new product to their specified store
      * if the product doesn't currently exist
      *
-     * @param productName
-     * @param price
-     * @param storeName
-     * @param quantity
-     * @param description
-     * @param sellerUserName
-     *
-     * @author Lalitha Chandolu
-     * @version November 13, 2023
+     * @param productName productName field to be added
+     * @param price price field to be added
+     * @param storeName storeName field to be added
+     * @param quantity quantity field to be added
+     * @param description description field to be added
+     * @param sellerUserName sellerUserName field to be added
+     * @author Lalitha Chandolu, Nirmal Senthilkumar
      */
     public static String addProduct(String productName, double price, String storeName, int quantity,
                                     String description, String sellerUserName) {
@@ -131,34 +142,40 @@ public class Seller {
             bfr.close();
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, true));
             boolean exists = false;
-            for (String[] productInfo: marketplaceList) {
+            for (String[] productInfo : marketplaceList) {
                 if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
                     exists = true;
-                    return ("Can't add this product to the store, as it already exists.\n");
+                    return ("Product already exists.");
                 }
             }
             if (!exists) {
-                String newProduct = String.format("%s;%f;%s;%d;%s,%s\n", productName, price, storeName,
-                                    quantity, description, sellerUserName);
+                String newProduct = String.format("%s;%.2f;%s;%d;%s;%s\n", productName, price, storeName, quantity,
+                        description, sellerUserName);
                 bfw.write(newProduct);
-                return String.format("Product was added successfully to %s.\n", storeName);
+                bfw.flush();
+                bfw.close();
+                return String.format("Product was added successfully to %s.", storeName);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return "Error in adding the product.";
     }
 
-    /** Edit Product in Store
+    /**
+     * Edit Product in Store
      * Seller can add a new product to their existing store
      *
-     * @param productName
-     * @param storeName
-     * @param changeField
-     * @param newValue
-     *
-     * @author Lalitha Chandolu
-     * @version November 13, 2023
+     * @param productName name of product to be updated
+     * @param storeName   store of product to be updated
+     * @param changeField can be the following values:
+     *                    "name"
+     *                    "price"
+     *                    "store"
+     *                    "quantity"
+     *                    "description"
+     * @param newValue    the value to update with
+     * @author Lalitha Chandolu, Nirmal Senthilkumar
      */
     public static String editProduct(String productName, String storeName, String changeField, String newValue) {
         // can edit product, price, store, quantity, or description
@@ -173,47 +190,87 @@ public class Seller {
                 line = bfr.readLine();
             }
             bfr.close();
-
             // go through the ArrayList and if the product index matches then change that line
             //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
-            for (String[] productInfo: marketplaceList) {
+            for (String[] productInfo : marketplaceList) {
                 if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
                     switch (changeField) {
-                        case "product name" -> productInfo[0] = newValue;
+                        case "name" -> productInfo[0] = newValue;
                         case "price" -> productInfo[1] = newValue;
                         case "store" -> productInfo[2] = newValue;
                         case "quantity" -> productInfo[3] = newValue;
                         case "description" -> productInfo[4] = newValue;
                     }
-                    return "Product was modified successfully.\n";
-
                 }
             }
             // clear the existing file
             // remake the market.txt file
-            f.delete();
             f = new File("market.txt");
             // now write contents of ArrayList containing product info to ArrayList
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
-            for (String[] productInfo: marketplaceList) {
+            for (String[] productInfo : marketplaceList) {
                 String lineContents = String.join(";", productInfo);
                 bfw.write(lineContents + "\n");
             }
+            bfw.flush();
+            bfw.close();
+            return "Product was modified successfully.";
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Product doesn't exist in this store.\n";
+        return "Product doesn't exist in this store.";
     }
 
+    /**
+     * List Products Method
+     * Lists the products associated with the given Seller username
+     *
+     * @param username
+     * @return String (product names list)
+     * @author Lalitha Chandolu
+     */
+    public String listProducts(String username) {
+        // methods lists all of the products sold by this Seller
+        // go through market.txt and add lines to String[] ArrayList1
+        ArrayList<String[]> marketplaceList = new ArrayList<>();
+        File f = new File("market.txt");
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String line = bfr.readLine();
+            while (line != null) {
+                marketplaceList.add(line.split(";"));
+                line = bfr.readLine();
+            }
+            bfr.close();
+            // Remove all products from ArrayList that don't belong to this seller
+            for (String[] productLine : marketplaceList) {
+                //productLine[5] represents the username of the Seller associated with the product
+                if (!productLine[5].equals(username)) {
+                    marketplaceList.remove(productLine);
+                }
+            }
 
-    /** Export Store Information
+            String sellerProductList = "List of Products:\n";
+            // Go through ArrayList and add the products that this seller owns to the string
+            for (String[] productLine : marketplaceList) {
+                if (productLine[5].equals(username)) {
+                    sellerProductList += (String.join(",", productLine) + "\n");
+                }
+            }
+            return sellerProductList;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Export Store Information
      * Allows a seller to export a csv file of the information of their store
      * CSV contains rows of products sold in the store
      * Each csv contains information for one of their unique stores
      *
      * @param merchantName
      * @param storeName
-     *
      * @author Justin
      * @version November 13, 2023
      */
@@ -236,12 +293,13 @@ public class Seller {
         }
     }
 
-    /** Import Store Information
+    /**
+     * Import Store Information
      * Takes a pathname from the seller and
+     *
      * @param pathname
      * @throws FileNotFoundException
      * @throws IOException
-     *
      * @author Justin
      * @version November 13, 2023
      */
