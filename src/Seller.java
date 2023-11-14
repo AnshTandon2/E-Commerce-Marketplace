@@ -56,8 +56,8 @@ public class Seller {
             f = new File("market.txt");
             // now write contents of ArrayList containing product info to ArrayList
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
-            for (String[] productInfo : marketplaceList) {
-                String lineContents = String.join(";", productInfo);
+            for (String[] productList : marketplaceList) {
+                String lineContents = String.join(";", productList);
                 bfw.write(lineContents + "\n");
             }
             bfw.flush();
@@ -91,9 +91,9 @@ public class Seller {
                 line = bfr.readLine();
             }
             bfr.close();
-            for (String[] productInfo : marketplaceList) {
-                System.out.println(productInfo[0] + " : " + productName + " and " + productInfo[2] + ":" + storeName);
-                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
+            for (String[] productList : marketplaceList) {
+                //System.out.println(productList[0] + " : " + productName + " and " + productList[2] + ":" + storeName);
+                if ((productList[0].equals(productName)) && (productList[2].equals(storeName))) {
                     return true;
                 }
             }
@@ -131,8 +131,8 @@ public class Seller {
             bfr.close();
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, true));
             boolean exists = false;
-            for (String[] productInfo : marketplaceList) {
-                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
+            for (String[] productList : marketplaceList) {
+                if ((productList[0].equals(productName)) && (productList[2].equals(storeName))) {
                     exists = true;
                     return ("Product already exists.");
                 }
@@ -184,29 +184,43 @@ public class Seller {
             bfr.close();
             // go through the ArrayList and if the product index matches then change that line
             //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
-            for (String[] productInfo : marketplaceList) {
-                if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
-                    switch (changeField) {
-                        case "name" -> productInfo[0] = newValue;
-                        case "price" -> productInfo[1] = newValue;
-                        case "store" -> productInfo[2] = newValue;
-                        case "quantity" -> productInfo[3] = newValue;
-                        case "description" -> productInfo[4] = newValue;
+            for (int i = 0; i < marketplaceList.size(); i++) {
+                if ((marketplaceList.get(i)[0].equals(productName)) && (marketplaceList.get(i)[2].equals(storeName))) {
+                    if (changeField.equals("name")) {
+                        Marketplace.productNames.add(i, newValue);
+                        Marketplace.productNames.remove(i + 1);
+                        return ("Product was modified successfully.");
+                    } else if (changeField.equals("price")) {
+                        Marketplace.priceList.add(i, Double.parseDouble(newValue));
+                        Marketplace.priceList.remove(i + 1);
+                        return ("Product was modified successfully.");
+                    } else if (changeField.equals("store")) {
+                        Marketplace.storeNames.add(i, newValue);
+                        Marketplace.storeNames.remove(i + 1);
+                        return ("Product was modified successfully.");
+                    } else if (changeField.equals("quantity")) {
+                        Marketplace.quantityList.add(i, Integer.parseInt(newValue));
+                        Marketplace.quantityList.remove(i + 1);
+                        return ("Product was modified successfully.");
+                    } else if (changeField.equals("description")) {
+                        Marketplace.descriptionList.add(i, newValue);
+                        Marketplace.descriptionList.remove(i + 1);
+                        return ("Product was modified successfully.");
                     }
                 }
             }
             // clear the existing file
             // remake the market.txt file
-            f = new File("market.txt");
+            /*f = new File("market.txt");
             // now write contents of ArrayList containing product info to ArrayList
             BufferedWriter bfw = new BufferedWriter(new FileWriter(f, false));
-            for (String[] productInfo : marketplaceList) {
-                String lineContents = String.join(";", productInfo);
+            for (String[] productList : marketplaceList) {
+                String lineContents = String.join(";", productList);
                 bfw.write(lineContents + "\n");
             }
             bfw.flush();
-            bfw.close();
-            return ("Product was modified successfully.");
+            bfw.close();*/
+            //return ("Product was modified successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -17,15 +17,15 @@ public class Test {
 
         // call each test case method from here
         /* Seller Class Testing */
-        String output = Seller.removeProduct("Purdue laptop bag", "dylanStore"); //Should return that the product was removed sucessfully
-        System.out.println(output);
+        //String output = Seller.removeProduct("Purdue laptop bag", "dylanStore"); //Should return that the product was removed sucessfully
+        //String output = Seller.removeProduct("Purdue XD", "dylanStore"); //Should return that the product doesn't exist
+        //boolean output = Seller.productExists("Purdue nonexistent thing", "dylanStore"); //Should return false
+        //boolean output = Seller.productExists("Purdue hoodie", "notAStore");//Should return false
+        //boolean output = Seller.productExists("Purdue Half Zip", "dylanStore"); //should return true
+        //String output = Seller.addProduct("newproduct!", 50.00, "newStore!", 7, "A new Test product", "newTestSeller"); //should add properly
+        String output = Seller.editProduct("newproduct!", "newStore!", "quantity", "999"); //should update
         Marketplace.updateMarketplace();
-        //Seller.removeProduct("Purdue XD", "dylanStore"); //Should return that the product doesn't exist
-        //Seller.productExists("Purdue nonexistent thing", "dylanStore"); //Should return false
-        //Seller.productExists("Purdue hoodie", "notAStore");//Should return false
-        //Seller.productExists("Purdue Half Zip", "dylanStore"); //should return true
-        //Seller.addProduct("newproduct!", 50.00, "newStore!", 7, "A new Test product", "newTestSeller"); //should add properly
-        //Seller.editProduct("newProduct!", "newStore!", "quantity", "9"); //should update
+        System.out.println(output);
         //Seller.editProduct("nonoexistentProduct", "nonexistentstore", "description", "Hello World"); //should return prouduct not found
         //Seller.exportStoreInformation("dylanK", "dylanStore"); //should export file containing dylanStore products
         //format:

@@ -11,3 +11,4 @@ Purdue hoodie;74.00;sandyStore;19;A nice hoodie;sandyruk
 Purdue hat;31.00;sandyStoreTwo;0;A nice hat;sandyruk
 Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
 Purdue Tote Ultra Bag;24.00;davidPremiumStore;101;A nicer tote bag;davidkj
+newproduct!;50.00;newStore!;7;A new Test product;newTestSeller

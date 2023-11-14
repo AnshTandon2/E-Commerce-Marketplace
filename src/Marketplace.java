@@ -13,12 +13,12 @@ import java.util.Scanner;
  * @version November 11, 2023
  */
 public class Marketplace {
-    private static final ArrayList<String> productIDs = new ArrayList<>();
-    private static final ArrayList<String> productNames = new ArrayList<>();
-    private static final ArrayList<Double> priceList = new ArrayList<>();
-    private static final ArrayList<String> storeNames = new ArrayList<>();
-    private static final ArrayList<Integer> quantityList = new ArrayList<>();
-    private static final ArrayList<String> descriptionList = new ArrayList<>();
+    public static final ArrayList<String> productIDs = new ArrayList<>();
+    public static final ArrayList<String> productNames = new ArrayList<>();
+    public static final ArrayList<Double> priceList = new ArrayList<>();
+    public static final ArrayList<String> storeNames = new ArrayList<>();
+    public static final ArrayList<Integer> quantityList = new ArrayList<>();
+    public static final ArrayList<String> descriptionList = new ArrayList<>();
 
     /**
      * Reads the market.txt file and appends
