@@ -158,7 +158,7 @@ public class StartingApplication {
                         }
                     }
                     case "2" -> { //list stores that the seller is associated with and the products in it
-                        System.out.println(Seller.listInformationByStore(username));
+                        System.out.println(Seller.ListPurchaseHistoryByStore(username));
                     }
                     case "3" -> { //add product
                         System.out.println("Enter a Product Name: ");
