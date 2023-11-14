@@ -86,8 +86,7 @@ public class StartingApplication {
                             e.printStackTrace();
                         }
                     } else {
-                        // account exists - go back to main menu
-                        System.out.println("Account already exists");
+                        System.out.println("This account already exists.");
                     }
                 } else if (value == 3) {
                     // would like to exit the application
@@ -543,6 +542,9 @@ public class StartingApplication {
                 if (temp[0].equals(username) && temp[1].equals(password)) {
                     // returns the userRole (s for Seller, c for Customer)
                     return temp[3];
+                } else if (temp[0].equals(username)) {
+                    // username exists, and can't be replicated
+                    System.out.println("This username is taken.");
                 }
                 line = bfr.readLine();
             }
