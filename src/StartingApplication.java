@@ -347,30 +347,14 @@ public class StartingApplication {
                                 }
                             }
                             System.out.println("\n");
-//                            System.out.println(str + ",");
                         }
                         String cartChoice;
                         do {
-                            System.out.println("1. Remove Product from Cart\n2. Buy All Cart Products\n3. Add " +
-                                    "Product to Cart\n4. Exit");
+                            System.out.println("1. Add Product to Cart\n2. Remove Product from Cart\n3. Checkout" +
+                                    "\n4. Exit");
                             cartChoice = s.nextLine();
                             switch (cartChoice) {
                                 case "1" -> {
-                                    System.out.println("Enter product name to be removed");
-                                    String removeChoice = s.nextLine();
-                                    if (Customer.removeFromCart(username, removeChoice)) {
-                                        System.out.println("Item was removed!");
-                                    } else {
-                                        System.out.println("Item cannot be removed.");
-                                    }
-                                }
-                                case "2" -> {
-                                    Customer.buyShoppingCartItems(username);
-                                    System.out.println("Bought all items from shopping cart based on your username!");
-                                    //TODO: Implement buy all products from cart method
-                                }
-
-                                case "3" -> {
                                     System.out.println("Please enter product name: ");
                                     String product = s.nextLine();
                                     System.out.println("Please enter quantity you want: ");
@@ -388,6 +372,18 @@ public class StartingApplication {
                                                     "stock");
                                         }
                                     }
+                                }
+                                case "2" -> {
+                                    System.out.println("Enter product name to be removed");
+                                    String removeChoice = s.nextLine();
+                                    if (Customer.removeFromCart(username, removeChoice)) {
+                                        System.out.println("Item was removed!");
+                                    } else {
+                                        System.out.println("Item cannot be removed.");
+                                    }
+                                }
+                                case "3" -> {
+                                    System.out.println(Customer.buyShoppingCartItems(username));
                                 }
 
                                 case "4" -> {
@@ -424,8 +420,6 @@ public class StartingApplication {
                         }
                     }
 
-                    //Marketplace.purchaseProduct();
-                    //need to implement logic for this
                     case "4" -> { //view shopping history
                         boolean exit = false;
                         while (!exit) {

@@ -25,54 +25,6 @@ public class Customer {
         this.password = password;
     }
 
-    /**
-     * Still being implemented
-     */
-    public static boolean buyItem(String customerName, String productId, int quantity) throws IOException {
-        FileReader fr = new FileReader("market.txt");
-        BufferedReader bfr = new BufferedReader(fr);
-        String line = bfr.readLine();
-        StringBuilder content = new StringBuilder();
-        boolean stringChanged = false;
-        while (line != null) {
-            String[] market = line.split(",");
-            if (market[6].equals(productId)) {
-                if (Integer.parseInt(market[4]) < quantity) {
-                    System.out.println("Quantity is higher than stock.");
-                } else {
-                    int remainder = Integer.parseInt(market[4]) - quantity;
-                    String x = Integer.toString(remainder);
-                    String newLineContent = "";
-                    for (int i = 0; i < market.length; i++) {
-                        if (i != 4) {
-                            newLineContent = market[i] + ",";
-                        } else {
-                            newLineContent = x + ",";
-                        }
-
-                    }
-                    newLineContent = newLineContent.substring(0, newLineContent.length() - 1);
-                    content.append(newLineContent).append("\n");
-                    stringChanged = true;
-
-                    String productsBought =
-                            market[1] + "," + market[2] + "," + market[3] + "," + quantity + "," + customerName + "," + market[6];
-                    PrintWriter writer2 = new PrintWriter(new FileWriter("purchases.txt"));
-                    writer2.println(productsBought);
-                    writer2.close();
-                }
-            } else {
-                content.append(line).append("\n");
-            }
-            line = bfr.readLine();
-        }
-        bfr.close();
-        PrintWriter writer = new PrintWriter(new FileWriter("market.txt"));
-        writer.print(content);
-        writer.close();
-        return stringChanged;
-    }
-
     public static void exportPurchaseHistory(String userName) {
         File exportFile = new File("purchaseHistoryExport.csv");
         File readingFile = new File("purchases.txt");
@@ -270,40 +222,63 @@ public class Customer {
     /**
      * Still being implemented
      */
-    public static void buyShoppingCartItems(String customerName) {
+    public static String buyShoppingCartItems(String customerName) {
 
         File f = new File("shoppingCart.txt");
         try {
-            Scanner scan = new Scanner(f);
+            File cartFile = new File("shoppingCart.txt");
+            Scanner scan = new Scanner(cartFile);
+            boolean exists = false;
+            ArrayList<String[]> shoppingCart = new ArrayList<>();
+            ArrayList<String[]> checkout = new ArrayList<>();
+            ArrayList<String[]> newShoppingCart = new ArrayList<>();
             while (scan.hasNextLine()) {
-                String initialData = scan.nextLine();
-                String[] data = initialData.split(";");
-                if (data[0].equals(customerName)) {
-                    boolean flag = true;
-                    File market = new File("market.txt");
-                    Scanner marketScan = new Scanner(market);
-                    String seller = "";
-                    while (marketScan.hasNextLine()) {
-                        String[] marketData = scan.nextLine().split(";");
-                        if (Integer.parseInt(marketData[3]) < Integer.parseInt(data[5])) {
-                            flag = false;
-                            System.out.println("Not enough stock to buy");
-                        } else {
-                            seller = marketData[5];
-                        }
-                    }
-                    if (flag) {
-                        File purchases = new File("purchases.txt");
-                        FileWriter fw = new FileWriter(purchases, true);
-                        fw.write(data[2] + ";" + data[3] + ";" + data[4] + ";" + data[5] + ";" + data[0] + ";" + seller + "\n");
-                        fw.flush();
-                        fw.close();
-                    }
+                String initialCartData = scan.nextLine();
+                String[] cartData = initialCartData.split(";");
+                shoppingCart.add(cartData);
+            }
+            for (String[] product : shoppingCart) {
+                if (product[0].equals(customerName)) {
+                    exists = true;
+                    checkout.add(product);
+                } else {
+                    newShoppingCart.add(product);
                 }
             }
+            if (!exists) {
+                return "Cart is Empty.";
+            }
+            FileWriter fr = new FileWriter(f, false);
+            BufferedWriter bfr = new BufferedWriter(fr);
+            for (String[] product : newShoppingCart) {
+                bfr.write(String.join(";", product) + "\n");
+            }
+            bfr.flush();
+            bfr.close();
+            StringBuilder returnString = new StringBuilder("Success. You have purchased the following products:\n");
+            double total = 0;
+            for (String[] product : checkout) {
+                returnString.append(product[2]).append(",Price:").append(product[3]).append("Count").append(":").
+                        append(product[5]).append("\n");
+                total += Double.parseDouble(product[3]) * Double.parseDouble(product[5]);
+            }
+            returnString.append(String.format("Total: $%.2f\n", total)).append("\n");
+            // Example line in Purchases.txt
+            //Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
+            File purchases = new File("purchases.txt");
+            FileWriter pfr = new FileWriter(purchases, true);
+            BufferedWriter pbfr = new BufferedWriter(pfr);
+            for (String[] product : checkout) {
+                pbfr.write(product[2] + ";" + product[3] + ";" + product[4] + ";" + product[5] + ";" + product[0] +
+                        ";" + product[7] + "\n");
+            }
+            pbfr.flush();
+            pbfr.close();
+            return returnString.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "Cart is Empty.";
     }
 
     private static String getPassword(String username) {
