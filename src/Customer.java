@@ -1,5 +1,8 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
 
 /**
  * Customer Class
@@ -20,6 +23,128 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    /**
+     * Still being implemented
+     */
+    public static boolean buyItem(String customerName, String productId, int quantity) throws IOException {
+        FileReader fr = new FileReader("market.txt");
+        BufferedReader bfr = new BufferedReader(fr);
+        String line = bfr.readLine();
+        StringBuilder content = new StringBuilder();
+        boolean stringChanged = false;
+        while (line != null) {
+            String[] market = line.split(",");
+            if (market[6].equals(productId)) {
+                if (Integer.parseInt(market[4]) < quantity) {
+                    System.out.println("Quantity is higher than stock.");
+                } else {
+                    int remainder = Integer.parseInt(market[4]) - quantity;
+                    String x = Integer.toString(remainder);
+                    String newLineContent = "";
+                    for (int i = 0; i < market.length; i++) {
+                        if (i != 4) {
+                            newLineContent = market[i] + ",";
+                        } else {
+                            newLineContent = x + ",";
+                        }
+
+                    }
+                    newLineContent = newLineContent.substring(0, newLineContent.length() - 1);
+                    content.append(newLineContent).append("\n");
+                    stringChanged = true;
+
+                    String productsBought =
+                            market[1] + "," + market[2] + "," + market[3] + "," + quantity + "," + customerName + "," + market[6];
+                    PrintWriter writer2 = new PrintWriter(new FileWriter("purchases.txt"));
+                    writer2.println(productsBought);
+                    writer2.close();
+                }
+            } else {
+                content.append(line).append("\n");
+            }
+            line = bfr.readLine();
+        }
+        bfr.close();
+        PrintWriter writer = new PrintWriter(new FileWriter("market.txt"));
+        writer.print(content);
+        writer.close();
+        return stringChanged;
+    }
+
+    public static void exportPurchaseHistory(String userName) {
+        File exportFile = new File("purchaseHistoryExport.csv");
+        File readingFile = new File("purchases.txt");
+        try {
+            exportFile.createNewFile();
+            Scanner scan = new Scanner(readingFile);
+            FileWriter fw = new FileWriter(exportFile);
+            while (scan.hasNextLine()) {
+                String[] data = scan.nextLine().split(";");
+                if (data[4].equals(userName)) {
+                    fw.write("Purchased:" + data[0] + ",Price:" + data[1] + ",FromSeller:" + data[5] + "Count:" + data[3]);
+                    fw.write("\n");
+                }
+
+            }
+
+            scan.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param userName  the username of the customer
+     * @param sortBy    the value to sort by, valid values are "price" (the amount of total money) or "quantity"
+     * @param ASCENDING choose to sort the values by sortBy in ascending or descending order
+     * @return a formmated String that has the list of products sorted by the specified sortBy and ASCENDING
+     * parameters, returns "Your purchase history is empty" if there is no purchase history
+     * @author Nirmal, Justin
+     * views shopping history and sorts by either the total amount of each purchase, or the quantity of each product
+     * purchased in that sale
+     */
+    public static String viewShoppingHistory(String userName, String sortBy, boolean ASCENDING) {
+        StringBuilder returnString = new StringBuilder();
+        File purchases = new File("purchases.txt");
+        ArrayList<String> storesBoughtFrom = new ArrayList<>();
+        try {
+            Scanner scan = new Scanner(purchases);
+            while (scan.hasNextLine()) {
+                String initialData = scan.nextLine();
+                String[] data = initialData.split(";");
+                if (data[4].equals(userName)) {
+                    storesBoughtFrom.add(initialData);
+                }
+            }
+            scan.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (storesBoughtFrom.isEmpty()) {
+            returnString.append("Your purchase history is empty.");
+            return returnString.toString();
+        }
+        for (String product : storesBoughtFrom) {
+            String[] data = product.split(";");
+
+        }
+        if (sortBy.equalsIgnoreCase("price")) { //the amount spent bt the customer
+            storesBoughtFrom.sort(Comparator.comparing(o -> ((Double.parseDouble(o.split(";")[1]) * Double.parseDouble(o.split(";")[3])))));
+        } else if (sortBy.equalsIgnoreCase("quantity")) { //the amount of products the customer bought
+            storesBoughtFrom.sort(Comparator.comparing(o -> ((Double.parseDouble(o.split(";")[3])))));
+        }
+        if (!ASCENDING) {
+            Collections.reverse(storesBoughtFrom);
+        }
+        for (String product : storesBoughtFrom) {
+            String[] data = product.split(";");
+            returnString.append("You purchased ").append(data[3]).append(" ").append(data[0]).append(" from ").append(data[2]).append(" for ").append(data[1]).append(String.format(" for a total of %.2f .\n", Double.parseDouble(data[3]) * Double.parseDouble(data[1])));
+        }
+        return returnString.toString();
     }
 
     public String getName() {
@@ -51,7 +176,8 @@ public class Customer {
 
     }
 
-    public static void addToCart(String productName, int quantity, String storeName, String client, String password) {
+    public void addToCart(String productName, int quantity, String storeName, String client, String password,
+                          String price) {
 
         File marketFile = new File("market.txt");
         String productStock = "";
@@ -91,8 +217,7 @@ public class Customer {
                         }
                         if (!exists) {
                             FileWriter writer = new FileWriter("shoppingCart.txt");
-//                            writer.write(client + ";" + password + ";" + productName + ";" + price + ";" + storeName + ";" + quantity);
-                            writer.write(client + ";" + password + ";" + productName + ";" + storeName + ";" + quantity);
+                            writer.write(client + ";" + password + ";" + productName + ";" + price + ";" + storeName + ";" + quantity);
                         }
                     }
                 }
@@ -137,10 +262,6 @@ public class Customer {
 
     }
 
-
-
-    /**Still being implemented*/
-    public static void buyShoppingCartItems(String customerName) {
     /**
      * Still being implemented
      */
