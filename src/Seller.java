@@ -269,7 +269,10 @@ public class Seller {
                     store = productLine[2];
                     returnString.append("\nStore: ").append(store).append("\n");
                 }
-                returnString.append(productLine[4]).append(" purchased ").append(productLine[3]).append(" ").append(productLine[1]).append("(s) from ").append(productLine[2]).append(" for $").append(productLine[1]).append(String.format(" for a " + "total of $%.2f.\n", Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1])));
+                returnString.append(productLine[4]).append(" purchased ").append(productLine[3]).append(" ").
+                        append(productLine[1]).append("(s) from ").append(productLine[2]).append(" for $").
+                        append(productLine[1]).append(String.format(" for a " + "total of $%.2f.\n",
+                                Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1])));
                 total += Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1]);
             }
             returnString.append(String.format("Store Total Revenue: $%.2f\n", total));
