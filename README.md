@@ -81,29 +81,17 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 
 ## Seller
 
-#### Fields
-| Name | Type | Modifier |
-| --- | --- | --- |
-| stores | ArrayList<Store> | private |
-| StoreHistory | File | private |
-
-
-#### Constructors
-| Name | Parameters | Modifier | Description |
-| --- | --- | --- | --- |
-| Seller | String info, ArrayList<Stores> storeList | public | Reads the info files with all the information about stores and searches for instances of seller and adds those stores into an array list for seller |
-| Seller | String name, String email, String password | public | Calls User constructor and sends the name, email, and password into it while creating a seller object |
-
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
-| initiatePurchaseHistoryFile() | None | void | public | Initializes customer's purchase history file when they create an account on Boilermaker Bazaar and adds it to the static list of customer history files |
-| modifyPurchaseHistoryFile() | ArrayList<Product> list | void | public | Modifies the existing purchase history file for the user by adding a new product purchase to the customer's purchase history |
-| exportPurchaseHistory() | None | void | public | Returns the customer Purchase History |
-| getCustomerPurchaseHistory() | String name, int userId | File | public static | Retrieves a purchase history file when given the customer's name and unique userId |
-| addToShoppingCart() | String product | void | public | Adds an item to the customer's shopping cart |
-| removeFromShoppingCart() | String product | void | public | Removes an item from the customer's shopping cart |
-| viewShoppingCart() | None | void | public | Allows customer view of what is in their shopping cart and data persistence permits user access even after logging out |
+| removeProduct() | String productName, String storeName | String | public | Allows seller to remove products from the current product line by checking the given productName and the Store name. If the instance of both exist then it will be removed or error will occur |
+| productExists() | String productName, String storeName | boolean | public | Returns a boolean if the product exists in the specified Seller's store |
+| addProduct() | String productName, double price, String storeName, int quantity, String description, String sellerUserName | String | public | Allows seller to take the product info and add it to their store.  |
+| editProduct() | String productName, String storeName, String changeField, String newValue | String | public | Modifies the existing product value in the market file and adds the new parameters in for that product |
+| ListPurchaseHistoryByStore() | String username | String | public static | Sellers can view a list of their sales by store, including customer information and revenues from the sale. |
+| exportStoreInformation() | String merchantName, String storeName | boolean | public static | Allows a seller to export a csv file of the information of their store and CSV contains rows of products sold in the store. Each csv contains information for one of their unique stores |
+| importStoreInformation() | String userName, String pathname | boolean | public static | Imports information to the market file by checking for the user and pathname instance and then adding the store information to those users in the file |
+| viewStoreStatistics() | String userName, int userChoice | String | public | Seller can view a dashboard of their store statistics. The data includes a list of customers with the number of items that they have purchased or a list of products with the number of sales made depending on the sortChoice that the sellers choose on their dashboard in their menu |
 
 ## Market Place
 
