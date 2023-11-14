@@ -35,12 +35,9 @@ Project 4 using Inheritance, File IO, Exception Handling, and Interfaces.
 5. Type  ```java main.java``` to run the program.
 
 ## Using the Program
-Our program uses the terminal for user input and output. Whenever user input is needed, the user should either enter the number that is associated with an option or type in the words required and press enter.
-**Login Page:**<br>
+Download and upload the 4 txt (shopping cart, market, purchases, users) files and the 5 java files to IntelliJ or another IDE. Go to the StartingApplication and run the terminal by clicking the run button.
+The terminal takes user input starting with login information.
 You will be met with the following options upon running the main method.
-```
-enter format of the log in page
-```
 Sign-in to retrieve details if you have already used the application, otherwise Sign-up to create either a Customer or Seller account.
 
 # Functions of the Classes
@@ -68,12 +65,6 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 #### Methods
 | Name | Parameters | Return Type | Modifier | Description |
 | --- | --- | --- | --- | --- |
-| getName() | None | String | public | Returns the name of the user |
-| getEmail() | None | String | public | Returns the email of the user |
-| getPassword() | None | String | public | Returns the password of the user |
-| setName() | String name | String | public | Sets the name of the user to given name |
-| setEmail() | String email | String | public | Sets the email of the user to given email |
-| setPassword() | String password | String | public | Sets the password of the user to given password |
 | addToCart() | String productName, int quantity, String storeName | void | public | Adds anothe rproduct to the cart file |
 | removeFromCart() | String customerUsername, String productName, String productId | void | public | Takes in a file with shopping cart information and splits different customers by product and cumtomer name. |
 | buyShoppingCartItems() | String customerName | void | public | Empties shopping cart on the basis of buying and then adds those purchases to the purchase history list. |
