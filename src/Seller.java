@@ -43,6 +43,7 @@ public class Seller {
             }
             bfr.close();
 
+<<<<<<< Updated upstream
             // go through the ArrayList and if the product index matches then change that line
             // Example line in market.txt file
             //Purdue Tote Bag;10.00;sandyStore;36;A nice tote bag;sandyruk
@@ -51,6 +52,18 @@ public class Seller {
                     marketplaceList.remove(i);
                     returnString = "Product removed.";
                     break;
+=======
+                    HashMap<Integer, Integer> temp2 = new HashMap<>();
+                    HashMap<String, HashMap<Integer, Integer>> temp3 = new HashMap<>();
+
+                    for (int j = 0; j < merchandise.length; j++) {
+                        temp.put(Integer.parseInt(merchandise[j]), Integer.parseInt(merchStock[j]));
+                        temp2.put(Integer.parseInt(soldProduct[j]), Integer.parseInt(soldQuantity[j]));
+                        temp3.put(soldCustomers[j], temp2);
+
+                    }
+                    this.stores.add(new Store(storeName, temp, 0, Integer.parseInt(storeID), temp3));
+>>>>>>> Stashed changes
                 }
             }
             f = new File("market.txt");
@@ -398,7 +411,11 @@ public class Seller {
         String storeStatistics = "";
         if (sortChoice == 1) { // sort by list of customers
             HashMap<String, Integer> customerPurchases = new HashMap<String, Integer>();
-            for (String purchase : purchasesInSellerStores) {
+            for (int i = 0; i < purchasesInSellerStores.size(); i++) {
+                String[] purchaseInfo = purchasesInSellerStores.get(i).split(";");
+                customerPurchases.put(purchaseInfo[4], Integer.parseInt(purchaseInfo[3]));
+            }
+            /*for (String purchase : purchasesInSellerStores) {
                 // Example of String Purchase:
                 // Purdue Tote Bag;18.00;davidStore;2;tandon39;davidkg
                 String[] purchaseInfo = purchase.split(";");
@@ -410,13 +427,14 @@ public class Seller {
                     // sets a new key, value pair for the customer
                     customerPurchases.put(purchaseInfo[4], Integer.parseInt(purchaseInfo[3]));
                 }
-            }
+            }*/
             storeStatistics += ("Sorted by List of Customers and their purchases:\n ");
             for (String customer : customerPurchases.keySet()) {
                 storeStatistics += String.format("%s has purchased %d items from your stores.\n", customer,
                         customerPurchases.get(customer));
             }
 
+<<<<<<< Updated upstream
         } else if (sortChoice == 2) { // sort by products sold
             HashMap<String, Integer> productsPurchased = new HashMap<String, Integer>();
             for (String store : purchasesInSellerStores) {
@@ -430,6 +448,117 @@ public class Seller {
                         productsPurchased.put(purchaseInfo[0], quantitySold + Integer.parseInt(purchaseInfo[3]));
                     } else {
                         productsPurchased.put(purchaseInfo[0], Integer.parseInt(purchaseInfo[3]));
+=======
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (String a : sales) {
+            String[] arr = a.split(",");
+            System.out.println("Product name: " + arr[0]);
+            System.out.println("Quantity purchased: " + arr[1]);
+            System.out.println("Customer name: " + arr[2]);
+            System.out.println("");//get revenu
+        }
+
+    }
+
+    public ArrayList<Product> getProducts() { //read the product file
+        File file = new File("products.txt");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        ArrayList<Product> allProducts = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while((line = br.readLine()) != null) {
+                String[] tokens = line.split(",");
+                allProducts.add(new Product(tokens[0], Double.parseDouble(tokens[1]), tokens[2]));
+            } // end of while loop
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return allProducts;
+    }
+
+    public ArrayList<Store> getStores() {
+        return this.stores;
+    }
+
+    public boolean verifyProductIsNew() {
+
+    }
+
+    public void updateStoreFile() {
+
+
+    }
+
+
+    public void editProduct() { // to be completed
+
+    }
+
+    public void deleteProduct() {
+
+    }
+
+    public File getFile() {
+
+    }
+
+    public void importProducts() {  //to be done
+
+    }
+
+
+    public void exportProducts() { //don't need to implement
+
+    }
+
+    public void viewDashboard() {
+        System.out.println("Enter your option: " +
+                "1. View customers sorted by number of items purchased" +
+                "2. View products sorted by sales per year" +
+                "3. Back");
+
+    }
+
+    public void viewDashbaord(String order) {
+
+    }
+
+    public void viewProductsInCart() {
+        System.out.println("Carts that have your products: ");
+
+    }
+
+    public ArrayList<Product> getCart() {
+        ArrayList<Product> arrayList = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(this.getEmail() + ".txt"));
+            //read through
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public void importStoreFile(String pathName) {
+        File f = new File(pathName);
+        try {
+            Scanner scan = new Scanner(f);
+            while (scan.hasNextLine()) { 
+                //format: [StoreName],[NewProductName],[NewProductQuantity],[NewProductPrice],[NewProductDescription];
+                String[] data = scan.nextLine().split(",");
+                for (Store s : stores) {
+                    if (data[0].equals(s.getName())) {
+                        s.addProduct(new Product(data[1], Double.parseDouble(data[3]), data[4]));
+>>>>>>> Stashed changes
                     }
                 }
             }

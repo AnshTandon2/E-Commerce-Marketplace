@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.*;
 
 public class Test {
 
@@ -34,8 +35,7 @@ public class Test {
         //boolean output = Seller.importStoreInformation("dylank","testImportFile.txt");
         //String output = Seller.viewStoreStatistics("davidkj", 1);
         //String output = Seller.viewStoreStatistics("davidkj", 2);
-        String output = Seller.viewStoreStatistics("dylank", 1);
-        System.out.println(output);
+        //String output = Seller.viewStoreStatistics("davidkj", 2);
         /* End of Seller Class Testing */
 
         /* Customer Class Testing */
@@ -44,16 +44,19 @@ public class Test {
         //should create a csv file in root dir containing the purchases of this person 
         //format:
         //productName;price;storeName;quantity;customer-userame;seller-username
-        //Customer.viewShoppingHistory("tandon39", "price", false);
-        //Customer.viewShoppingHistory("tandon39", "price", true);
-        //Customer.viewShoppingHistory("tandon39", "quantity", false);
-        //Customer.viewShoppingHistory("tandon39", "quantity", true);
-        //Customer.addToCart("Purdue Hoodie", "sandyStore", 4, "tandon39"); //should be sucessful
-        //Customer.addToCart("Purdue Hat", "sandyStore", 4, "tandon39"); //should say out of stock
-        //Customer.buyShoppingCartItems("tandon39"); // should buy things and update purchases.txt to reflect the things brought 
+
+        //String output = Customer.viewShoppingHistory("tandon39", "price", false);
+        //String output = Customer.viewShoppingHistory("tandon39", "price", true);
+        //String output = Customer.viewShoppingHistory("tandon39", "quantity", false);
+        //String output = Customer.viewShoppingHistory("tandon39", "quantity", true);
+        //boolean output = Customer.addToCart("Purdue hoodie", "sandyStore", 4, "tandon39"); //should be sucessful
+        //boolean output = Customer.addToCart("Purdue hat", "sandyStore", 4, "tandon39"); //should say out of stock
+        //String output = Customer.buyShoppingCartItems("tandon39"); // should buy things and update purchases.txt to reflect the things brought 
         //as well as if brought properly, should decrease the stock by number of things brought 
-        //Customer.removeFromCart("tandon39", "Purdue Overalls"); //should remove from shoppingcart
-        //Customer.removeFromCart("tandon39", "Noneexistentthing"); //should display error
+
+        //boolean output = Customer.removeFromCart("tandon39", "Book"); //should remove from shoppingcart
+        //boolean output = Customer.removeFromCart("tandon39", "Noneexistentthing"); //should display error
+
         //should delete the entire line from shoppingCart.txt
 
 
@@ -64,10 +67,13 @@ public class Test {
         //Marketplace.initializeMarketplace();
         //Marketplace.updateMarketplace();
         //Marketplace.printMarketplace();
-        //Marketplace.getProductInfo(7);
-        //Marketplace.searchProduct("badge");
-        //Marketplace.searchProduct("nonexistentThings");
-        //Marketplace.getProductPrice("Purdue Hat", "sandyruk");
+        //ArrayList<String> output = Marketplace.searchProduct("badge");
+        /*for (String s : output) {
+            System.out.println(s);
+        } */
+        //ArrayList<String> output = Marketplace.searchProduct("nonexistentThings");
+        String output = Marketplace.getProductPrice("Purdue hat", "sandyruk");
+        System.out.println(output);
         //Marketplace.productDetail(4);
         //Marketplace.sortMarket("price", false);
         //Marketplace.sortMarket("price", true);

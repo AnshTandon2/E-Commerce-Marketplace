@@ -118,7 +118,7 @@ public class Customer {
      * @param quantity     quantity of product
      * @param customerName lient name of
      * @return true if it was added, false if it could not be added
-     * @author Nirmal Senthilkumar
+     * @author Nirmal Senthilkumar, Justin 
      */
     public static boolean addToCart(String productName, String storeName, int quantity, String customerName) {
         File marketFile = new File("market.txt");
@@ -167,7 +167,7 @@ public class Customer {
                 newProduct[7] = productToAdd[5];
                 shoppingCartNew.add(newProduct);
             }
-            FileWriter fr = new FileWriter(cartFile, true);
+            FileWriter fr = new FileWriter(cartFile, false);
             BufferedWriter bfr = new BufferedWriter(fr);
             for (String[] product : shoppingCartNew) {
                 bfr.write(String.join(";", product) + "\n");
