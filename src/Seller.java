@@ -21,11 +21,11 @@ public class Seller {
      * Given the productName and the Store name
      * Only if the product exists; if not, no change occurs
      *
+     * @author Nirmal Senthilkumar
      * @param productName name of product to be removed
      * @param storeName   name of store product to be removed from
      * @return String (whether product was removed)
      * @author Lalitha Chandolu, Nirmal Senthilkumar
-     * @version November 13, 2023
      */
     public static String removeProduct(String productName, String storeName) {
         // can edit product, price, store, quantity, or description
@@ -50,6 +50,7 @@ public class Seller {
                 if ((productInfo[0].equals(productName)) && (productInfo[2].equals(storeName))) {
                     marketplaceList.remove(productInfo);
                     returnString = "Product removed.";
+                    break;
                 }
             }
             f = new File("market.txt");
@@ -221,7 +222,7 @@ public class Seller {
      *
      * @param username (username of the seller)
      * @return String (Store Information)
-     * @author Nirmal
+     * @author Nirmal Senthilkumar
      */
     public static String ListPurchaseHistoryByStore(String username) {
         // methods lists all products sold by this Seller
@@ -273,7 +274,6 @@ public class Seller {
      * @param merchantName
      * @param storeName
      * @author Justin, Lalitha
-     * @version November 14, 2023
      */
     public static boolean exportStoreInformation(String merchantName, String storeName) {
         // reads the market.txt file
@@ -306,12 +306,9 @@ public class Seller {
      * Takes a pathname from the seller and imports the store information
      * to the market.txt file
      *
-     * @param pathname
+     * @param pathname the pathname to import the store information from
      * @return boolean (true if import occured; false otherwise)
-     * @throws FileNotFoundException
-     * @throws IOException
      * @author Justin
-     * @version November 13, 2023
      */
     public static boolean importStoreInformation(String username, String pathname) {
         // main method asks Seller for the file path as a command

@@ -49,12 +49,14 @@ public class Customer {
     }
 
     /**
+     * Output a string of the purchases made by the customer
+     *
      * @param userName  the username of the customer
      * @param sortBy    the value to sort by, valid values are "price" (the amount of total money) or "quantity"
      * @param ASCENDING choose to sort the values by sortBy in ascending or descending order
      * @return a formmated String that has the list of products sorted by the specified sortBy and ASCENDING
      * parameters, returns "Your purchase history is empty" if there is no purchase history
-     * @author Nirmal, Justin
+     * @author Nirmal Senthilkumar, Justin
      * views shopping history and sorts by either the total amount of each purchase, or the quantity of each product
      * purchased in that sale
      */
@@ -120,7 +122,17 @@ public class Customer {
 
     }
 
-    public static boolean addToCart(String productName, String storeName, int quantity, String client) {
+    /**
+     * add a product to a customer's cart
+     *
+     * @param productName  name of product to add
+     * @param storeName    name of store product is from
+     * @param quantity     quantity of product
+     * @param customerName lient name of
+     * @return true if it was added, false if it could not be added
+     * @author Nirmal Senthilkumar
+     */
+    public static boolean addToCart(String productName, String storeName, int quantity, String customerName) {
         File marketFile = new File("market.txt");
         String productStock = "";
         try {
@@ -157,8 +169,8 @@ public class Customer {
             }
             if (!exists) {
                 String[] newProduct = new String[8];
-                newProduct[0] = client;
-                newProduct[1] = Customer.getPassword(client);
+                newProduct[0] = customerName;
+                newProduct[1] = Customer.getPassword(customerName);
                 newProduct[2] = productToAdd[0];
                 newProduct[3] = productToAdd[1];
                 newProduct[4] = productToAdd[2];
@@ -181,6 +193,14 @@ public class Customer {
         return false;
     }
 
+    /**
+     * removes a product from the cart
+     *
+     * @param customerUsername the name of customer's cart
+     * @param productName the product to be removed
+     * @return true if it was removed, false if it could not be removed
+     * @author Nirmal Senthilkumar
+     */
     public static boolean removeFromCart(String customerUsername, String productName) {
 
         File f = new File("shoppingCart.txt");
@@ -220,7 +240,11 @@ public class Customer {
     }
 
     /**
-     * Still being implemented
+     * purchases shopping cart items removing it from shoppingCart.txt and updates purchase.txt to reflect the updates
+     *
+     * @param customerName the customer checking out
+     * @return String of cart (products being checked out and moved from shoppingCart to purchases)
+     * @author Nirmal Senthilkumar
      */
     public static String buyShoppingCartItems(String customerName) {
 
@@ -281,6 +305,13 @@ public class Customer {
         return "Cart is Empty.";
     }
 
+    /**
+     *  internally used to getPassword of a user
+     *
+     * @param username the customer the password belongs to
+     * @return password of user
+     * @author Nirmal Senthilkumar
+     */
     private static String getPassword(String username) {
         // parses the file of all of the existing user in the marketplace
         File f = new File("users.txt");
