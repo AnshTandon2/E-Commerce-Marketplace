@@ -92,7 +92,9 @@ public class Customer {
         }
         for (String product : storesBoughtFrom) {
             String[] data = product.split(";");
-            returnString.append("You purchased ").append(data[3]).append(" ").append(data[0]).append(" from ").append(data[2]).append(" for ").append(data[1]).append(String.format(" for a total of %.2f .\n", Double.parseDouble(data[3]) * Double.parseDouble(data[1])));
+            returnString.append("You purchased ").append(data[3]).append(" ").append(data[0]).append(" from ").
+                    append(data[2]).append(" for ").append(data[1]).append(String.format(" for a total of %.2f .\n",
+                            Double.parseDouble(data[3]) * Double.parseDouble(data[1])));
         }
         return returnString.toString();
     }
@@ -257,7 +259,8 @@ public class Customer {
             StringBuilder returnString = new StringBuilder("Success. You have purchased the following products:\n");
             double total = 0;
             for (String[] product : checkout) {
-                returnString.append(product[2]).append(",Price:").append(product[3]).append("Count").append(":").append(product[5]).append("\n");
+                returnString.append(product[2]).append(",Price:").append(product[3]).append("Count").append(":").
+                        append(product[5]).append("\n");
                 total += Double.parseDouble(product[3]) * Double.parseDouble(product[5]);
             }
             returnString.append(String.format("Total: $%.2f\n", total)).append("\n");
