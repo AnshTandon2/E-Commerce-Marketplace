@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -235,35 +236,44 @@ public class Seller {
      * @return String (product names list)
      * @author Lalitha Chandolu
      */
-    public static String listProducts(String username) {
+    public static String listStoreHistory(String username) {
         // methods lists all products sold by this Seller
         // go through market.txt and add lines to String[] ArrayList1
-        ArrayList<String[]> marketplaceList = new ArrayList<>();
-        File f = new File("market.txt");
+        ArrayList<String[]> storeList = new ArrayList<>();
+        File f = new File("purchases.txt");
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
             while (line != null) {
-                marketplaceList.add(line.split(";"));
+                String[] data = line.split(";");
+                if (data[5].equals(username)) {
+                    storeList.add(data);
+                }
                 line = bfr.readLine();
             }
             bfr.close();
-            // Remove all products from ArrayList that don't belong to this seller
-            for (String[] productLine : marketplaceList) {
-                //productLine[5] represents the username of the Seller associated with the product
-                if (!productLine[5].equals(username)) {
-                    marketplaceList.remove(productLine);
-                }
-            }
-
-            String sellerProductList = "List of Products:\n";
+            storeList.sort(Comparator.comparing(o -> ((o[2]))));
+            if (storeList.isEmpty())
+                return "No Recorded Sales";
             // Go through ArrayList and add the products that this seller owns to the string
-            for (String[] productLine : marketplaceList) {
-                if (productLine[5].equals(username)) {
-                    sellerProductList += (String.join(",", productLine) + "\n");
+            StringBuilder returnString = new StringBuilder("List of Stores and all transactions\n");
+            String store = storeList.get(0)[2];
+            returnString.append("\nStore: ").append(store).append("\n");
+            double total = 0;
+            for (String[] productLine : storeList) {
+                if (!productLine[2].equals(store)) {
+                    returnString.append(String.format("Store Total Revenue: $%.2f\n", total));
+                    total = 0;
+                    store = productLine[2];
+                    returnString.append("\nStore: ").append(store).append("\n");
                 }
+                returnString.append(productLine[4]).append(" purchased ").append(productLine[3]).append(" ").append(productLine[1]).append(
+                        "(s) from ").append(productLine[2]).append(" for $").append(productLine[1]).append(String.format(" for a " +
+                        "total of $%.2f.\n", Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1])));
+                total += Double.parseDouble(productLine[3]) * Double.parseDouble(productLine[1]);
             }
-            return sellerProductList;
+            returnString.append(String.format("Store Total Revenue: $%.2f\n", total));
+            return returnString.toString();
         } catch (IOException e) {
             return null;
         }

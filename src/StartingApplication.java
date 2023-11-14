@@ -107,7 +107,7 @@ public class StartingApplication {
         boolean loggedOut = exitOnFirst;
         Marketplace.initializeMarketplace();
         while (!loggedOut) {
-            if (userRole.equalsIgnoreCase("s")) {
+            if (userRole.equalsIgnoreCase("s")) { //if he is a seller
                 System.out.println("Seller Main Menu:\n1. View Marketplace\n2. View all sales by store\n3. Add a " +
                         "Product\n" + "4. Edit a Product\n5. Delete a Product\n6. View Store Statistics\n7. " +
                         "Import/Export " + "Products\n" + "8. Log Out");
@@ -159,7 +159,7 @@ public class StartingApplication {
                         }
                     }
                     case "2" -> { //list stores that the seller is associated with and the products in it
-                        System.out.println(Seller.listProducts(username));
+                        System.out.println(Seller.listStoreHistory(username));
                     }
                     case "3" -> { //add product
                         System.out.println("Enter a Product Name: ");
@@ -246,9 +246,9 @@ public class StartingApplication {
                 }
             } else {
                 // the user is a Customer type
-                System.out.println("Customer Main Menu\n1. View Dashboard\n2. View Shopping Cart\n3. Search for " +
-                        "Product\n4. Purchase a Product\n5. View Shopping History\n6. Export Shopping Cart" +
-                        "History\n7. Log Out");
+                System.out.println("Customer Main Menu\n1. View Dashboard\n2. View Shopping Cart\n" +
+                        "3. Search for Product\n4. Purchase a Product\n5. View Shopping History\n" +
+                        "6. Export Shopping Cart History\n7. Log Out");
                 String MMChoice = s.nextLine();
                 switch (MMChoice) {
                     case "1" -> {
@@ -295,7 +295,8 @@ public class StartingApplication {
                         } while (!endLoop);
                     }
                     case "2" -> {  //display cart
-                        ArrayList<String> shoppingCart = Marketplace.displayCart(username); //TODO: Fix error in display Cart
+                        ArrayList<String> shoppingCart = Customer.displayCart(username); //TODO: Fix error in display
+                        // Cart
                         assert shoppingCart != null;
                         System.out.println("Shopping Cart for " + username);
                         for (int i = 0; i < shoppingCart.size(); i++) {
@@ -338,7 +339,7 @@ public class StartingApplication {
                                     int price = 0;
                                     System.out.println("Please enter your password for authentication");
                                     String pass = s.nextLine();
-                                    Customer.addToCart(product, quantity, storeName, username, pass);
+                                    //Customer.addToCart(product, quantity, storeName, username, pass);
                                     System.out.println("Added to cart!");
                                     //TODO: Implement add cart product method
                                 }
