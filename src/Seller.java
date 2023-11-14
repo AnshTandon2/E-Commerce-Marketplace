@@ -320,18 +320,22 @@ public class Seller {
                 FileWriter fw = new FileWriter(writeToFile);
                 imported = true;
                 //Same format as the market.txt
-                while (scan.hasNextLine()) {
-                    // takes each line in the file they gave
-                    // writes it to the market.txt file
-                    String data = scan.nextLine();
-                    String[] tokens = data.split(",");
-                    //Book;60.00;claraStore;5;A nice book;clarank
-                    String newProductLine = tokens[2] + ";" + tokens[3] + ";" +
-                                            tokens[1] + ";" + tokens[4] + ";" +
-                                            tokens[5] + ";" + tokens[0];
-                    fw.write(newProductLine);
-                    fw.write("\n");
-                    fw.flush();
+                if (scan.hasNextLine()) {
+                    // should delete header of csv
+                    scan.nextLine();
+                    while (scan.hasNextLine()) {
+                        // takes each line in the file they gave
+                        // writes it to the market.txt file
+                        String data = scan.nextLine();
+                        String[] tokens = data.split(",");
+                        //Book;60.00;claraStore;5;A nice book;clarank
+                        String newProductLine = tokens[2] + ";" + tokens[3] + ";" +
+                                tokens[1] + ";" + tokens[4] + ";" +
+                                tokens[5] + ";" + tokens[0];
+                        fw.write(newProductLine);
+                        fw.write("\n");
+                        fw.flush();
+                    }
                 }
                 fw.close();
             }
