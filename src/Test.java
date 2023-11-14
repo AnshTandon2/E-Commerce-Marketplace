@@ -24,7 +24,7 @@ public class Test {
         Seller.editProduct("nonoexistentProduct", "nonexistentstore", "description", "Hello World"); //should return prouduct not found
         Seller.exportStoreInformation("dylanK", "dylanStore"); //should export file containing dylanStore products
         Seller.exportStoreInformation("noneexistentSeller", "dylanStore"); //should not export anything
-        Seller.importStoreInformation("testImportFile.txt");
+        Seller.importStoreInformation("dylank","testImportFile.txt");
         Seller.viewStoreStatistics("davidkj", 1);
         Seller.viewStoreStatistics("davidkj", 2);
         Seller.viewStoreStatistics("nonExistentUser", 1);
