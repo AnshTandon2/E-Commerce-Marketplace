@@ -7,7 +7,7 @@ public class Test {
      * Uses extensive test cases to test the functionality of all of our methods in the project
      * And to verify that the user workflow is as expected for a Seller vs for a Buyer
      *
-     * @author
+     * @author Justin
      * @version November 14, 2023
      */
 
