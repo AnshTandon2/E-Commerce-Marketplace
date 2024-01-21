@@ -1,8 +1,8 @@
 # Boilermaker Bazaar 
-(CS 180 - Project 5 Option 3)
+(Project 5 Option 3)
 
 ###
-By: Ansh, Nirmal, Lalitha, Ankita, and Justin, Lab 02
+By: Ansh, Nirmal, Lalitha, Ankita, and Justin
 
 <!-- #### Code submitted on Vocareum by Nirmal \|  Project Report Submitted by Ansh
 #### Code is on the main branch (default) on GitHub -->
