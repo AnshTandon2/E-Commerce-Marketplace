@@ -48,6 +48,9 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 2. Customer
 3. Marketplace
 4. Starting Application
+5. Client
+6. Server
+7. Client.Marketplace
 
 ## Customer
 
@@ -120,6 +123,28 @@ Sign-in to retrieve details if you have already used the application, otherwise 
 
 ### Connections between classes:
 Starting Application is known as the main class. This class deals with the front end that provides the login and sign up options for the user. Once the user has logged onto the application the Starting Application class starts using the methods from MarketPlace, Customer, and Seller to help users with completing functions. The cart functions and purchasehistory functions are primarily initialized in the Customer class. On the other hand, Seller class deals primarily with product info and store info. All of which is made available through the Starting Application.
+
+## Client
+#### Menu Arrays
+3 Initiated Arrays: 
+The beforeLoginOptions array contains options for a user who has not yet logged in. sellerMenuOptions and buyerMenuOptions contain options for a seller and a buyer, respectively, after logging in.
+
+#### Methods
+| Name | Parameters | Description |
+| --- | --- | --- | 
+| displayLoginPage() | ArrayList<String> data | The method creates a JFrame, JPanel, JLabels, JTextFields, and a JPasswordField to construct the login interface. It uses a loop to keep prompting the user for input until valid username and password are provided or the user cancels the operation. It catches exceptions related to null values to handle potential errors. It compares the entered username and password with the data in the ArrayList<String> data. If a match is found, it retrieves the user's role. It returns an array containing the username, password, and user role if authentication is successful. If the user cancels or the authentication fails, it returns null. |
+| displaySignupPage() | ArrayList<String> data | Similar to the login method, this method creates a JFrame, JPanel, JLabels, JTextFields, and a JComboBox to construct the signup interface. It uses a loop to keep prompting the user for input until valid information is provided or the user cancels the operation. It catches exceptions related to null values to handle potential errors. It uses a JComboBox to allow the user to choose between "Customer" and "Seller" for their role. It checks that all required fields (name, username, password, and user role) are filled before proceeding. If any field is empty, it displays an error message and returns to the signup screen. It checks whether the entered username or password already exists in the data provided. If a match is found, it displays an error message and returns to the signup screen. If the entered information is valid and does not match any existing accounts, it displays a success message and returns a formatted string containing the new user's information. |
+| displayGUIMarketplace() | ArrayList<String> data | It parses the data provided (presumably containing information about products in the marketplace) and populates a 2D array (tempe) to be used as data for the JTable. It configures the JTable with column names and sets up a DefaultTableModel to control the data displayed. The table is set to be non-editable. It uses a JScrollPane to allow scrolling through the table, which is useful when there are many products. Then, it sets preferred widths for each column in the table to ensure proper display and configures the UIManager to set a minimum size for the JOptionPane and makes it resizable. Finally, it displays the marketplace information in a JOptionPane dialog with the created GUI components. |
+| customerMarketplace() | ArrayList<String> data | The method takes an ArrayList<String> data containing information about products in the marketplace and a String type indicating the type of user (customer or seller). It provides the user with a set of sorting choices through a dialog. The selected choice is stored in the sortChoice variable. There are 3 sorting options. "None" which calls displayGUIMarketplace to display the marketplace without any sorting. "Ascending/Descending Price" sorts the products based on their prices in ascending or descending order. "Ascending/Descending Quantity" sorts the products based on their quantities in ascending or descending order. After sorting the data, it calls the displayGUIMarketplace method to show the sorted marketplace. |
+| viewAllSalesByStore() | ArrayList<String> temp, String username | It iterates over the provided sales data (temp) and filters out the sales records where the seller's username (data[5]) matches the provided username. The filtered records are stored in the list ArrayList. Then, it sorts the filtered sales records based on the third element (o[2]) in each record. This assumes that the third element represents a value that can be compared, such as a store name or another sortable attribute. It constructs a StringBuilder (str) to build a formatted string containing information about sales by store. It iterates through the sorted sales records, calculating and appending details about each transaction to the string. Finally, it displays the information using a JOptionPane dialog with an information message type. It calls the updateMarketplace method from the Client.Marketplace class. The purpose of this method is not provided in the code snippet, but it seems to be related to updating the marketplace in some way after displaying the sales data. |
+| addProduct() | ArrayList<String> temp, String username | It creates a graphical user interface (GUI) using Java Swing components to collect information about the new product, such as product name, price, store name, quantity, and description. It checks whether the seller owns the specified store (storeNames). If the store is not owned by the seller, it checks if the store doesn't already exist in the marketplace (marketStoreNames). If neither condition is met, it displays an error message and returns null. If all validations pass, it constructs a new product entry in the specified format and returns it as a string. It also displays a success message using JOptionPane. |
+
+## Server
+
+| Name | Parameters | Return Type | Modifier | Description |
+| --- | --- | --- | --- | --- |
+| main() | String[] args | void | public static | Waits for a client (GUI user) to request to connect, and then listens for a file name to send. Once it receives it from a client, it sends the details line by line and ends with the "STOP" delimiter at the end of the file. It then either waits for the client to send "STOP" to allow the server to wait for a new file to send, or a text file name for data to then be relayed line by line to be written into the Server's text files, succeeded by the "STOP" delimiter to liberate the server to listen for the next file. |
+
 
 ## Testing
 
