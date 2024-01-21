@@ -1,11 +1,11 @@
-# Purdue Boilermaker Bazaar 
-(CS 180 - Project 4 Option 3)
+# Boilermaker Bazaar 
+(CS 180 - Project 5 Option 3)
 
 ###
 By: Ansh, Nirmal, Lalitha, Ankita, and Justin, Lab 02
 
-#### Code submitted on Vocareum by Nirmal \|  Project Report Submitted by Ansh
-#### Code is on the main branch (default) on GitHub 
+<!-- #### Code submitted on Vocareum by Nirmal \|  Project Report Submitted by Ansh
+#### Code is on the main branch (default) on GitHub -->
 
 ## Overview:
 Boilermaker Bazaar is an application where Purdue students can buy and sell their Purdue merchandise (apparel, textbooks, game tickets, etc) to one another through their individual stores. Customers can view products to buy by store, description, or name, and sellers can create stores and list their products they would like to sell. The target market for this application is specifically for Purdue students who enjoy buying and selling, want to make some money, or find vintage or unique pieces of Purdue merchandise.
@@ -124,5 +124,15 @@ Starting Application is known as the main class. This class deals with the front
 ## Testing
 
 In order to test the file, we have a Test.java file that provides our test cases. Within the actual file, you will be able to see comments that indicate what the correct output should be. Each of the methods in the test file are commented and they can be uncommented with ctrl + / to be run as a test case. We have implemented all of this to the main method of that file. 
+
+### To run the GUI Testers, please read below: 
+
+Testing consisted of creating 4 files: market.txt, purchases.txt, shoppingCart.txt, testImportFile.txt, users.txt. Each one contained test cases which consisted of data on users who were either sellers and customers. The market file had to mostly incorporate product details available on the market. During the testing phase of our code design, we went through a comprehensive and repetitive process to make sure everything worked smoothly. We made nearly 30 test cases in the TESTS.md file, where we took a close look at every function related to login and sign-up, using preset user info from our test cases. For customer functions, we used mainly "lchandol" as the username and "hackIt" as the password, while "davidkj" and "ignOps" were the go-to credentials for testing seller functions. Each member on the team used their own test cases for local testing purposes and to find edge-cases. Logging in as different types of users revealed different dashboards, so we carefully checked each function available. We cross-checked functions with our test files to ensure the changes were right and verified everything in the terminal or user interface. Our testing wasn't just about doing things the right way; we intentionally threw in some errors, like putting in the wrong format or calling for stuff that didn't exist. If the system didn't spit out a clear error message, we had debug until things were running smoothly, making sure our system was solid and reliable.
+
+
+
+1) Open up the terminal and navigate to the terminal window.
+2) Use javac filename.java to compile both the clietn and server files that are in GUI directory
+3) After compiling, run the server once (will remain on all the time) and then start the Client.java file to start entire application. 
 
 
