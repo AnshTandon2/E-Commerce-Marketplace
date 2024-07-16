@@ -19,7 +19,7 @@ Boilermaker Bazaar is an application where Purdue students can buy and sell thei
 
 ### 3. The Classes
 
-Project 4 using Inheritance, File IO, Exception Handling, and Interfaces.
+Inheritance, File IO, Exception Handling, Interfaces, JavaFX, NetworkIO, DataBases
 
 ## Getting Started
 **Steps (Using Intellij):**
